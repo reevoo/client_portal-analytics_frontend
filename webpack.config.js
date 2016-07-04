@@ -11,5 +11,10 @@ module.exports = {
   output: {
     path: BUILD_PATH,
     filename: 'analytics.js',
-  }
+  },
+  module: {
+    loaders: [
+      { test : /\.jsx?/, include : APP_DIR, loader : 'babel' },
+    ],
+  },
 };
