@@ -14,7 +14,7 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test : /\.jsx?/, include : APP_DIR, loader : 'babel' },
+      { test : /\.jsx?/, include : APP_PATH, loader : 'babel' },
     ],
   },
 };
