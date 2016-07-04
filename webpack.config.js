@@ -10,6 +10,7 @@ module.exports = {
   entry: APP_PATH_ENTRY,
   output: {
     path: BUILD_PATH,
+    publicPath: "/dist/",
     filename: 'analytics.js',
   },
   module: {
