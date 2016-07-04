@@ -4,3 +4,7 @@ This simple React app encapsulates configuring an iframe onto a Tableau applicat
 
 TODO: Everything
 
+# License
+
+This software is licensed under the [MIT license](https://opensource.org/licenses/MIT)
+
