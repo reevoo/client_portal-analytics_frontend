@@ -1,0 +1,11 @@
+{
+  "name": "client_portal-analytics_frontend",
+  "version": "0.0.0",
+  "description": "React version of Client Portal analytics frontend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alexandru Anca and Ed Saunders",
+  "license": "ISC"
+}
