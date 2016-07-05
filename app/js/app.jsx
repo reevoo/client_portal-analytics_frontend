@@ -6,7 +6,7 @@ import "../styles/styles.scss";
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import CPAppBar from './components/cp_app_bar.jsx';
-import CPDrawer from './components/cp_drawer.jsx';
+import CPDrawer from './components/cp_drawer/cp_drawer.jsx';
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941

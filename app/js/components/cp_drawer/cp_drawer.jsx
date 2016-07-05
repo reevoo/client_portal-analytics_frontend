@@ -1,6 +1,7 @@
 import React from 'react';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
+import "./cp_drawer.scss"
 
 class CPDrawer extends React.Component {
 
@@ -14,11 +15,8 @@ class CPDrawer extends React.Component {
   }
 
   render() {
-    const style = {
-      paddingTop: "64px"
-    } 
     return (
-      <Drawer open={this.state.open} containerStyle={style}>
+      <Drawer open={this.state.open} className="drawer">
         <MenuItem>Menu Item</MenuItem>
         <MenuItem>Menu Item 2</MenuItem>
       </Drawer>

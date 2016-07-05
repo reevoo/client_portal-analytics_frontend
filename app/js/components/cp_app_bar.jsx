@@ -14,6 +14,7 @@ const CPAppBar = () => (
   <AppBar
     title="HAIL US"
     onLeftIconButtonTouchTap={leftIconTouchTap}
+    className="app-bar"
     style={style}
   />
 )
