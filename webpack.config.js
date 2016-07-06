@@ -21,6 +21,9 @@ module.exports = {
     filename: 'analytics.js',
   },
   module: {
+    preLoaders: [
+      { test: /\.jsx?$/, loaders: ['eslint'], include: APP_PATH },
+    ],
     loaders: [
       { test : /\.jsx?/, include : APP_PATH, loader : 'babel' },
       {
