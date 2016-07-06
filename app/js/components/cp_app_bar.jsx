@@ -1,16 +1,16 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import AppBar from 'material-ui/AppBar'
 
-function leftIconTouchTap () {
-  console.log('Open the left bar here....')
-}
-
-const CPAppBar = () => (
+const CPAppBar = ({ leftIconClick }) => (
   <AppBar
     title='HAIL US'
-    onLeftIconButtonTouchTap={leftIconTouchTap}
+    onLeftIconButtonTouchTap={leftIconClick}
     className='app-bar'
   />
 )
+
+CPAppBar.propTypes = {
+  leftIconClick: PropTypes.func.isRequired,
+}
 
 export default CPAppBar
