@@ -1,5 +1,5 @@
-const webpack = require('webpack');
-const path = require('path');
+const webpack = require('webpack')
+const path = require('path')
 
 const ROOT_PATH = path.resolve(__dirname)
 const APP_PATH = path.resolve(ROOT_PATH, 'app/js')
@@ -17,7 +17,7 @@ module.exports = {
   entry: APP_PATH_ENTRY,
   output: {
     path: BUILD_PATH,
-    publicPath: "http://localhost:8080/",
+    publicPath: 'http://localhost:8080/',
     filename: 'analytics.js',
   },
   module: {
@@ -25,7 +25,7 @@ module.exports = {
       { test: /\.jsx?$/, loaders: ['eslint'], include: APP_PATH },
     ],
     loaders: [
-      { test : /\.jsx?/, include : APP_PATH, loader : 'babel' },
+      { test: /\.jsx?/, include: APP_PATH, loader: 'babel' },
       {
         test: /\.scss$/,
         loader: cssExtract.extract('style-loader', 'css-loader!postcss-loader!sass-loader'),
@@ -41,4 +41,7 @@ module.exports = {
       template: TEMPLATES_PATH + '/index.html',
     }),
   ],
-};
+  resolve: {
+    extensions: ['', '.js', '.jsx'],
+  },
+}
