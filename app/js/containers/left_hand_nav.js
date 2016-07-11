@@ -1,10 +1,10 @@
 import { connect } from 'react-redux'
-import CPDrawer from '../components/cp_drawer/cp_drawer.jsx'
+import LeftHandNav from '../components/left_hand_nav/left_hand_nav.jsx'
 
 const mapStateToProps = (state) => ({
-  drawerVisible: state.drawerVisible,
+  visible: state.visible,
 })
 
 export default connect(
   mapStateToProps
-)(CPDrawer)
+)(LeftHandNav)

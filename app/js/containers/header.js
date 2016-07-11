@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
-import { toggleDrawer } from '../actions/actions.js'
-import CPAppBar from '../components/cp_app_bar.jsx'
+import { toggleLeftHandNav } from '../actions/actions.js'
+import Header from '../components/header/header.jsx'
 
 const mapStateToProps = (state) => {
   // There are no props to map, but we need a function to call connect()!
@@ -10,7 +10,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     leftIconClick: () => {
-      dispatch(toggleDrawer())
+      dispatch(toggleLeftHandNav())
     },
   }
 }
@@ -18,4 +18,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(CPAppBar)
+)(Header)

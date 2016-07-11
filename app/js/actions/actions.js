@@ -1,5 +1,5 @@
-export const TOGGLE_DRAWER = 'TOGGLE_DRAWER'
+export const TOGGLE_LEFT_HAND_NAV = 'TOGGLE_LEFT_HAND_NAV'
 
-export function toggleDrawer () {
-  return { type: TOGGLE_DRAWER }
+export function toggleLeftHandNav () {
+  return { type: TOGGLE_LEFT_HAND_NAV }
 }

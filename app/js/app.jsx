@@ -10,8 +10,8 @@ import '../styles/styles.scss'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
-import CPAppBar from './containers/cp_app_bar.js'
-import CPDrawer from './containers/cp_drawer.js'
+import Header from './containers/header.js'
+import LeftHandNav from './containers/left_hand_nav.js'
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
@@ -31,8 +31,8 @@ let store = createStore(analyticsApp)
 const App = () => (
   <MuiThemeProvider muiTheme={rvMuiTheme}>
     <div>
-      <CPAppBar />
-      <CPDrawer />
+      <Header />
+      <LeftHandNav />
     </div>
   </MuiThemeProvider>
 )

@@ -1,17 +1,17 @@
 import React, { PropTypes } from 'react'
 import Drawer from 'material-ui/Drawer'
 import MenuItem from 'material-ui/MenuItem'
-import './cp_drawer.scss'
+import './left_hand_nav.scss'
 
-const CPDrawer = ({ drawerVisible }) => (
-  <Drawer open={drawerVisible} className='drawer'>
+const LeftHandNav = ({ visible }) => (
+  <Drawer open={visible} className='left-hand-nav'>
     <MenuItem>Menu Item</MenuItem>
     <MenuItem>Menu Item 2</MenuItem>
   </Drawer>
 )
 
-CPDrawer.propTypes = {
-  drawerVisible: PropTypes.bool.isRequired,
+LeftHandNav.propTypes = {
+  visible: PropTypes.bool.isRequired,
 }
 
-export default CPDrawer
+export default LeftHandNav
