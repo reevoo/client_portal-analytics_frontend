@@ -12,6 +12,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
 import Header from './containers/header.js'
 import LeftHandNav from './containers/left_hand_nav.js'
+import DashboardPanel from './containers/dashboard_panel.js'
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
@@ -33,6 +34,7 @@ const App = () => (
     <div>
       <Header />
       <LeftHandNav />
+      <DashboardPanel />
     </div>
   </MuiThemeProvider>
 )

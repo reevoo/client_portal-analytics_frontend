@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import LeftHandNav from '../components/left_hand_nav/left_hand_nav.jsx'
+import DashboardPanel from '../components/dashboard_panel/dashboard_panel.jsx'
 
 const mapStateToProps = (state) => ({
   leftHandNavVisible: state.leftHandNavVisible,
@@ -7,4 +7,4 @@ const mapStateToProps = (state) => ({
 
 export default connect(
   mapStateToProps
-)(LeftHandNav)
+)(DashboardPanel)
