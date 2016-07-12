@@ -7,8 +7,8 @@
   "scripts": {
     "build": "webpack",
     "start": "webpack-dev-server",
-    "test:watch": "karma start tests/karma.conf.js --autoWatch=true --singleRun=false",
-    "test": "karma start tests/karma.conf.js"
+    "test": "karma start tests/karma.conf.js",
+    "test:watch": "karma start tests/karma.conf.js --autoWatch=true --singleRun=false"
   },
   "author": "Alexandru Anca and Ed Saunders",
   "license": "ISC",

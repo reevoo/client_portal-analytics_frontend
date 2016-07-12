@@ -7,7 +7,7 @@ const initialState = {
 export default function analyticsApp (state = initialState, action) {
   switch (action.type) {
     case TOGGLE_LEFT_HAND_NAV:
-      return { ...state, leftHandNavVisible: !state.leftHandNavVisible}
+      return { ...state, leftHandNavVisible: !state.leftHandNavVisible }
     default:
       return state
   }
