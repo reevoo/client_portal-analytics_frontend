@@ -11,7 +11,7 @@ describe('reducers', () => {
       analyticsApp(
         {leftHandNavVisible: true},
         {type: { actions: undefined }}
-      )å
+      )
     ).toEqual(
       {leftHandNavVisible: true}
     )
