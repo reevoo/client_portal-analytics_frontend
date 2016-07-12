@@ -5,12 +5,9 @@ const initialState = {
 }
 
 export default function analyticsApp (state = initialState, action) {
-  console.log(state)
-  console.log(action)
   switch (action.type) {
     case TOGGLE_LEFT_HAND_NAV:
-      // return {leftHandNavVisible: !state.leftHandNavVisible}
-      return Object.assign({}, state, {leftHandNavVisible: !state.leftHandNavVisible})
+      return { ...state, leftHandNavVisible: !state.leftHandNavVisible}
     default:
       return state
   }
