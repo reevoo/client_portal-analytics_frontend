@@ -5,4 +5,4 @@ repo = "quay.io/reevoo/client_portal-analytics_frontend"
 [build]
 builder = "frontendJS"
 version = "node6"
-script = ["npm test"]
+script = ["npm ci"]

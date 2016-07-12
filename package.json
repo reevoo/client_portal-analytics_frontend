@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
+    "ci": "npm run test && npm run build",
     "start": "webpack-dev-server",
     "test": "karma start tests/karma.conf.js",
     "test:watch": "karma start tests/karma.conf.js --autoWatch=true --singleRun=false"
