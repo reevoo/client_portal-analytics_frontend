@@ -1,3 +1,6 @@
+const REEVOO_ENV = process.env.REEVOO_ENV || 'development'
+require('dotenv').config({path: `.env.${REEVOO_ENV}`}) // Load .env
+
 const webpack = require('webpack')
 const path = require('path')
 
@@ -12,6 +15,9 @@ const TEMPLATES_PATH = path.resolve(ROOT_PATH, 'app/views')
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const cssExtract = new ExtractTextPlugin('analytics.css')
+
+// Config object with values read from .env file
+const envConfig = require('./envConfig.js').envConfig
 
 module.exports = {
   entry: APP_PATH_ENTRY,
@@ -34,6 +40,9 @@ module.exports = {
     ],
   },
   plugins: [
+    new webpack.DefinePlugin({
+      CONFIG: envConfig,
+    }),
     cssExtract,
     new HtmlwebpackPlugin({
       filename: 'index.html',

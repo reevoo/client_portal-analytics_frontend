@@ -1,5 +1,10 @@
+require('dotenv').config({path: '.env.test'}) // Load .env
+
 const path = require('path')
 const webpack = require('webpack')
+
+// Config object with values read from .env file
+const envConfig = require('../envConfig.js').envConfig
 
 module.exports = function (config) {
   const ROOT_PATH = path.parse(path.resolve(__dirname)).dir
@@ -12,7 +17,7 @@ module.exports = function (config) {
   config.set({
     basePath: '../',
 
-    frameworks: ['jasmine'],
+    frameworks: ['jasmine-ajax', 'jasmine'],
 
     files: [
       'tests/unit/**/*.js',
@@ -29,7 +34,7 @@ module.exports = function (config) {
           { test: /\.json$/, loader: 'json-loader' },
           {
             test: /\.jsx?$/,
-            loader: 'babel',
+            loader: 'babel?plugins=babel-plugin-rewire',
             exclude: [
               NODE_MODULES_PATH,
             ],
@@ -43,6 +48,11 @@ module.exports = function (config) {
           { test: /\.(woff|ttf|eot|svg)$/, loader: 'file-loader', include: STYLES_PATH },
         ],
       },
+      plugins: [
+        new webpack.DefinePlugin({
+          CONFIG: envConfig,
+        }),
+      ],
       resolve: {
         alias: {
           app: APP_PATH,

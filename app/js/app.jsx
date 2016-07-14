@@ -14,6 +14,11 @@ import Header from './containers/header.js'
 import LeftHandNav from './containers/left_hand_nav.js'
 import DashboardPanel from './containers/dashboard_panel.js'
 
+import Auth from './services/auth.js'
+
+// Initialize authorization
+Auth.init()
+
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin()
