@@ -30,6 +30,11 @@ describe('Auth', () => {
 
     describe('when accessToken is invalid', () => {
       beforeEach(() => {
+        let routeUtils = { redirectTo: () => Promise.resolve() }
+
+        let AuthRewireAPI = Auth.__RewireAPI__
+        AuthRewireAPI.__Rewire__('routeUtils', routeUtils)
+
         Cookies.set('refreshToken', 'secretRefreshToken')
 
         jasmine.Ajax.stubRequest('/unauthorized').andReturn({status: 401})
@@ -37,13 +42,6 @@ describe('Auth', () => {
           responseText: '{"access_token":"NewAccessToken"}',
         })
 
-        /*
-        * Because the first call to the /unauthorized returns 401 and there is no
-        * way how to stub next call of /unauthorized to return 200. We need to stub axios.request method
-        * which is used inside restartRequest function. Thanks to this we will avoid the infinite loop, when
-        * every request of /unauthorized return 401 and resolveRejectedRequest is called again and again.
-        */
-        spyOn(axios, 'request').and.returnValue(Promise.resolve())
         Auth.init()
       })
 
@@ -68,11 +66,17 @@ describe('Auth', () => {
 
       it('recall previous request', (done) => {
         axios.get('/unauthorized').then(() => {
-          expect(axios.request).toHaveBeenCalledWith({
-            method: 'get',
-            url: '/unauthorized',
-            data: ''
-          })
+          let request = jasmine.Ajax.requests.at(4)
+          expect(request.url).toEqual('/unauthorized')
+          done()
+        })
+      })
+
+      it('restart request maximum 5 times', (done) => {
+        spyOn(axios, 'request').and.callThrough()
+
+        axios.get('/unauthorized').then(() => {
+          expect(axios.request.calls.count()).toEqual(5)
           done()
         })
       })
