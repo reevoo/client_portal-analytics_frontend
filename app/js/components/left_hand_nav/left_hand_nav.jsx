@@ -4,10 +4,6 @@ import Drawer from 'material-ui/Drawer'
 import { List, ListItem, MakeSelectable } from 'material-ui/List'
 import './left_hand_nav.scss'
 
-import LeftHandNavHeader from '../left_hand_nav_header/left_hand_nav_header.jsx'
-import colours from '!!sass-variable-loader!client_portal-assets/dist/sass/colours.scss' // Load Reevoo colour variables
-import analyticsPath from 'client_portal-assets/dist/images/app_icons/large/analytics.png'
-
 const SelectableList = MakeSelectable(List)
 
 const listStyle = {
@@ -42,7 +38,7 @@ class LeftHandNav extends Component {
   }
 
   render () {
-    const { leftHandNavVisible } = this.props
+    const { leftHandNavVisible, dashboards, selectDashboard } = this.props
     return (
       <Drawer open={leftHandNavVisible} className='left-hand-nav'>
         <LeftHandNavHeader imgPath={analyticsPath} text='Analytics' />
@@ -53,8 +49,11 @@ class LeftHandNav extends Component {
           style={listStyle}
           value={this.state.selectedItemIndex}
           >
-          <ListItem value={1} style={listItemStyle}>Menu Item</ListItem>
-          <ListItem value={2} style={listItemStyle}>Menu Item 2</ListItem>
+		  {
+            dashboards.map((dashboard, index) => {
+              return(<ListItem key={index} value={index} onClick={selectDashboard.bind(this, dashboard)} style={listItemStyle}>{dashboard}</ListItem>)
+            })
+          }
         </SelectableList>
       </Drawer>
     )
@@ -63,6 +62,8 @@ class LeftHandNav extends Component {
 
 LeftHandNav.propTypes = {
   leftHandNavVisible: PropTypes.bool.isRequired,
+  dashboards: PropTypes.array.isRequired,
+  selectDashboard: PropTypes.func.isRequired,
 }
 
 export default LeftHandNav

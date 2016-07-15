@@ -1,9 +1,12 @@
 import { TOGGLE_LEFT_HAND_NAV, SHOW_HEADER_MODULES, HIDE_HEADER_MODULES } from '../actions/actions.js'
+import { SET_PROFILE } from '../actions/profile'
+import { ADD_DASHBOARD, SELECT_DASHBOARD } from '../actions/dashboards'
 
 const initialState = {
   leftHandNavVisible: true,
-  headerModulesVisible: false,
-  accessibleModules: [],
+  profile: null,
+  dashboards: [],
+  selectedDashboard: null,
 }
 
 import adminImagePath from 'client_portal-assets/dist/images/app_icons/large/admin.png'
@@ -67,6 +70,12 @@ export default function analyticsApp (state = initialState, action) {
   switch (action.type) {
     case TOGGLE_LEFT_HAND_NAV:
       return { ...state, leftHandNavVisible: !state.leftHandNavVisible }
+    case SET_PROFILE:
+      return { ...state, profile: action.profile }
+    case ADD_DASHBOARD:
+      return { ...state, dashboards: state.dashboards.concat([action.dashboard]) }
+    case SELECT_DASHBOARD:
+      return { ...state, selectedDashboard: action.dashboard}
     case SHOW_HEADER_MODULES:
       return {
         ...state,

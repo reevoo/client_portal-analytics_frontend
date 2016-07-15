@@ -3,6 +3,7 @@ import DashboardPanel from '../components/dashboard_panel/dashboard_panel.jsx'
 
 const mapStateToProps = (state) => ({
   leftHandNavVisible: state.leftHandNavVisible,
+  selectedDashboard: state.selectedDashboard,
 })
 
 export default connect(

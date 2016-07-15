@@ -1,9 +1,11 @@
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import React from 'react'
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
+import thunk from 'redux-thunk'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
-import analyticsApp from './reducers/reducers.js'
+import analyticsApp from './reducers/reducers'
+import { fetchProfile } from './actions/profile'
 
 import '../styles/styles.scss' // Load global overrides (as few as possible please)
 import colours from '!!sass-variable-loader!client_portal-assets/dist/sass/colours.scss' // Load Reevoo colour variables
@@ -11,11 +13,12 @@ import colours from '!!sass-variable-loader!client_portal-assets/dist/sass/colou
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
-import Header from './containers/header.js'
-import LeftHandNav from './containers/left_hand_nav.js'
-import DashboardPanel from './containers/dashboard_panel.js'
+import Header from './containers/header'
+import LeftHandNav from './containers/left_hand_nav'
+import DashboardPanel from './containers/dashboard_panel'
 
-import Auth from './services/auth.js'
+import Auth from './services/auth'
+
 
 // Initialize authorization
 Auth.init()
@@ -34,7 +37,9 @@ const rvMuiTheme = getMuiTheme({
   },
 })
 
-let store = createStore(analyticsApp)
+let store = createStore(analyticsApp, applyMiddleware(thunk))
+
+store.dispatch(fetchProfile())
 
 const App = () => (
   <MuiThemeProvider muiTheme={rvMuiTheme}>

@@ -23,6 +23,7 @@
     "react-redux": "^4.4.5",
     "react-tap-event-plugin": "^1.0.0",
     "redux": "^3.5.2",
+    "redux-thunk": "^2.1.0",
     "webpack": "^1.13.1"
   },
   "devDependencies": {
@@ -54,7 +55,6 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.7.0",
     "node-sass": "^3.8.0",
-    "npm-shrinkwrap": "^200.5.1",
     "phantomjs-prebuilt": "^2.1.7",
     "postcss-loader": "^0.9.1",
     "resolve-url-loader": "^1.6.0",
