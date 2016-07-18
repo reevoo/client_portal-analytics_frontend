@@ -53,6 +53,7 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.7.0",
     "node-sass": "^3.8.0",
+    "npm-shrinkwrap": "^200.5.1",
     "phantomjs-prebuilt": "^2.1.7",
     "postcss-loader": "^0.9.1",
     "sass-loader": "^4.0.0",
