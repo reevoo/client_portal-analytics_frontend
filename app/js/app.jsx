@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import analyticsApp from './reducers/reducers.js'
 
 import '../styles/styles.scss'
+import colours from 'sass-variable-loader!../../node_modules/client_portal-assets/colours.scss'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
@@ -28,7 +29,7 @@ const rvMuiTheme = getMuiTheme({
     appBar: 1350, // Puts us over the left hand nav
   },
   appBar: {
-    color: '#FFA000',
+    color: colours.reevooOrange,
   },
 })
 
