@@ -865,7 +865,7 @@
     "client_portal-assets": {
       "version": "0.1.0",
       "from": "reevoo/client_portal-assets",
-      "resolved": "git://github.com/reevoo/client_portal-assets.git#ce27d9c976f065fd01374c0fe1ef4c151af42aab"
+      "resolved": "git://github.com/reevoo/client_portal-assets.git#12eef043aff73a9dfb6758dadd8c3d79b3f9eff0"
     },
     "cliui": {
       "version": "2.1.0",
