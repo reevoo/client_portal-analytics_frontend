@@ -5,8 +5,8 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import analyticsApp from './reducers/reducers.js'
 
-import '../styles/styles.scss'
-import colours from 'sass-variable-loader!client_portal-assets/dist/sass/colours.scss'
+import '../styles/styles.scss' // Load global overrides (as few as possible please)
+import colours from '!!sass-variable-loader!client_portal-assets/dist/sass/colours.scss' // Load Reevoo colour variables
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'

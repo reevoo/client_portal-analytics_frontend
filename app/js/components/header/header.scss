@@ -1,0 +1,17 @@
+.header {
+
+  &__logo {
+    color: #fff;
+    display: inline-block;;
+    height: 100%;
+    padding: 10px 15px 0 15px;
+
+    span {
+      margin-top: -3px;
+
+      &:before {
+        font-size: 40px;
+      }
+    }
+  }
+}

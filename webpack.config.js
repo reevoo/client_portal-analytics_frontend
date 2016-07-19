@@ -36,10 +36,11 @@ module.exports = {
       { test: /\.jsx?/, include: APP_PATH, loader: 'babel' },
       {
         test: /\.scss$/,
-        loader: cssExtract.extract('style-loader', 'css-loader!postcss-loader!sass-loader'),
-        include: [APP_PATH, STYLES_PATH],
+        loader: cssExtract.extract('style-loader', 'css-loader!postcss-loader!resolve-url-loader!sass-loader?sourceMap'),
+        include: [APP_PATH, STYLES_PATH, CLIENT_PORTAL_ASSETS_PATH],
       },
       { test: /\.(jpe?g|png|gif)$/, loader: 'url-loader?limit=1', include: CLIENT_PORTAL_ASSETS_PATH },
+      { test: /\.(woff|ttf|eot|svg)$/, loader: 'file-loader', include: CLIENT_PORTAL_ASSETS_PATH },
     ],
   },
   plugins: [
