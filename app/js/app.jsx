@@ -25,11 +25,12 @@ Auth.init()
 injectTapEventPlugin()
 
 const rvMuiTheme = getMuiTheme({
-  zIndex: {
-    appBar: 1350, // Puts us over the left hand nav
-  },
   appBar: {
     color: colours.reevooOrange,
+  },
+  fontFamily: 'Open Sans, sans-serif',
+  zIndex: {
+    appBar: 1350, // Puts us over the left hand nav
   },
 })
 
