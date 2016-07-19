@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import analyticsApp from './reducers/reducers.js'
 
 import '../styles/styles.scss'
-import colours from 'sass-variable-loader!../../node_modules/client_portal-assets/colours.scss'
+import colours from 'sass-variable-loader!client_portal-assets/dist/sass/colours.scss'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'

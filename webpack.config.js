@@ -16,6 +16,8 @@ const TEMPLATES_PATH = path.resolve(ROOT_PATH, 'app/views')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const cssExtract = new ExtractTextPlugin('analytics.css')
 
+const CLIENT_PORTAL_ASSETS_PATH = path.resolve(ROOT_PATH, 'node_modules/client_portal-assets')
+
 // Config object with values read from .env file
 const envConfig = require('./envConfig.js').envConfig
 
@@ -37,6 +39,7 @@ module.exports = {
         loader: cssExtract.extract('style-loader', 'css-loader!postcss-loader!sass-loader'),
         include: [APP_PATH, STYLES_PATH],
       },
+      { test: /\.(jpe?g|png|gif)$/, loader: 'url-loader?limit=1', include: CLIENT_PORTAL_ASSETS_PATH },
     ],
   },
   plugins: [
