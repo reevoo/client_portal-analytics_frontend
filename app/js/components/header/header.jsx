@@ -46,12 +46,11 @@ const Header = ({ leftIconClick }) => (
     className='header'
     iconElementRight={<HeaderActions />}
     iconElementLeft={
-      <IconButton className='header__burger' style={iconElementClearDefaults}>
+      <IconButton className='header__burger' style={iconElementClearDefaults} onClick={leftIconClick}>
         <NavigationMenu />
       </IconButton>
     }
     iconStyleLeft={iconLeftContainerStyles}
-    onLeftIconButtonTouchTap={leftIconClick}
     style={headerStyles}
     title={<a className='header__logo' href='/'><span className='icon-reevoo_logo'></span></a>}
   />
