@@ -21,3 +21,14 @@
     }
   }
 }
+
+.modules-header {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  padding-left: 15px;
+
+  &__icon {
+    margin-right: 15px;
+  }
+}

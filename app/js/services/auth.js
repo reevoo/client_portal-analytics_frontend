@@ -32,6 +32,18 @@ const getRefreshToken = () => {
   return Cookies.get('refreshToken')
 }
 
+/* The access token is a JWT token, which is three strings separated by ".":
+ *   <jwt_metadata>.<payload>.<signature>
+ *
+ * The jwt_metadata and payload are both base64 encoded. The payload is esentially
+ * our "user" object.
+ *
+ * TODO: Handle the non-existence of the accessToken, e.g. if someone's logged
+ * out in another tab. In this case, we want to go through the same refresh/redirect
+ * process as resolveRejectedRequest
+ */
+const currentUser = () => JSON.parse(window.atob(getAccessToken().split('.')[1]))
+
 const restartRequest = (response) => {
   restartedRequests.push(response)
 
@@ -93,6 +105,10 @@ const resolveRejectedRequest = (response) => {
 const addXHRInterceptor = () => {
   cleanRestartedRequests()
 
+  /* WARNING/TODO: This is appending our access token to *ALL* AJAX requests, including
+   * those to third parties (e.g. tableau for the moment, but maybe others in the future...).
+   * We should change this to only handle this for our backend API's
+   */
   axios.interceptors.request.use(
     (request) => addXHRHeaders(request),
     (error) => Promise.reject(error)
@@ -110,7 +126,7 @@ const addXHRInterceptor = () => {
 */
 const Auth = {
   init: addXHRInterceptor,
+  currentUser: currentUser,
 }
 
 export default Auth
-

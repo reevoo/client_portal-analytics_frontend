@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import AppBar from 'material-ui/AppBar'
-import HeaderActions from '../header_actions/header_actions.jsx'
+import HeaderActions from '../../containers/header_actions_container'
 import IconButton from 'material-ui/IconButton'
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu'
 
