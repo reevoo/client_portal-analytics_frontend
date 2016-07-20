@@ -8,6 +8,11 @@ class DashboardPanelContainer extends Component {
   componentWillMount () {
     this.props.getDashboardToken()
   }
+  componentWillUpdate (nextProps) {
+    if (nextProps.selectedDashboard != this.props.selectedDashboard){
+      this.props.getDashboardToken()
+    }
+  }
 
   render () {
     const {

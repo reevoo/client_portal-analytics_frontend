@@ -3,13 +3,11 @@ import { TABLEAU_HOST } from '../../constants/app_constants'
 import './dashboard_panel.scss'
 
 const DashboardPanel = ({leftHandNavVisible, selectedDashboard, token}) => (
-  token ?
+  (token && selectedDashboard) ?
   <div className={`dashboard-panel ${leftHandNavVisible ? 'collapsed' : 'expanded'}`}>
-    {`leftHandNavVisible = ${leftHandNavVisible}`}
-    <br/>
-    {`selectedDashboard = ${selectedDashboard}`}
-    <br/>
-    {`token = ${token}`}
+    {`selectedDashboard=${selectedDashboard.name}`}
+    <iframe
+      src={`https://tableau.reevoo.com/trusted/${token}/views/${selectedDashboard.views[0].replace('sheets/', '')}?:embed=yes&:toolbar=no&:showShareOptions=no&:record_performance=yes`}/>
   </div>
     : null
 )
