@@ -1,6 +1,6 @@
 import { TOGGLE_LEFT_HAND_NAV, SHOW_HEADER_MODULES, HIDE_HEADER_MODULES } from '../actions/actions.js'
 import { SET_PROFILE } from '../actions/profile'
-import { ADD_DASHBOARD, SELECT_DASHBOARD, GET_DASHBOARD_TOKEN, GET_DASHBOARD_TOKEN_SUCCESS, GET_DASHBOARD_TOKEN_ERROR } from '../actions/dashboards'
+import { ADD_DASHBOARD, SELECT_DASHBOARD, GET_DASHBOARD_TOKEN, GET_DASHBOARD_TOKEN_SUCCESS, GET_DASHBOARD_TOKEN_ERROR, GET_DASHBOARDS_NAMES_SUCCESS } from '../actions/dashboards'
 
 const initialState = {
   leftHandNavVisible: true,
@@ -72,9 +72,10 @@ export default function analyticsApp (state = initialState, action) {
     case TOGGLE_LEFT_HAND_NAV:
       return { ...state, leftHandNavVisible: !state.leftHandNavVisible }
     case SET_PROFILE:
-      return { ...state, profile: action.profile }
-    case ADD_DASHBOARD:
-      return { ...state, dashboards: state.dashboards.concat([action.dashboard]) }
+      return { ...state, profile: { ...action.profile } }
+    case GET_DASHBOARDS_NAMES_SUCCESS:
+      const dashboards = [...action.response.data]
+      return { ...state, dashboards, selectedDashboard: dashboards[0] }    
     case GET_DASHBOARD_TOKEN_SUCCESS:
       return { ...state, token: action.response.data.token}
     case SELECT_DASHBOARD:

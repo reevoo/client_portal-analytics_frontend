@@ -14,7 +14,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
 import Header from './containers/header'
-import LeftHandNav from './containers/left_hand_nav'
+import LeftHandNavContainer from './containers/left_hand_nav_container'
 import DashboardPanelContainer from './containers/dashboard_panel_container'
 
 import Auth from './services/auth'
@@ -45,7 +45,7 @@ const App = () => (
   <MuiThemeProvider muiTheme={rvMuiTheme}>
     <div>
       <Header />
-      <LeftHandNav />
+      <LeftHandNavContainer />
       <DashboardPanelContainer />
     </div>
   </MuiThemeProvider>

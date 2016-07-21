@@ -14,10 +14,8 @@ export function fetchProfile(){
   return (dispatch) => {
     axios.get(PROFILE_URL).then((response) =>{
       let profile = response.data
-      let dashboards = profile.client_users_accessible_dashboards || []
 
       dispatch(setProfile(profile))
-      loadDashboards(dispatch, dashboards)
     })
   }
 }
