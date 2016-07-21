@@ -1,8 +1,4 @@
-import Auth from '../services/auth'
-
-export const HIDE_HEADER_MODULES = 'HIDE_HEADER_MODULES'
-export const SHOW_HEADER_MODULES = 'SHOW_HEADER_MODULES'
-export const TOGGLE_LEFT_HAND_NAV = 'TOGGLE_LEFT_HAND_NAV'
+import * as actionTypes from '../constants/action_types'
 
 export function hideHeaderModules () {
   return { type: HIDE_HEADER_MODULES }
@@ -13,5 +9,5 @@ export function showHeaderModules () {
 }
 
 export function toggleLeftHandNav () {
-  return { type: TOGGLE_LEFT_HAND_NAV }
+  return { type: actionTypes.TOGGLE_LEFT_HAND_NAV }
 }

@@ -5,7 +5,6 @@ import './dashboard_panel.scss'
 const DashboardPanel = ({leftHandNavVisible, selectedDashboard, token}) => {
   return token && selectedDashboard ?
       <div className={`dashboard-panel ${leftHandNavVisible ? 'collapsed' : 'expanded'}`}>
-        {`selectedDashboard=${selectedDashboard.name}`}
         <iframe
           src={`https://tableau.reevoo.com/trusted/${token}/views/${selectedDashboard.views[0].replace('sheets/', '')}?:embed=yes&:toolbar=no&:showShareOptions=no&:record_performance=yes`}/>
       </div>

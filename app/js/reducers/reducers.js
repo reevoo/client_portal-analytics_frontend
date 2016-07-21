@@ -1,6 +1,4 @@
-import { TOGGLE_LEFT_HAND_NAV, SHOW_HEADER_MODULES, HIDE_HEADER_MODULES } from '../actions/actions.js'
-import { SET_PROFILE } from '../actions/profile'
-import { ADD_DASHBOARD, SELECT_DASHBOARD, GET_DASHBOARD_TOKEN, GET_DASHBOARD_TOKEN_SUCCESS, GET_DASHBOARD_TOKEN_ERROR, GET_DASHBOARDS_NAMES_SUCCESS } from '../actions/dashboards'
+import * as actionTypes from '../constants/action_types'
 
 const initialState = {
   leftHandNavVisible: true,
@@ -69,24 +67,26 @@ export const modules = (accessibleModules) => {
 
 export default function analyticsApp (state = initialState, action) {
   switch (action.type) {
-    case TOGGLE_LEFT_HAND_NAV:
+    case actionTypes.TOGGLE_LEFT_HAND_NAV:
       return { ...state, leftHandNavVisible: !state.leftHandNavVisible }
-    case SET_PROFILE:
+    case actionTypes.SET_PROFILE:
       return { ...state, profile: { ...action.profile } }
-    case GET_DASHBOARDS_NAMES_SUCCESS:
+    case actionTypes.GET_DASHBOARDS_NAMES_SUCCESS:
       const dashboards = [...action.response.data]
-      return { ...state, dashboards, selectedDashboard: dashboards[0] }    
-    case GET_DASHBOARD_TOKEN_SUCCESS:
+      return { ...state, dashboards, selectedDashboard: dashboards[0] }
+    case actionTypes.ALL_DASHBOARDS_LOADED:
+      return { ...state, selectedDashboard: state.dashboards[0] }
+    case actionTypes.GET_DASHBOARD_TOKEN_SUCCESS:
       return { ...state, token: action.response.data.token}
-    case SELECT_DASHBOARD:
+    case actionTypes.SELECT_DASHBOARD:
       return { ...state, selectedDashboard: action.dashboard}
-    case SHOW_HEADER_MODULES:
+    case actionTypes.SHOW_HEADER_MODULES:
       return {
         ...state,
         headerModulesVisible: true,
         accessibleModules: modules(action.payload),
       }
-    case HIDE_HEADER_MODULES:
+    case actionTypes.HIDE_HEADER_MODULES:
       return { ...state, headerModulesVisible: false }
     default:
       return state

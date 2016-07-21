@@ -1,13 +1,12 @@
 import axios from 'axios'
 import { CP_ADMIN_HOST } from '../constants/app_constants'
 import { loadDashboards } from './dashboards'
+import * as actionTypes from '../constants/action_types'
 
 const PROFILE_URL = CP_ADMIN_HOST + 'api/v1/profile'
 
-export const SET_PROFILE = 'SET_PROFILE'
-
 export function setProfile (profile) {
-  return { type: SET_PROFILE, profile }
+  return { type: actionTypes.SET_PROFILE, profile }
 }
 
 export function fetchProfile(){
