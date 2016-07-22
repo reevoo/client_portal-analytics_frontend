@@ -1,12 +1,16 @@
 /* global describe, it, expect, jasmine */
 import analyticsApp from 'app/js/reducers/reducers.js'
-import * as actions from 'app/js/actions/actions.js'
+import * as actionTypes from 'app/js/constants/action_types'
 
 describe('reducers', () => {
   let initialState = {
     leftHandNavVisible: true,
     headerModulesVisible: false,
     accessibleModules: [],
+    profile: null,
+    dashboards: [  ],
+    selectedDashboard: undefined,
+    token: null
   }
 
   it('returns the initial state', () => {
@@ -56,8 +60,8 @@ describe('reducers', () => {
     it('only requested modules are shown', () => {
       expect(
         analyticsApp(
-          {},
-          {type: actions.SHOW_HEADER_MODULES, payload: ['admin']}
+          {leftHandNavVisible: true},
+          {type: actionTypes.TOGGLE_LEFT_HAND_NAV}
         )
       ).toEqual(
         {
@@ -76,8 +80,8 @@ describe('reducers', () => {
     it('ignores modules which are not applicable', () => {
       expect(
         analyticsApp(
-          {},
-          {type: actions.SHOW_HEADER_MODULES, payload: ['fast_response', 'foobar']}
+          {leftHandNavVisible: false},
+          {type: actionTypes.TOGGLE_LEFT_HAND_NAV}
         )
       ).toEqual(
         {

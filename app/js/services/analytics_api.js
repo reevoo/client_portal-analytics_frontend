@@ -3,7 +3,8 @@ import { CP_ANALYTICS_HOST } from '../constants/app_constants'
 
 const AnalyticsAPI = {
   getTableauToken: () => {
-    return axios.get(CP_ANALYTICS_HOST + 'api/v1/tableau/token');
+    console.log(CP_ANALYTICS_HOST + '/api/v1/tableau/token');
+    return axios.get(CP_ANALYTICS_HOST + '/api/v1/tableau/token');
   }
 }
 
