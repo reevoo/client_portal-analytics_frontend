@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-import AnalyticsAPI from '../services/analytics_api'
 import DashboardPanel from '../components/dashboard_panel/dashboard_panel.jsx'
 import { getDashboardToken } from '../actions/dashboards'
 import React, { Component } from 'react'

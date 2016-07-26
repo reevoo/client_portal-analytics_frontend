@@ -14,8 +14,8 @@ describe('actions', () => {
       const store = createMockStore({})
 
       store.dispatch(actions.getDashboardToken())
-        .then(() => expect(store.getActions()).toEqual(expectedActions))
-        .finally(done)
+        .then(() => {expect(store.getActions()).toEqual(expectedActions)})
+      done()
     })
   })
 })

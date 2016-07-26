@@ -33,6 +33,7 @@ module.exports = {
       { test: /\.jsx?$/, loaders: ['eslint'], include: APP_PATH },
     ],
     loaders: [
+      { test: /\.json$/, loader: 'json-loader' },
       { test: /\.jsx?/, include: APP_PATH, loader: 'babel' },
       {
         test: /\.scss$/,
