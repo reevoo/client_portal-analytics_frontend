@@ -27,14 +27,13 @@ describe('reducers', () => {
       {leftHandNavVisible: true}
     )
   })
-
-  describe('the left hand nav toggle', () => {
+  describe('TOGGLE_LEFT_HAND_NAV', () => {
     describe('when the left hand nav is open', () => {
       it('closes the left hand nav', () => {
         expect(
           analyticsApp(
             {leftHandNavVisible: true},
-            {type: actions.TOGGLE_LEFT_HAND_NAV}
+            {type: actionTypes.TOGGLE_LEFT_HAND_NAV}
           )
         ).toEqual(
           {leftHandNavVisible: false}
@@ -47,7 +46,7 @@ describe('reducers', () => {
         expect(
           analyticsApp(
             {leftHandNavVisible: false},
-            {type: actions.TOGGLE_LEFT_HAND_NAV}
+            {type: actionTypes.TOGGLE_LEFT_HAND_NAV}
           )
         ).toEqual(
           {leftHandNavVisible: true}
@@ -56,43 +55,35 @@ describe('reducers', () => {
     })
   })
 
-  describe('showing the header modules dropdown', () => {
-    it('only requested modules are shown', () => {
+  describe('SET_PROFILE', () => {
+    it('adds the profile to the state', () => {
       expect(
         analyticsApp(
-          {leftHandNavVisible: true},
-          {type: actionTypes.TOGGLE_LEFT_HAND_NAV}
+          null,
+          {
+            type: actionTypes.SET_PROFILE,
+            profile: {data: 'test_data'}
+          }
         )
       ).toEqual(
-        {
-          accessibleModules: [
-            {
-              url: jasmine.any(String),
-              name: 'Admin',
-              imageUrl: jasmine.any(String),
-            },
-          ],
-          headerModulesVisible: true,
-        }
+        {profile: {data: 'test_data'}}
       )
     })
 
-    it('ignores modules which are not applicable', () => {
+  describe('GET_DASHBOARDS_NAMES_SUCCESS', () => {
+    it('adds the dashboards to the state and selects the first dashboard', () => {
       expect(
         analyticsApp(
-          {leftHandNavVisible: false},
-          {type: actionTypes.TOGGLE_LEFT_HAND_NAV}
+          null,
+          {
+            type: actionTypes.GET_DASHBOARDS_NAMES_SUCCESS,
+            response: {data: ['dashboard_1', 'dashboard_2']}
+          }
         )
       ).toEqual(
         {
-          accessibleModules: [
-            {
-              url: jasmine.any(String),
-              name: 'Fast Response',
-              imageUrl: jasmine.any(String),
-            },
-          ],
-          headerModulesVisible: true,
+          dashboards: ['dashboard_1', 'dashboard_2'],
+          selectedDashboard: 'dashboard_1'
         }
       )
     })
@@ -115,31 +106,39 @@ describe('reducers', () => {
     })
   })
 
-  describe('hiding the modules dropdown', () => {
-    describe('when the modules dropdown is open', () => {
-      it('closes the modules dropdown', () => {
-        expect(
-          analyticsApp(
-            {headerModulesVisible: true},
-            {type: actions.HIDE_HEADER_MODULES}
-          )
-        ).toEqual(
-          {headerModulesVisible: false}
+  describe('GET_DASHBOARD_TOKEN_SUCCESS', () => {
+    it('adds the token to the state', () => {
+      expect(
+        analyticsApp(
+          null,
+          {
+            type: actionTypes.GET_DASHBOARD_TOKEN_SUCCESS,
+            response: {data: {token: 'token_1'}}
+          }
         )
-      })
+      ).toEqual(
+        {
+          token: 'token_1'
+        }
+      )
     })
+  })
 
-    describe('when the modules dropdown is closed', () => {
-      it('opens the modules dropdown', () => {
-        expect(
-          analyticsApp(
-            {headerModulesVisible: false},
-            {type: actions.HIDE_HEADER_MODULES}
-          )
-        ).toEqual(
-          {headerModulesVisible: false}
+  describe('SELECT_DASHBOARD', () => {
+    it('adds the selected dashboard to the state', () => {
+      expect(
+        analyticsApp(
+          null,
+          {
+            type: actionTypes.SELECT_DASHBOARD,
+            dashboard: {name: 'dashboard_1'}
+          }
         )
-      })
+      ).toEqual(
+        {
+          selectedDashboard: {name: 'dashboard_1'}
+        }
+      )
     })
   })
 })
