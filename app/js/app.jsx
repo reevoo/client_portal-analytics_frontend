@@ -5,7 +5,8 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import analyticsApp from './reducers/reducers.js'
 
-import '../styles/styles.scss'
+import '../styles/styles.scss' // Load global overrides (as few as possible please)
+import colours from '!!sass-variable-loader!client_portal-assets/dist/sass/colours.scss' // Load Reevoo colour variables
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
@@ -24,11 +25,12 @@ Auth.init()
 injectTapEventPlugin()
 
 const rvMuiTheme = getMuiTheme({
+  appBar: {
+    color: colours.reevooOrange,
+  },
+  fontFamily: 'Open Sans, sans-serif',
   zIndex: {
     appBar: 1350, // Puts us over the left hand nav
-  },
-  appBar: {
-    color: '#FFA000',
   },
 })
 
