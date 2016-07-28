@@ -16,32 +16,32 @@ import helpImagePath from 'client_portal-assets/dist/images/app_icons/large/help
 export const modules = (accessibleModules) => {
   const availableModules = {
     admin: {
-      url: '#',
+      url: '/admin',
       name: 'Admin',
       imageUrl: adminImagePath,
     },
     analytics: {
-      url: '#',
+      url: '/analytics',
       name: 'Analytics',
       imageUrl: analyticsImagePath,
     },
     fast_response: {
-      url: '#',
+      url: '/fast_response',
       name: 'Fast Response',
       imageUrl: fastResponseImagePath,
     },
     reevoo_admin: {
-      url: '#',
+      url: '/reevoo_admin',
       name: 'Reevoo Admin',
       imageUrl: reevooAdminImagePath,
     },
     vetting: {
-      url: '#',
+      url: '/vetting',
       name: 'Vetting',
       imageUrl: vettingImagePath,
     },
     help: {
-      url: '#',
+      url: '/admin/help',
       name: 'Help & FAQ',
       imageUrl: helpImagePath,
     },

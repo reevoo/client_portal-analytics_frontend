@@ -14,8 +14,8 @@ const iconStyle = {
 
 const HeaderActions = ({showHeaderModules, hideHeaderModules, headerModulesVisible}) => (
   <div className='header-actions'>
-    <a href='#'><FontIcon className='icon-faq' color='#fff' hoverColor={colours.reevooBlue} style={iconStyle} /></a>
-    <a href='#'><FontIcon className='icon-user' color='#fff' hoverColor={colours.reevooBlue} style={iconStyle} /></a>
+    <a href='/admin/help'><FontIcon className='icon-faq' color='#fff' hoverColor={colours.reevooBlue} style={iconStyle} /></a>
+    <a href='/admin/profile'><FontIcon className='icon-user' color='#fff' hoverColor={colours.reevooBlue} style={iconStyle} /></a>
     <a href='#' onTouchTap={showHeaderModules}>
       <FontIcon className='icon-modules_icon' color='#fff' hoverColor={colours.reevooBlue} style={iconStyle} />
     </a>
