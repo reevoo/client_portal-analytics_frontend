@@ -27,9 +27,9 @@ class LeftHandNav extends Component {
 
     this.changeSelectedItem = this.changeSelectedItem.bind(this)
 
-    // We need internal state until we have this connected with a Router
-    this.state = {
-      selectedItemIndex: 1,
+  clickHandler (dashboard) {
+    return (event) => {
+      this.props.selectDashboard(dashboard)
     }
   }
 
@@ -37,8 +37,6 @@ class LeftHandNav extends Component {
     this.setState({ selectedItemIndex: index })
   }
 
-  render () {
-    const { leftHandNavVisible, dashboards, selectDashboard } = this.props
     return (
       <Drawer open={leftHandNavVisible} className='left-hand-nav'>
         <LeftHandNavHeader imgPath={analyticsPath} text='Analytics' />

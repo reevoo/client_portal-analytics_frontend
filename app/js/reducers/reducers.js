@@ -70,14 +70,12 @@ export default function analyticsApp (state = initialState, action) {
     case actionTypes.TOGGLE_LEFT_HAND_NAV:
       return { ...state, leftHandNavVisible: !state.leftHandNavVisible }
     case actionTypes.SET_PROFILE:
-      return { ...state, profile: { ...action.profile } }
+      return { ...state, profile: { ...action.payload } }
     case actionTypes.GET_DASHBOARDS_NAMES_SUCCESS:
-      const dashboards = [...action.response.data]
+      const dashboards = [...action.payload]
       return { ...state, dashboards, selectedDashboard: dashboards[0] }
-    case actionTypes.ALL_DASHBOARDS_LOADED:
-      return { ...state, selectedDashboard: state.dashboards[0] }
     case actionTypes.GET_DASHBOARD_TOKEN_SUCCESS:
-      return { ...state, token: action.response.data.token}
+      return { ...state, token: action.payload.token}
     case actionTypes.SELECT_DASHBOARD:
       return { ...state, selectedDashboard: action.dashboard}
     case actionTypes.SHOW_HEADER_MODULES:

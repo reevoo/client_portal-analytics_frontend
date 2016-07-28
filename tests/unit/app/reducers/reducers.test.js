@@ -62,7 +62,7 @@ describe('reducers', () => {
           null,
           {
             type: actionTypes.SET_PROFILE,
-            profile: {data: 'test_data'}
+            payload: {data: 'test_data'}
           }
         )
       ).toEqual(
@@ -77,7 +77,7 @@ describe('reducers', () => {
           null,
           {
             type: actionTypes.GET_DASHBOARDS_NAMES_SUCCESS,
-            response: {data: ['dashboard_1', 'dashboard_2']}
+            payload: ['dashboard_1', 'dashboard_2']
           }
         )
       ).toEqual(
@@ -113,7 +113,7 @@ describe('reducers', () => {
           null,
           {
             type: actionTypes.GET_DASHBOARD_TOKEN_SUCCESS,
-            response: {data: {token: 'token_1'}}
+            payload: {token: 'token_1'}
           }
         )
       ).toEqual(
