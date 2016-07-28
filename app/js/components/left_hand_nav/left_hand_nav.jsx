@@ -4,6 +4,10 @@ import Drawer from 'material-ui/Drawer'
 import { List, ListItem, MakeSelectable } from 'material-ui/List'
 import './left_hand_nav.scss'
 
+import LeftHandNavHeader from '../left_hand_nav_header/left_hand_nav_header.jsx'
+import colours from '!!sass-variable-loader!client_portal-assets/dist/sass/colours.scss' // Load Reevoo colour variables
+import analyticsPath from 'client_portal-assets/dist/images/app_icons/large/analytics.png'
+
 const SelectableList = MakeSelectable(List)
 
 const listStyle = {
@@ -25,33 +29,36 @@ class LeftHandNav extends Component {
   constructor () {
     super()
 
-    this.changeSelectedItem = this.changeSelectedItem.bind(this)
+    this.clickHandler = this.clickHandler.bind(this)
+  }
 
   clickHandler (dashboard) {
-    return (event) => {
-      this.props.selectDashboard(dashboard)
-    }
+    return () => this.props.selectDashboard(dashboard)
   }
 
-  changeSelectedItem (event, index) {
-    this.setState({ selectedItemIndex: index })
-  }
+  render () {
+    const { leftHandNavVisible, dashboards, selectedDashboard } = this.props
 
     return (
       <Drawer open={leftHandNavVisible} className='left-hand-nav'>
         <LeftHandNavHeader imgPath={analyticsPath} text='Analytics' />
         <Divider />
         <SelectableList
-          onChange={this.changeSelectedItem}
+          onChange={() => {}}
           selectedItemStyle={selectedItemStyle}
           style={listStyle}
-          value={this.state.selectedItemIndex}
+          value={selectedDashboard ? selectedDashboard.id : null}
           >
-		  {
-            dashboards.map((dashboard, index) => {
-              return(<ListItem key={index} value={index} onClick={selectDashboard.bind(this, dashboard)} style={listItemStyle}>{dashboard}</ListItem>)
-            })
-          }
+          {dashboards.map((dashboard, index) => (
+            <ListItem
+              key={dashboard.id}
+              value={dashboard.id}
+              onClick={this.clickHandler(dashboard)}
+              style={listItemStyle}
+            >
+              {dashboard.name}
+            </ListItem>
+          ))}
         </SelectableList>
       </Drawer>
     )
@@ -62,6 +69,7 @@ LeftHandNav.propTypes = {
   leftHandNavVisible: PropTypes.bool.isRequired,
   dashboards: PropTypes.array.isRequired,
   selectDashboard: PropTypes.func.isRequired,
+  selectedDashboard: PropTypes.object,
 }
 
 export default LeftHandNav

@@ -14,7 +14,7 @@ const DashboardPanel = ({leftHandNavVisible, selectedDashboard, token}) => {
 DashboardPanel.propTypes = {
   leftHandNavVisible: PropTypes.bool.isRequired,
   selectedDashboard: PropTypes.object,
-  token: PropTypes.string
+  token: PropTypes.string,
 }
 
 export default DashboardPanel

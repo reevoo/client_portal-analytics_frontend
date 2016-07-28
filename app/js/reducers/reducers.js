@@ -2,6 +2,8 @@ import * as actionTypes from '../constants/action_types'
 
 const initialState = {
   leftHandNavVisible: true,
+  headerModulesVisible: false,
+  accessibleModules: [],
   profile: null,
   dashboards: [],
   selectedDashboard: null,

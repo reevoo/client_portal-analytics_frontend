@@ -8,12 +8,13 @@ describe('reducers', () => {
     headerModulesVisible: false,
     accessibleModules: [],
     profile: null,
-    dashboards: [  ],
-    selectedDashboard: undefined,
-    token: null
+    dashboards: [],
+    selectedDashboard: null,
+    token: null,
   }
 
   it('returns the initial state', () => {
+
     expect(analyticsApp(undefined, {})).toEqual(initialState)
   })
 
@@ -21,7 +22,7 @@ describe('reducers', () => {
     expect(
       analyticsApp(
         {leftHandNavVisible: true},
-        {type: { actions: undefined }}
+        {type: {actions: undefined}}
       )
     ).toEqual(
       {leftHandNavVisible: true}
@@ -70,75 +71,76 @@ describe('reducers', () => {
       )
     })
 
-  describe('GET_DASHBOARDS_NAMES_SUCCESS', () => {
-    it('adds the dashboards to the state and selects the first dashboard', () => {
-      expect(
-        analyticsApp(
-          null,
+    describe('GET_DASHBOARDS_NAMES_SUCCESS', () => {
+      it('adds the dashboards to the state and selects the first dashboard', () => {
+        expect(
+          analyticsApp(
+            null,
+            {
+              type: actionTypes.GET_DASHBOARDS_NAMES_SUCCESS,
+              payload: ['dashboard_1', 'dashboard_2']
+            }
+          )
+        ).toEqual(
           {
-            type: actionTypes.GET_DASHBOARDS_NAMES_SUCCESS,
-            payload: ['dashboard_1', 'dashboard_2']
+            dashboards: ['dashboard_1', 'dashboard_2'],
+            selectedDashboard: 'dashboard_1'
           }
         )
-      ).toEqual(
-        {
-          dashboards: ['dashboard_1', 'dashboard_2'],
-          selectedDashboard: 'dashboard_1'
-        }
-      )
-    })
+      })
 
-    it('orders the items appropriately', () => {
-      let unorderedModules = ['reevoo_admin', 'vetting', 'analytics', 'fast_response', 'help', 'admin']
-      let orderedModules = analyticsApp(
-        {},
-        {
-          type: actions.SHOW_HEADER_MODULES,
-          payload: unorderedModules,
-        }
-      ).accessibleModules
-
-      expect(
-        orderedModules.map(m => m.name)
-      ).toEqual(
-        ['Admin', 'Analytics', 'Fast Response', 'Reevoo Admin', 'Vetting', 'Help & FAQ']
-      )
-    })
-  })
-
-  describe('GET_DASHBOARD_TOKEN_SUCCESS', () => {
-    it('adds the token to the state', () => {
-      expect(
-        analyticsApp(
-          null,
+      it('orders the items appropriately', () => {
+        let unorderedModules = ['reevoo_admin', 'vetting', 'analytics', 'fast_response', 'help', 'admin']
+        let orderedModules = analyticsApp(
+          {},
           {
-            type: actionTypes.GET_DASHBOARD_TOKEN_SUCCESS,
-            payload: {token: 'token_1'}
+            type: actionTypes.SHOW_HEADER_MODULES,
+            payload: unorderedModules,
+          }
+        ).accessibleModules
+
+        expect(
+          orderedModules.map(m => m.name)
+        ).toEqual(
+          ['Admin', 'Analytics', 'Fast Response', 'Reevoo Admin', 'Vetting', 'Help & FAQ']
+        )
+      })
+    })
+
+    describe('GET_DASHBOARD_TOKEN_SUCCESS', () => {
+      it('adds the token to the state', () => {
+        expect(
+          analyticsApp(
+            null,
+            {
+              type: actionTypes.GET_DASHBOARD_TOKEN_SUCCESS,
+              payload: {token: 'token_1'}
+            }
+          )
+        ).toEqual(
+          {
+            token: 'token_1'
           }
         )
-      ).toEqual(
-        {
-          token: 'token_1'
-        }
-      )
+      })
     })
-  })
 
-  describe('SELECT_DASHBOARD', () => {
-    it('adds the selected dashboard to the state', () => {
-      expect(
-        analyticsApp(
-          null,
+    describe('SELECT_DASHBOARD', () => {
+      it('adds the selected dashboard to the state', () => {
+        expect(
+          analyticsApp(
+            null,
+            {
+              type: actionTypes.SELECT_DASHBOARD,
+              dashboard: {name: 'dashboard_1'}
+            }
+          )
+        ).toEqual(
           {
-            type: actionTypes.SELECT_DASHBOARD,
-            dashboard: {name: 'dashboard_1'}
+            selectedDashboard: {name: 'dashboard_1'}
           }
         )
-      ).toEqual(
-        {
-          selectedDashboard: {name: 'dashboard_1'}
-        }
-      )
+      })
     })
   })
 })

@@ -19,7 +19,6 @@ import DashboardPanelContainer from './containers/dashboard_panel_container'
 
 import Auth from './services/auth'
 
-
 // Initialize authorization
 Auth.init()
 

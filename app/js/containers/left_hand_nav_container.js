@@ -15,7 +15,8 @@ class LeftHandNavContainer extends Component {
     const {
       dashboards,
       leftHandNavVisible,
-      selectDashboard
+      selectDashboard,
+      selectedDashboard,
     } = this.props
 
     return (
@@ -23,6 +24,7 @@ class LeftHandNavContainer extends Component {
         dashboards={dashboards}
         leftHandNavVisible={leftHandNavVisible}
         selectDashboard={selectDashboard}
+        selectedDashboard={selectedDashboard}
       />
     )
   }
@@ -36,14 +38,15 @@ const mapStateToProps = (state) => ({
   leftHandNavVisible: state.leftHandNavVisible,
   dashboards: state.dashboards,
   dashboardIds: getDashboardIds(state.profile),
+  selectedDashboard: state.selectedDashboard,
 })
 
 const actions = {
   loadDashboards,
-  selectDashboard
+  selectDashboard,
 }
 
 export default connect(
   mapStateToProps,
-  actions,
+  actions
 )(LeftHandNavContainer)
