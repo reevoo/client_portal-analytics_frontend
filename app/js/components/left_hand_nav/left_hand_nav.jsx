@@ -44,12 +44,17 @@ class LeftHandNav extends Component {
         <LeftHandNavHeader imgPath={analyticsPath} text='Analytics' />
         <Divider />
         <SelectableList
-          onChange={() => {}}
+          onChange={
+            /* This is needed to avoid a nasty warning/error in the console.
+             * Once we refactor the reducers we can simplify it accessing the dashboards by id directly.
+             * */
+            () => {}
+          }
           selectedItemStyle={selectedItemStyle}
           style={listStyle}
           value={selectedDashboard ? selectedDashboard.id : null}
           >
-          {dashboards.map((dashboard, index) => (
+          {dashboards.map((dashboard) => (
             <ListItem
               key={dashboard.id}
               value={dashboard.id}
