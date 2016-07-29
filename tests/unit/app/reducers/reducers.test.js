@@ -4,13 +4,16 @@ import * as actionTypes from 'app/js/constants/action_types'
 
 describe('reducers', () => {
   let initialState = {
-    leftHandNavVisible: true,
-    headerModulesVisible: false,
-    accessibleModules: [],
-    profile: null,
-    dashboards: [],
-    selectedDashboard: null,
-    token: null,
+    analyticsApp: {
+      leftHandNavVisible: true,
+      headerModulesVisible: false,
+      accessibleModules: [],
+      profile: null,
+      dashboards: [],
+      selectedDashboard: null,
+      token: null,
+    },
+    router: null,
   }
 
   it('returns the initial state', () => {

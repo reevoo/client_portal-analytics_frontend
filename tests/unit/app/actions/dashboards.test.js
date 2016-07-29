@@ -54,7 +54,7 @@ describe('actions', () => {
         {type: actionTypes.GET_DASHBOARDS_NAMES},
         {type: actionTypes.GET_DASHBOARDS_NAMES_SUCCESS, payload: ['dashboard_1', 'dashboard_2']},
       ]
-      const store = createMockStore({})
+      const store = createMockStore({router: {params: {id: '1'}}})
 
       store.dispatch(actions.loadDashboards(['dashboard_1', 'dashboard_2']))
         .then(() => {

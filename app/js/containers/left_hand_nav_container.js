@@ -16,7 +16,7 @@ class LeftHandNavContainer extends Component {
       dashboards,
       leftHandNavVisible,
       selectDashboard,
-      selectedDashboard,
+      selectedDashboardId,
     } = this.props
 
     return (
@@ -24,7 +24,7 @@ class LeftHandNavContainer extends Component {
         dashboards={dashboards}
         leftHandNavVisible={leftHandNavVisible}
         selectDashboard={selectDashboard}
-        selectedDashboard={selectedDashboard}
+        selectedDashboardId={selectedDashboardId}
       />
     )
   }
@@ -34,11 +34,11 @@ const getDashboardIds = (profile) => profile && profile.client_users_accessible_
   ? profile.client_users_accessible_dashboards
   : []
 
-const mapStateToProps = (state) => ({
-  leftHandNavVisible: state.leftHandNavVisible,
-  dashboards: state.dashboards,
-  dashboardIds: getDashboardIds(state.profile),
-  selectedDashboard: state.selectedDashboard,
+const mapStateToProps = ({ analyticsApp, router }) => ({
+  leftHandNavVisible: analyticsApp.leftHandNavVisible,
+  dashboards: analyticsApp.dashboards,
+  dashboardIds: getDashboardIds(analyticsApp.profile),
+  selectedDashboardId: router.params ? router.params.id : null,
 })
 
 const actions = {

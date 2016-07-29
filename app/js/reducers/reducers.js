@@ -1,3 +1,5 @@
+import { combineReducers } from 'redux'
+import { routerStateReducer } from 'redux-router';
 import * as actionTypes from '../constants/action_types'
 
 const initialState = {
@@ -67,7 +69,7 @@ export const modules = (accessibleModules) => {
   return orderedModules
 }
 
-export default function analyticsApp (state = initialState, action) {
+function analyticsApp (state = initialState, action) {
   switch (action.type) {
     case actionTypes.TOGGLE_LEFT_HAND_NAV:
       return { ...state, leftHandNavVisible: !state.leftHandNavVisible }
@@ -92,3 +94,8 @@ export default function analyticsApp (state = initialState, action) {
       return state
   }
 }
+
+export default combineReducers({
+  analyticsApp,
+  router: routerStateReducer,
+})
