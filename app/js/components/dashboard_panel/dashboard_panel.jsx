@@ -6,7 +6,7 @@ const DashboardPanel = ({leftHandNavVisible, dashboard, token}) => {
   return token && dashboard
       ? <div className={`dashboard-panel ${leftHandNavVisible ? 'collapsed' : 'expanded'}`}>
         <iframe
-          src={`https://tableau.reevoo.com/trusted/${token}/views/${dashboard.views[0].replace('sheets/', '')}?:embed=yes&:toolbar=no&:showShareOptions=no&:record_performance=yes`} />
+          src={`${TABLEAU_HOST}trusted/${token}/views/${dashboard.views[0].replace('sheets/', '')}?:embed=yes&:toolbar=no&:showShareOptions=no&:record_performance=yes`} />
       </div>
       : null
 }
