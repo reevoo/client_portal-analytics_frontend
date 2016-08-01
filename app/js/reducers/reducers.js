@@ -69,7 +69,7 @@ export const modules = (accessibleModules) => {
   return orderedModules
 }
 
-function analyticsApp (state = initialState, action) {
+export const analyticsApp = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.TOGGLE_LEFT_HAND_NAV:
       return { ...state, leftHandNavVisible: !state.leftHandNavVisible }
