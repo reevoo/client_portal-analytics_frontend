@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { CP_ANALYTICS_HOST, TABLEAU_GATEWAY_API, CP_ANALYTICS_BACKEND } from '../constants/app_constants'
+import { TABLEAU_GATEWAY_API, CP_ANALYTICS_BACKEND } from '../constants/app_constants'
 
 export const arrayToParam = (name, values) =>
   values.map((value) => `${name}[]=${value}`).join('&')
