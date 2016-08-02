@@ -1,10 +1,13 @@
 import React, { PropTypes } from 'react'
 import './feedbackify.scss'
 
-const onClick = () => { fby.push(['showForm', '8947']) }
+const setFeedbackifyValues = (email) => () => {
+  fby.push(['setEmail', email])
+  fby.push(['showForm', '8947'])
+}
 
-const Feedbackify = () => (
-  <div className="feedbackify" onClick={onClick}>feedback</div>
+const Feedbackify = ({email}) => (
+  <div className="feedbackify" onClick={setFeedbackifyValues(email)}>feedback</div>
 )
 
 export default Feedbackify

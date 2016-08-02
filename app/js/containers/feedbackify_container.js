@@ -1,12 +1,7 @@
 import { connect } from 'react-redux'
 import Feedbackify from '../components/feedbackify/feedbackify'
 
-const mapStateToProps = ({analyticsApp}) => {
-  if (analyticsApp.profile) {
-    fby.push(['setEmail', analyticsApp.profile.email]);
-  }
-  return {}
-}
+const mapStateToProps = ({analyticsApp}) => ({ email: analyticsApp.profile ? analyticsApp.profile.email : null })
 
 export default connect(
   mapStateToProps
