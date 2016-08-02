@@ -9,8 +9,7 @@ const initialState = {
   profile: null,
   dashboards: [],
   selectedDashboard: null,
-  token: null,
-  feedbackDialogOpen: false
+  token: null
 }
 
 import adminImagePath from 'client_portal-assets/dist/images/app_icons/large/admin.png'
@@ -92,7 +91,9 @@ export const analyticsApp = (state = initialState, action) => {
     case actionTypes.HIDE_HEADER_MODULES:
       return { ...state, headerModulesVisible: false }
     case actionTypes.OPEN_FEEDBACK_DIALOG:
-      return {...state, feedbackDialogOpen: true}
+      fby.push(['setEmail', state.profile.email]);
+      fby.push(['showForm', '8947'])
+      return state
     default:
       return state
   }
