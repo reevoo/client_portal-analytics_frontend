@@ -9,7 +9,6 @@ const envConfig = require('../envConfig.js').envConfig
 module.exports = function (config) {
   const ROOT_PATH = path.parse(path.resolve(__dirname)).dir
   const APP_PATH = path.resolve(ROOT_PATH, 'app')
-  console.info('APP_PATH', APP_PATH)
   const NODE_MODULES_PATH = path.resolve(ROOT_PATH, 'node_modules')
   const TESTS_PATH = path.resolve(ROOT_PATH, 'tests')
   const STYLES_PATH = path.resolve(ROOT_PATH, 'app/styles')

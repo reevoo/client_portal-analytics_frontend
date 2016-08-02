@@ -1,15 +1,20 @@
 /* global describe, it, expect, jasmine */
-import analyticsApp from 'app/js/reducers/reducers.js'
-import * as actions from 'app/js/actions/actions.js'
+import { analyticsApp } from 'app/js/reducers/reducers.js'
+import * as actionTypes from 'app/js/constants/action_types'
 
 describe('reducers', () => {
   let initialState = {
     leftHandNavVisible: true,
     headerModulesVisible: false,
     accessibleModules: [],
+    profile: null,
+    dashboards: [],
+    selectedDashboard: null,
+    token: null,
   }
 
   it('returns the initial state', () => {
+
     expect(analyticsApp(undefined, {})).toEqual(initialState)
   })
 
@@ -17,23 +22,24 @@ describe('reducers', () => {
     expect(
       analyticsApp(
         {leftHandNavVisible: true},
-        {type: { actions: undefined }}
+        {type: {actions: undefined}}
       )
     ).toEqual(
       {leftHandNavVisible: true}
     )
   })
-
-  describe('the left hand nav toggle', () => {
+  describe('TOGGLE_LEFT_HAND_NAV', () => {
     describe('when the left hand nav is open', () => {
       it('closes the left hand nav', () => {
         expect(
           analyticsApp(
             {leftHandNavVisible: true},
-            {type: actions.TOGGLE_LEFT_HAND_NAV}
+            {type: actionTypes.TOGGLE_LEFT_HAND_NAV}
           )
         ).toEqual(
-          {leftHandNavVisible: false}
+          {
+            leftHandNavVisible: false
+          }
         )
       })
     })
@@ -43,52 +49,49 @@ describe('reducers', () => {
         expect(
           analyticsApp(
             {leftHandNavVisible: false},
-            {type: actions.TOGGLE_LEFT_HAND_NAV}
+            {type: actionTypes.TOGGLE_LEFT_HAND_NAV}
           )
         ).toEqual(
-          {leftHandNavVisible: true}
+          {
+            leftHandNavVisible: true
+          }
         )
       })
     })
   })
 
-  describe('showing the header modules dropdown', () => {
-    it('only requested modules are shown', () => {
+  describe('SET_PROFILE', () => {
+    it('adds the profile to the state', () => {
       expect(
         analyticsApp(
           {},
-          {type: actions.SHOW_HEADER_MODULES, payload: ['admin']}
+          {
+            type: actionTypes.SET_PROFILE,
+            payload: {data: 'test_data'}
+          }
         )
       ).toEqual(
         {
-          accessibleModules: [
-            {
-              url: jasmine.any(String),
-              name: 'Admin',
-              imageUrl: jasmine.any(String),
-            },
-          ],
-          headerModulesVisible: true,
+          profile: {data: 'test_data'}
         }
       )
     })
+  })
 
-    it('ignores modules which are not applicable', () => {
+  describe('GET_DASHBOARDS_NAMES_SUCCESS', () => {
+    it('adds the dashboards to the state and selects the first dashboard', () => {
       expect(
         analyticsApp(
           {},
-          {type: actions.SHOW_HEADER_MODULES, payload: ['fast_response', 'foobar']}
+          {
+            type: actionTypes.GET_DASHBOARDS_NAMES_SUCCESS,
+            payload: ['dashboard_1', 'dashboard_2']
+          }
         )
       ).toEqual(
         {
-          accessibleModules: [
-            {
-              url: jasmine.any(String),
-              name: 'Fast Response',
-              imageUrl: jasmine.any(String),
-            },
-          ],
-          headerModulesVisible: true,
+          dashboards: ['dashboard_1', 'dashboard_2'],
+          selectedDashboard: 'dashboard_1',
         }
       )
     })
@@ -96,9 +99,9 @@ describe('reducers', () => {
     it('orders the items appropriately', () => {
       let unorderedModules = ['reevoo_admin', 'vetting', 'analytics', 'fast_response', 'help', 'admin']
       let orderedModules = analyticsApp(
-        {},
+        undefined,
         {
-          type: actions.SHOW_HEADER_MODULES,
+          type: actionTypes.SHOW_HEADER_MODULES,
           payload: unorderedModules,
         }
       ).accessibleModules
@@ -111,31 +114,40 @@ describe('reducers', () => {
     })
   })
 
-  describe('hiding the modules dropdown', () => {
-    describe('when the modules dropdown is open', () => {
-      it('closes the modules dropdown', () => {
-        expect(
-          analyticsApp(
-            {headerModulesVisible: true},
-            {type: actions.HIDE_HEADER_MODULES}
-          )
-        ).toEqual(
-          {headerModulesVisible: false}
+  describe('GET_DASHBOARD_TOKEN_SUCCESS', () => {
+    it('adds the token to the state', () => {
+      expect(
+        analyticsApp(
+          {},
+          {
+            type: actionTypes.GET_DASHBOARD_TOKEN_SUCCESS,
+            payload: {token: 'token_1'}
+          }
         )
-      })
+      ).toEqual(
+        {
+          token: 'token_1'
+        }
+      )
     })
+  })
 
-    describe('when the modules dropdown is closed', () => {
-      it('opens the modules dropdown', () => {
-        expect(
-          analyticsApp(
-            {headerModulesVisible: false},
-            {type: actions.HIDE_HEADER_MODULES}
-          )
-        ).toEqual(
-          {headerModulesVisible: false}
+  describe('SELECT_DASHBOARD', () => {
+    it('adds the selected dashboard to the state', () => {
+      expect(
+        analyticsApp(
+          {},
+          {
+            type: actionTypes.SELECT_DASHBOARD,
+            dashboard: {name: 'dashboard_1'}
+          }
         )
-      })
+      ).toEqual(
+        {
+          selectedDashboard: {name: 'dashboard_1'},
+        }
+      )
     })
   })
 })
+

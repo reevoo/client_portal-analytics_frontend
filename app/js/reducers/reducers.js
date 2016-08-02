@@ -1,9 +1,15 @@
-import { TOGGLE_LEFT_HAND_NAV, SHOW_HEADER_MODULES, HIDE_HEADER_MODULES } from '../actions/actions.js'
+import { combineReducers } from 'redux'
+import { routerStateReducer } from 'redux-router';
+import * as actionTypes from '../constants/action_types'
 
 const initialState = {
   leftHandNavVisible: true,
   headerModulesVisible: false,
   accessibleModules: [],
+  profile: null,
+  dashboards: [],
+  selectedDashboard: null,
+  token: null,
 }
 
 import adminImagePath from 'client_portal-assets/dist/images/app_icons/large/admin.png'
@@ -63,19 +69,33 @@ export const modules = (accessibleModules) => {
   return orderedModules
 }
 
-export default function analyticsApp (state = initialState, action) {
+export const analyticsApp = (state = initialState, action) => {
   switch (action.type) {
-    case TOGGLE_LEFT_HAND_NAV:
+    case actionTypes.TOGGLE_LEFT_HAND_NAV:
       return { ...state, leftHandNavVisible: !state.leftHandNavVisible }
-    case SHOW_HEADER_MODULES:
+    case actionTypes.SET_PROFILE:
+      return { ...state, profile: { ...action.payload } }
+    case actionTypes.GET_DASHBOARDS_NAMES_SUCCESS:
+      const dashboards = [...action.payload]
+      return { ...state, dashboards, selectedDashboard: dashboards[0] }
+    case actionTypes.GET_DASHBOARD_TOKEN_SUCCESS:
+      return { ...state, token: action.payload.token}
+    case actionTypes.SELECT_DASHBOARD:
+      return { ...state, selectedDashboard: action.dashboard}
+    case actionTypes.SHOW_HEADER_MODULES:
       return {
         ...state,
         headerModulesVisible: true,
         accessibleModules: modules(action.payload),
       }
-    case HIDE_HEADER_MODULES:
+    case actionTypes.HIDE_HEADER_MODULES:
       return { ...state, headerModulesVisible: false }
     default:
       return state
   }
 }
+
+export default combineReducers({
+  analyticsApp,
+  router: routerStateReducer,
+})
