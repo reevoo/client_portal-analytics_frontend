@@ -1,21 +1,13 @@
 import { connect } from 'react-redux'
 import Feedbackify from '../components/feedbackify/feedbackify'
-import { openFeedbackDialog } from '../actions/feedbackify'
 
-const mapStateToProps = (state) => {
-  // There are no props to map, but we need a function to call connect()!
+const mapStateToProps = ({analyticsApp}) => {
+  if (analyticsApp.profile) {
+    fby.push(['setEmail', analyticsApp.profile.email]);
+  }
   return {}
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    feedbackButtonClick: () => {
-      dispatch(openFeedbackDialog())
-    },
-  }
-}
-
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(Feedbackify)

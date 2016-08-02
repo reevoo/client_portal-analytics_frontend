@@ -1,12 +1,10 @@
 import React, { PropTypes } from 'react'
 import './feedbackify.scss'
 
-const Feedbackify = ({feedbackButtonClick}) => (
-  <div className="feedbackify" onClick={feedbackButtonClick}>feedback</div>
-)
+const onClick = () => { fby.push(['showForm', '8947']) }
 
-Feedbackify.propTypes = {
-  feedbackButtonClick: PropTypes.func.isRequired,
-}
+const Feedbackify = () => (
+  <div className="feedbackify" onClick={onClick}>feedback</div>
+)
 
 export default Feedbackify
