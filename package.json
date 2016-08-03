@@ -7,12 +7,13 @@
   "scripts": {
     "clean": "rm -rf dist",
     "build": "npm run clean && webpack",
-    "build:staging": "NODE_ENV=staging npm run build",
-    "build:production": "NODE_ENV=production npm run build",
     "ci": "npm run test && npm run build",
     "start": "webpack-dev-server",
     "test": "karma start tests/karma.conf.js",
-    "test:watch": "karma start tests/karma.conf.js --autoWatch=true --singleRun=false"
+    "test:watch": "karma start tests/karma.conf.js --autoWatch=true --singleRun=false",
+    "invalidate": "node scripts/cloudfront_invalidate.js",
+    "deploy:staging": "NODE_ENV=staging npm run build && aws s3 sync dist s3://client-portal-staging/analytics2 --acl=public-read && NODE_ENV=staging npm run invalidate",
+    "deploy:production": "NODE_ENV=production npm run build && aws s3 sync dist s3://client-portal-production/analytics2 --acl=public-read --cache-control=60 && NODE_ENV=production npm run invalidate"
   },
   "author": "Alexandru Anca and Ed Saunders",
   "license": "ISC",
@@ -31,12 +32,14 @@
     "redux-thunk": "^2.1.0"
   },
   "devDependencies": {
+    "aws-sdk": "^2.4.12",
     "axios-mock-adapter": "^1.6.1",
     "babel-loader": "^6.2.4",
     "babel-plugin-rewire": "^1.0.0-rc-4",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.11.1",
     "babel-preset-stage-1": "^6.5.0",
+    "chalk": "^1.1.3",
     "css-loader": "^0.23.1",
     "dotenv": "^2.0.0",
     "es6-promise": "^3.2.1",

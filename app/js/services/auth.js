@@ -1,11 +1,11 @@
 import Cookies from 'js-cookie'
 import axios from 'axios'
 import { Promise } from 'es6-promise'
-import { CP_ADMIN_HOST, CP_ANALYTICS_HOST } from '../constants/app_constants'
+import { CP_ADMIN_API, CP_ANALYTICS_URL, LOGIN_URL } from '../constants/app_constants'
 import { routeUtils } from '../helpers/router'
 
-const LOGIN_URL = CP_ADMIN_HOST + '#/auth/sign_in?return_url=' + CP_ANALYTICS_HOST
-const REFRESH_TOKEN_URL = CP_ADMIN_HOST + 'api/v1/api_session/refresh'
+const LOGIN_URL_WITH_REDIRECT = `${LOGIN_URL}?return_url=${CP_ANALYTICS_URL}`
+const REFRESH_TOKEN_URL = `${CP_ADMIN_API}api_session/refresh`
 const MAXIMUM_RESTARTED_REQUESTS = 5
 
 let restartedRequests = []
@@ -17,7 +17,7 @@ const refreshToken = () => {
 }
 
 const redirectToLoginPage = () => {
-  routeUtils.redirectTo(LOGIN_URL)
+  routeUtils.redirectTo(LOGIN_URL_WITH_REDIRECT)
 }
 
 const getAccessToken = () => {

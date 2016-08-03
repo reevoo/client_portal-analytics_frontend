@@ -1,4 +1,3 @@
-/* global describe, it, expect, jasmine */
 import { analyticsApp } from 'app/js/reducers/reducers.js'
 import * as actionTypes from 'app/js/constants/action_types'
 
@@ -14,7 +13,6 @@ describe('reducers', () => {
   }
 
   it('returns the initial state', () => {
-
     expect(analyticsApp(undefined, {})).toEqual(initialState)
   })
 
@@ -38,7 +36,7 @@ describe('reducers', () => {
           )
         ).toEqual(
           {
-            leftHandNavVisible: false
+            leftHandNavVisible: false,
           }
         )
       })
@@ -53,26 +51,26 @@ describe('reducers', () => {
           )
         ).toEqual(
           {
-            leftHandNavVisible: true
+            leftHandNavVisible: true,
           }
         )
       })
     })
   })
 
-  describe('SET_PROFILE', () => {
+  describe('GET_PROFILE_SUCCESS', () => {
     it('adds the profile to the state', () => {
       expect(
         analyticsApp(
           {},
           {
-            type: actionTypes.SET_PROFILE,
-            payload: {data: 'test_data'}
+            type: actionTypes.GET_PROFILE_SUCCESS,
+            payload: {data: 'test_data'},
           }
         )
       ).toEqual(
         {
-          profile: {data: 'test_data'}
+          profile: {data: 'test_data'},
         }
       )
     })
@@ -85,7 +83,7 @@ describe('reducers', () => {
           {},
           {
             type: actionTypes.GET_DASHBOARDS_NAMES_SUCCESS,
-            payload: ['dashboard_1', 'dashboard_2']
+            payload: ['dashboard_1', 'dashboard_2'],
           }
         )
       ).toEqual(
@@ -121,12 +119,12 @@ describe('reducers', () => {
           {},
           {
             type: actionTypes.GET_DASHBOARD_TOKEN_SUCCESS,
-            payload: {token: 'token_1'}
+            payload: {token: 'token_1'},
           }
         )
       ).toEqual(
         {
-          token: 'token_1'
+          token: 'token_1',
         }
       )
     })
@@ -139,7 +137,7 @@ describe('reducers', () => {
           {},
           {
             type: actionTypes.SELECT_DASHBOARD,
-            dashboard: {name: 'dashboard_1'}
+            dashboard: {name: 'dashboard_1'},
           }
         )
       ).toEqual(
@@ -150,4 +148,3 @@ describe('reducers', () => {
     })
   })
 })
-

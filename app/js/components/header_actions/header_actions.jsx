@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import FontIcon from 'material-ui/FontIcon'
 import { Card, CardHeader } from 'material-ui/Card'
 import Popover from 'material-ui/Popover'
+import { LOGOUT_URL, PROFILE_URL, HELP_URL } from '../../constants/app_constants'
 import ClientPortalModules from '../../containers/client_portal_modules_container'
 
 import colours from '!!sass-variable-loader!client_portal-assets/dist/sass/colours.scss'
@@ -14,12 +15,12 @@ const iconStyle = {
 
 const HeaderActions = ({showHeaderModules, hideHeaderModules, headerModulesVisible}) => (
   <div className='header-actions'>
-    <a href='/admin/help'><FontIcon className='icon-faq' color='#fff' hoverColor={colours.reevooBlue} style={iconStyle} /></a>
-    <a href='/admin/profile'><FontIcon className='icon-user' color='#fff' hoverColor={colours.reevooBlue} style={iconStyle} /></a>
+    <a href={HELP_URL}><FontIcon className='icon-faq' color='#fff' hoverColor={colours.reevooBlue} style={iconStyle} /></a>
+    <a href={PROFILE_URL}><FontIcon className='icon-user' color='#fff' hoverColor={colours.reevooBlue} style={iconStyle} /></a>
     <a href='#' onTouchTap={showHeaderModules}>
       <FontIcon className='icon-modules_icon' color='#fff' hoverColor={colours.reevooBlue} style={iconStyle} />
     </a>
-    <a href='/admin/sign_out' className='header-actions__text' id='sign-out'>Sign out</a>
+    <a href={LOGOUT_URL} className='header-actions__text' id='sign-out'>Sign out</a>
     <Popover
       open={headerModulesVisible}
       anchorEl={document.getElementById('sign-out')}
