@@ -3,6 +3,8 @@ import Auth from 'app/js/services/auth.js'
 import Cookies from 'js-cookie'
 import { Promise } from 'es6-promise'
 
+const CP_API_URL = 'https://localhost:9999/api/v1/'
+
 describe('Auth', () => {
   beforeEach(() => {
     jasmine.Ajax.install()
@@ -38,7 +40,7 @@ describe('Auth', () => {
         Cookies.set('refreshToken', 'secretRefreshToken')
 
         jasmine.Ajax.stubRequest('/unauthorized').andReturn({status: 401})
-        jasmine.Ajax.stubRequest('http://test.com/api/v1/api_session/refresh').andReturn({
+        jasmine.Ajax.stubRequest(`${CP_API_URL}api_session/refresh`).andReturn({
           responseText: '{"access_token":"NewAccessToken"}',
         })
 
@@ -49,7 +51,7 @@ describe('Auth', () => {
         axios.get('/unauthorized').then(() => {
           let request = jasmine.Ajax.requests.at(1)
 
-          expect(request.url).toEqual('http://test.com/api/v1/api_session/refresh')
+          expect(request.url).toEqual(`${CP_API_URL}api_session/refresh`)
           expect(request.method).toEqual('POST')
           expect(request.data()).toEqual({ refresh_token: 'secretRefreshToken' })
 
@@ -89,7 +91,7 @@ describe('Auth', () => {
         AuthRewireAPI.__Rewire__('routeUtils', routeUtils)
 
         jasmine.Ajax.stubRequest('/unauthorized').andReturn({status: 401})
-        jasmine.Ajax.stubRequest('http://test.com/api/v1/api_session/refresh').andReturn({
+        jasmine.Ajax.stubRequest(`${CP_API_URL}api_session/refresh`).andReturn({
           status: 400,
         })
 
@@ -98,7 +100,7 @@ describe('Auth', () => {
 
         setTimeout(() => {
           expect(routeUtils.redirectTo).toHaveBeenCalledWith(
-            'http://test.com/#/auth/sign_in?return_url=http://test.com/analytics'
+            'http://test.com/admin/#/auth/sign_in?return_url=http://test.com/analytics2/'
           )
           done()
         }, 1)

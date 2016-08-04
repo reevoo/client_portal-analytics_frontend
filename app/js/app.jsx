@@ -1,7 +1,7 @@
 import injectTapEventPlugin from 'react-tap-event-plugin'
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { Router, Route, hashHistory } from 'react-router'
-import { reduxReactRouter, ReduxRouter } from 'redux-router';
+import { reduxReactRouter, ReduxRouter } from 'redux-router'
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import { render } from 'react-dom'
@@ -48,16 +48,21 @@ const store = compose(
 
 store.dispatch(fetchProfile())
 
-const App = (props) => (
+const App = ({ children, params }) => (
   <MuiThemeProvider muiTheme={rvMuiTheme}>
     <div>
       <Header />
-      <LeftHandNavContainer selectedItem={props.params.id} />
+      <LeftHandNavContainer selectedItem={params.id} />
       <FeedbackifyContainer />
       {props.children}
     </div>
   </MuiThemeProvider>
 )
+
+App.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element]),
+  params: PropTypes.object.isRequired,
+}
 
 render(
   <Provider store={store}>

@@ -1,20 +1,12 @@
 import axios from 'axios'
-import { CP_ADMIN_HOST } from '../constants/app_constants'
-import { loadDashboards } from './dashboards'
+import { CP_ADMIN_API } from '../constants/app_constants'
 import * as actionTypes from '../constants/action_types'
 
-const PROFILE_URL = CP_ADMIN_HOST + 'api/v1/profile'
+const PROFILE_URL = `${CP_ADMIN_API}profile`
 
-export function setProfile (profile) {
-  return { type: actionTypes.SET_PROFILE, payload: profile }
-}
-
-export function fetchProfile(){
-  return (dispatch) => {
-    axios.get(PROFILE_URL).then((response) =>{
-      let profile = response.data
-
-      dispatch(setProfile(profile))
-    })
-  }
+export const fetchProfile = () => (dispatch) => {
+  dispatch({ type: actionTypes.GET_PROFILE })
+  axios.get(PROFILE_URL)
+    .then((response) => dispatch({ type: actionTypes.GET_PROFILE_SUCCESS, payload: response.data }))
+    .catch((error) => dispatch({ type: actionTypes.GET_PROFILE_ERROR, payload: error }))
 }

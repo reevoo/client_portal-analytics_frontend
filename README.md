@@ -14,6 +14,8 @@ This relies on a number of other applications to run correctly:
 
 This relies on having node and npm installed, whose version is managed in `.node-version` as we generally manage node versions with [nodenv](https://github.com/nodenv/nodenv)
 
+If you're going to deploy (to staging or production) you will need to have installed the AWS CLI tools. In Mac you can just run `brew install awscli`. For other systems, check [the official docs](https://aws.amazon.com/cli/).
+
 # Set up
 
 All managed through `npm` and `webpack`, so simply:
