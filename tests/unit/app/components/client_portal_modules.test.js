@@ -9,23 +9,6 @@ describe('<ClientPortalModules />', () => {
     expect(component.find('a').length).toBe(0)
   })
 
-  it('renders with a single module', () => {
-    const modules = [
-      {
-        url: 'http://module.url',
-        name: 'Module',
-        imageUrl: 'http://module.url/image.jpg',
-      },
-    ]
-    const component = shallow(<ClientPortalModules modules={modules} />)
-    const firstModuleLink = component.find('a')
-
-    expect(firstModuleLink.length).toBe(1)
-    expect(firstModuleLink.prop('href')).toEqual('http://module.url')
-    expect(component.text()).toEqual('Module')
-    expect(component.find('img').prop('src')).toEqual('http://module.url/image.jpg')
-  })
-
   it('renders with a multiple modules', () => {
     const modules = [
       {
