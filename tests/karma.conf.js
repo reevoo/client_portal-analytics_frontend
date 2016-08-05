@@ -60,6 +60,12 @@ module.exports = function (config) {
         extensions: ['', '.js', '.jsx'],
         modulesDirectories: ['node_modules'],
       },
+      externals: {
+        'cheerio': 'window',
+        'react/addons': true,
+        'react/lib/ExecutionEnvironment': true,
+        'react/lib/ReactContext': true,
+      },
     },
 
     webpackServer: {
