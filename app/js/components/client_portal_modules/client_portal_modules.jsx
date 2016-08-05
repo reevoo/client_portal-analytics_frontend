@@ -13,6 +13,10 @@ const ClientPortalModules = ({modules}) => (
   </div>
 )
 
+ClientPortalModules.defaultProps = {
+  modules: [],
+}
+
 ClientPortalModules.propTypes = {
   modules: PropTypes.arrayOf(PropTypes.shape({
     url: PropTypes.string.isRequired,
