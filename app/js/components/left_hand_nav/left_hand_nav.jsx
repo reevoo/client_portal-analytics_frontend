@@ -54,7 +54,7 @@ LeftHandNav.propTypes = {
   leftHandNavVisible: PropTypes.bool.isRequired,
   dashboards: PropTypes.array.isRequired,
   selectDashboard: PropTypes.func.isRequired,
-  selectedDashboardId: PropTypes.string.isRequired,
+  selectedDashboardId: PropTypes.string,
 }
 
 export default LeftHandNav

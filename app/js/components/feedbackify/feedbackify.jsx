@@ -1,3 +1,4 @@
+/* global fby */ // The fby value comes from the Feedbackify 3rd party library
 import React, { PropTypes } from 'react'
 import './feedbackify.scss'
 
@@ -9,5 +10,9 @@ const setFeedbackifyValues = (email) => () => {
 const Feedbackify = ({email}) => (
   <div className="feedbackify" onClick={setFeedbackifyValues(email)}>feedback</div>
 )
+
+Feedbackify.propTypes = {
+  email: PropTypes.string.isRequired,
+}
 
 export default Feedbackify
