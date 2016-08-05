@@ -54,7 +54,7 @@ const App = ({ children, params }) => (
       <Header />
       <LeftHandNavContainer selectedItem={params.id} />
       <FeedbackifyContainer />
-      {props.children}
+      {children}
     </div>
   </MuiThemeProvider>
 )

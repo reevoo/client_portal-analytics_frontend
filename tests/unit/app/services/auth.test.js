@@ -3,7 +3,7 @@ import Auth from 'app/js/services/auth.js'
 import Cookies from 'js-cookie'
 import { Promise } from 'es6-promise'
 
-const CP_API_URL = 'https://localhost:9999/api/v1/'
+const CP_API_URL = 'http://localhost:9999/api/v1/'
 
 describe('Auth', () => {
   beforeEach(() => {
