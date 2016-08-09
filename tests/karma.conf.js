@@ -6,7 +6,7 @@ const webpack = require('webpack')
 // Config object with values read from .env file
 const envConfig = require('../envConfig.js').envConfig
 
-module.exports = function (config) {
+module.exports = function (config, testType) {
   const ROOT_PATH = path.parse(path.resolve(__dirname)).dir
   const APP_PATH = path.resolve(ROOT_PATH, 'app')
   const NODE_MODULES_PATH = path.resolve(ROOT_PATH, 'node_modules')
@@ -19,11 +19,11 @@ module.exports = function (config) {
     frameworks: ['jasmine-ajax', 'jasmine'],
 
     files: [
-      'tests/unit/**/*.js',
+      `tests/${testType}/**/*.js`,
     ],
 
     preprocessors: {
-      ['tests/unit/**/*.js']: ['webpack', 'sourcemap'],
+      [`tests/${testType}/**/*.js`]: ['webpack', 'sourcemap'],
     },
     webpack: {
       devtool: 'inline-source-map',
