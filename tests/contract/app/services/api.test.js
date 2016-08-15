@@ -17,6 +17,7 @@ describe('Api service', () => {
       const data = result.data
 
       expect(Array.isArray(data)).toBeTruthy()
+      expect(data[0].id).toEqual(jasmine.any(String))
       expect(data[0].name).toEqual(jasmine.any(String))
       expect(Array.isArray(data[0].views)).toBeTruthy()
 

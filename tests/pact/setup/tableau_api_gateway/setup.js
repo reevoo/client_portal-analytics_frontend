@@ -21,6 +21,7 @@ const setup = (mockService) => {
     .willRespondWith({
       status: 200,
       body: eachLike({
+        id: like('11111111-2222-3333-4444-0000000000'),
         name: like('test4'),
         views: eachLike('test4/Dashboard1'),
       }, {min: 1}),
