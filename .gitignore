@@ -1,4 +1,7 @@
 node_modules/
 dist/
+tests/pact/log/
+tests/pact/pacts/
+tmp/
 
 npm-debug.log

@@ -21,6 +21,9 @@ If you're going to deploy (to staging or production) you will need to have insta
 All managed through `npm` and `webpack`, so simply:
 
 ```bash
+# Pre-requisite to run the contract tests with Pact
+bundle install
+
 # Pre-requisite on installing node
 nodenv install
 
@@ -30,6 +33,38 @@ npm start
 ```
 
 This will start a local server running on http://localhost:8080/.
+
+# Test
+
+If you need to run all the tests (unit and contract) just run
+
+```bash
+npm test
+```
+
+## Unit
+
+You can run the unit tests a single time with
+
+```bash
+npm run test:unit
+```
+
+or keep them running if you are modifying them and want to check the results live (TDD FTW!):
+
+```bash
+npm run test:unit:watch
+```
+
+## Contract
+
+To generate the Pact contract files and upload them to you local Pact Broker, you have to run
+
+```bash
+npm run test:contract
+```
+
+and be sure to have [Pact Broker](https://github.com/reevoo/pact_broker) running.
 
 # License
 

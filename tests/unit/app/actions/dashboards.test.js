@@ -3,7 +3,7 @@ import * as actionTypes from 'app/js/constants/action_types'
 import { createMockStore } from 'tests/helpers/store_helpers'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import { CP_ANALYTICS_BACKEND, TABLEAU_GATEWAY_API } from 'app/js/constants/app_constants'
+import { CP_ANALYTICS_API, TABLEAU_GATEWAY_API } from 'app/js/constants/app_constants'
 let mock
 
 describe('actions', () => {
@@ -13,7 +13,7 @@ describe('actions', () => {
 
   describe('getDashboardToken', () => {
     it('executes the async flow with a successful ajax request', (done) => {
-      mock.onGet(`${CP_ANALYTICS_BACKEND}tableau/token`).reply(200, 'test_data')
+      mock.onGet(`${CP_ANALYTICS_API}tableau/token`).reply(200, 'test_data')
 
       const expectedActions = [
         {type: actionTypes.GET_DASHBOARD_TOKEN},
@@ -29,7 +29,7 @@ describe('actions', () => {
     })
 
     it('executes the async flow with a failing ajax request', (done) => {
-      mock.onGet(`${CP_ANALYTICS_BACKEND}tableau/token`).reply(500, 'error string')
+      mock.onGet(`${CP_ANALYTICS_API}tableau/token`).reply(500, 'error string')
 
       const expectedActions = [
         {type: actionTypes.GET_DASHBOARD_TOKEN},
