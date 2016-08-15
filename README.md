@@ -21,6 +21,9 @@ If you're going to deploy (to staging or production) you will need to have insta
 All managed through `npm` and `webpack`, so simply:
 
 ```bash
+# Pre-requisite to run the contract tests with Pact
+bundle install
+
 # Pre-requisite on installing node
 nodenv install
 
