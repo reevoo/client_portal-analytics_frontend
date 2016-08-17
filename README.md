@@ -66,6 +66,18 @@ npm run test:contract
 
 and be sure to have [Pact Broker](https://github.com/reevoo/pact_broker) running.
 
+# Deploy
+
+To deploy the app run:
+
+```bash
+# Staging
+./deploy.sh staging
+
+# Production
+./deploy.sh production
+```
+
 # License
 
 This software is licensed under the [MIT license](https://opensource.org/licenses/MIT)
