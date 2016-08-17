@@ -10,10 +10,12 @@
   }
 
   &__logo {
+    align-items: center;
     color: #fff;
-    display: inline-block;
+    display: flex;
     height: 100%;
-    padding: 10px 15px 0 15px;
+    justify-content: center;
+    width: 175px;
 
     &:hover {
       background-color: $reevoo-light-orange;

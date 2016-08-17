@@ -20,13 +20,14 @@ class DashboardPanelContainer extends Component {
   }
 
   render () {
-    const { leftHandNavVisible, selectedDashboard, token } = this.props
+    const { leftHandNavVisible, selectedDashboard, token, userId } = this.props
 
     return (
       <DashboardPanel
         leftHandNavVisible={leftHandNavVisible}
         dashboard={selectedDashboard}
         token={token}
+        userId={userId}
       />
     )
   }
@@ -36,6 +37,7 @@ DashboardPanelContainer.propTypes = {
   leftHandNavVisible: PropTypes.bool.isRequired,
   selectedDashboard: PropTypes.object.isRequired,
   token: PropTypes.string.isRequired,
+  userId: PropTypes.string,
   // Actions
   getDashboardToken: PropTypes.func.isRequired,
 }
@@ -48,6 +50,7 @@ const mapStateToProps = ({ analyticsApp, router }) => ({
   leftHandNavVisible: analyticsApp.leftHandNavVisible,
   selectedDashboard: getSelectedDashboardById(analyticsApp.dashboards, router.params.id),
   token: analyticsApp.token,
+  userId: analyticsApp.profile ? analyticsApp.profile.id : null,
 })
 
 export default connect(

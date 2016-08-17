@@ -39,6 +39,7 @@ const iconLeftContainerStyles = {
 
 const headerStyles = {
   paddingLeft: '0px',
+  position: 'fixed',
 }
 
 const Header = ({ leftIconClick }) => (

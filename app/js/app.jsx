@@ -17,6 +17,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
 import Header from './containers/header'
+import MainContent from './components/main_content/main_content'
 import LeftHandNavContainer from './containers/left_hand_nav_container'
 import DashboardPanelContainer from './containers/dashboard_panel_container'
 import FeedbackifyContainer from './containers/feedbackify_container'
@@ -54,7 +55,9 @@ const App = ({ children, params }) => (
       <Header />
       <LeftHandNavContainer selectedItem={params.id} />
       <FeedbackifyContainer />
-      {children}
+      <MainContent>
+        {children}
+      </MainContent>
     </div>
   </MuiThemeProvider>
 )
