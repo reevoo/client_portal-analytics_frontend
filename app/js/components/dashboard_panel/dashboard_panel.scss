@@ -1,13 +1,15 @@
 .dashboard-panel {
-  margin: 48px 72px;
+  margin: 90px 72px 48px;
   transition: all 450ms cubic-bezier(.23, 1, .32, 1) 0ms;
 
   &.collapsed {
     padding-left: 256px;
+    width: 980px;
   }
 
   &.expanded {
     padding-left: 0;
+    width: 1236px;
   }
 
   iframe {
