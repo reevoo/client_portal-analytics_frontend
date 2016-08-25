@@ -9,12 +9,12 @@ const stage = process.env.NODE_ENV
 
 if (stage === 'staging' || stage === 'production') {
   const paths = [
-    '/analytics2/index.html',
-    '/analytics2/analytics.js',
-    '/analytics2/analytics.js.map',
-    '/analytics2/analytics.css',
-    '/analytics2/analytics.css.map',
-    '/analytics2/',
+    '/analytics/index.html',
+    '/analytics/analytics.js',
+    '/analytics/analytics.js.map',
+    '/analytics/analytics.css',
+    '/analytics/analytics.css.map',
+    '/analytics/',
   ]
 
   const stageMap = {

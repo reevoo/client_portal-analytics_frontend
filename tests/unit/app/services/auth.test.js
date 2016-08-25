@@ -100,7 +100,7 @@ describe('Auth', () => {
 
         setTimeout(() => {
           expect(routeUtils.redirectTo).toHaveBeenCalledWith(
-            'http://test.com/admin/#/auth/sign_in?return_url=http://test.com/analytics2/'
+            'http://test.com/admin/#/auth/sign_in?return_url=http://test.com/analytics/'
           )
           done()
         }, 1)

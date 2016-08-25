@@ -31,8 +31,8 @@
     "test:unit:watch": "karma start tests/karma.conf.js --autoWatch=true --singleRun=false",
     "test": "npm run test:unit && npm run test:contract",
     "invalidate": "node scripts/cloudfront_invalidate.js",
-    "deploy:staging": "NODE_ENV=staging npm run build && aws s3 sync dist s3://client-portal-staging/analytics2 --acl=public-read && NODE_ENV=staging npm run invalidate",
-    "deploy:production": "NODE_ENV=production npm run build && aws s3 sync dist s3://client-portal-production/analytics2 --acl=public-read --cache-control=60 && NODE_ENV=production npm run invalidate"
+    "deploy:staging": "NODE_ENV=staging npm run build && aws s3 sync dist s3://client-portal-staging/analytics --acl=public-read && NODE_ENV=staging npm run invalidate",
+    "deploy:production": "NODE_ENV=production npm run build && aws s3 sync dist s3://client-portal-production/analytics --acl=public-read --cache-control=60 && NODE_ENV=production npm run invalidate"
   },
   "author": "Alexandru Anca and Ed Saunders",
   "license": "ISC",
