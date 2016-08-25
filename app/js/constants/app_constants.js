@@ -14,7 +14,7 @@ export const TABLEAU_GATEWAY_API  = CONFIG.TABLEAU_GATEWAY_API
  * URL paths
  */
 export const CP_ADMIN_URL      = `${CP_ADMIN_HOST}admin/`
-export const CP_ANALYTICS_URL  = `${CP_ADMIN_HOST}analytics2/`
+export const CP_ANALYTICS_URL  = `${CP_ADMIN_HOST}analytics/`
 export const FAST_RESPONSE_URL = `${CP_ADMIN_HOST}fast_response/`
 export const REEVOO_ADMIN_URL  = `${CP_ADMIN_HOST}reevoo_admin/`
 export const VETTING_URL       = `${CP_ADMIN_HOST}vetting/`
