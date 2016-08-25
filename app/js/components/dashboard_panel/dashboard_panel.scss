@@ -4,18 +4,18 @@
 
   &.collapsed {
     padding-left: 256px;
-    width: 980px;
+    width: 1000px;
   }
 
   &.expanded {
     padding-left: 0;
-    width: 1236px;
+    width: 1256px;
   }
 
   iframe {
     border: 0;
-    height: 1900px;
-    width: 100%;
+    height: 2500px;
+    width: 1000px;
     overflow-y: hidden;
     overflow-x: hidden;
   }
