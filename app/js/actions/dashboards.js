@@ -1,17 +1,18 @@
 import { push } from 'redux-router'
-import Api from '../services/api'
+import { getTableauToken } from '../services/cp_analytics_api_client'
+import { getWorkbooks } from '../services/tableau_gateway_api_client'
 import * as actionTypes from '../constants/action_types'
 
 export const getDashboardToken = () => (dispatch) => {
   dispatch({ type: actionTypes.GET_DASHBOARD_TOKEN })
-  return Api.getTableauToken()
+  return getTableauToken()
     .then((response) => dispatch({ type: actionTypes.GET_DASHBOARD_TOKEN_SUCCESS, payload: response.data }))
     .catch((error) => dispatch({ type: actionTypes.GET_DASHBOARD_TOKEN_ERROR, error: error.data }))
 }
 
 export const loadDashboards = (dashboards) => (dispatch, getState) => {
   dispatch({ type: actionTypes.GET_DASHBOARDS_NAMES })
-  return Api.getWorkbooks(dashboards)
+  return getWorkbooks(dashboards)
     .then((response) => {
       const dashboards = response.data
       dispatch({ type: actionTypes.GET_DASHBOARDS_NAMES_SUCCESS, payload: dashboards })
