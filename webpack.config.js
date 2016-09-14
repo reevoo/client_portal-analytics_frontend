@@ -23,7 +23,7 @@ const CLIENT_PORTAL_ASSETS_PATH = path.resolve(ROOT_PATH, 'node_modules/client_p
 const envConfig = require('./envConfig.js').envConfig
 
 const common = {
-  entry: APP_PATH_ENTRY,
+  entry: ['whatwg-fetch', APP_PATH_ENTRY],
   output: {
     path: BUILD_PATH,
     publicPath: process.env.PUBLIC_PATH_URL,
