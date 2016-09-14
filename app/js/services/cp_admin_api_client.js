@@ -1,6 +1,6 @@
-import axios from 'axios'
+/* global fetch */
 import { CP_ADMIN_API } from '../constants/app_constants'
 
 const PROFILE_URL = `${CP_ADMIN_API}profile`
 
-export const getProfile = () => axios.get(PROFILE_URL)
+export const getProfile = () => fetch(PROFILE_URL).then((response) => response.json())

@@ -1,3 +1,4 @@
+/* global fetch */
 import Cookies from 'js-cookie'
 import axios from 'axios'
 import { Promise } from 'es6-promise'
@@ -127,6 +128,8 @@ const addXHRInterceptor = () => {
 const Auth = {
   init: addXHRInterceptor,
   currentUser: currentUser,
+
+  get: (url) => fetch(url, {method: 'GET', headers: {'Authorization': getAccessToken()}}),
 }
 
 export default Auth
