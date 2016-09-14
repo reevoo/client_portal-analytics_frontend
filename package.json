@@ -33,7 +33,7 @@
     "start": "webpack-dev-server",
     "test:contract": "npm run pact:start && npm run wait_for_port -- -p $npm_package_config_pact_port_cp_analytics_api,$npm_package_config_pact_port_cp_admin_api,$npm_package_config_pact_port_tableau_gateway_api && npm run pact:setup && karma start tests/karma.conf.contract.js && npm run pact:teardown && npm run pact:stop",
     "test:unit": "karma start tests/karma.conf.unit.js",
-    "test:unit:watch": "karma start tests/karma.conf.js --autoWatch=true --singleRun=false",
+    "test:unit:watch": "karma start tests/karma.conf.unit.js --autoWatch=true --singleRun=false",
     "test": "npm run test:unit && npm run test:contract",
     "invalidate": "node scripts/cloudfront_invalidate.js",
     "deploy:staging": "NODE_ENV=staging npm run build && aws s3 sync dist s3://client-portal-staging/analytics --acl=public-read && NODE_ENV=staging npm run invalidate",
