@@ -3,11 +3,8 @@ import { Promise } from 'es6-promise'  // eslint-disable-line
 
 describe('CPAnalyticsAPIClient', () => {
   it('#getTableauToken returns an object containing a token', (done) => {
-    getTableauToken().then((result) => {
-      const data = result.data
-
+    getTableauToken().then((data) => {
       expect(data.token).toEqual(jasmine.any(String))
-
       done()
     })
   })

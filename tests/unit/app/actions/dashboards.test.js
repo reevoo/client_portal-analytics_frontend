@@ -1,23 +1,19 @@
+import fetchMock from 'fetch-mock'
 import * as actions from 'app/js/actions/dashboards'
 import * as actionTypes from 'app/js/constants/action_types'
 import { createMockStore } from 'tests/helpers/store_helpers'
-import axios from 'axios'
-import MockAdapter from 'axios-mock-adapter'
 import { CP_ANALYTICS_API, TABLEAU_GATEWAY_API } from 'app/js/constants/app_constants'
-let mock
 
 describe('actions', () => {
-  beforeEach(() => {
-    mock = new MockAdapter(axios)
-  })
+  beforeEach(fetchMock.restore)
 
   describe('getDashboardToken', () => {
     it('executes the async flow with a successful ajax request', (done) => {
-      mock.onGet(`${CP_ANALYTICS_API}tableau/token`).reply(200, 'test_data')
+      fetchMock.get(`${CP_ANALYTICS_API}tableau/token`, {data: 'test_data'})
 
       const expectedActions = [
         {type: actionTypes.GET_DASHBOARD_TOKEN},
-        {type: actionTypes.GET_DASHBOARD_TOKEN_SUCCESS, payload: 'test_data'},
+        {type: actionTypes.GET_DASHBOARD_TOKEN_SUCCESS, payload: {data: 'test_data'}},
       ]
       const store = createMockStore({})
 
@@ -29,7 +25,7 @@ describe('actions', () => {
     })
 
     it('executes the async flow with a failing ajax request', (done) => {
-      mock.onGet(`${CP_ANALYTICS_API}tableau/token`).reply(500, 'error string')
+      fetchMock.get(`${CP_ANALYTICS_API}tableau/token`, { status: 500, throws: 'error string' })
 
       const expectedActions = [
         {type: actionTypes.GET_DASHBOARD_TOKEN},
@@ -47,9 +43,10 @@ describe('actions', () => {
 
   describe('loadDashboards', () => {
     it('executes the async flow with a successful ajax request', (done) => {
-      mock
-        .onGet(`${TABLEAU_GATEWAY_API}workbooks?ids[]=dashboard_1&ids[]=dashboard_2`)
-        .reply(200, ['dashboard_1', 'dashboard_2'])
+      fetchMock.get(
+        `${TABLEAU_GATEWAY_API}workbooks?ids[]=dashboard_1&ids[]=dashboard_2`,
+        ['dashboard_1', 'dashboard_2']
+      )
 
       const expectedActions = [
         {type: actionTypes.GET_DASHBOARDS_NAMES},
@@ -65,9 +62,10 @@ describe('actions', () => {
     })
 
     it('executes the async flow with a failing ajax request', (done) => {
-      mock
-        .onGet(`${TABLEAU_GATEWAY_API}workbooks?ids[]=dashboard_1&ids[]=dashboard_2`)
-        .reply(500, 'error string')
+      fetchMock.get(
+        `${TABLEAU_GATEWAY_API}workbooks?ids[]=dashboard_1&ids[]=dashboard_2`,
+        { status: 500, throws: 'error string' }
+      )
 
       const expectedActions = [
         {type: actionTypes.GET_DASHBOARDS_NAMES},
