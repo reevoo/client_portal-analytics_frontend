@@ -5,5 +5,5 @@ export const fetchProfile = () => (dispatch) => {
   dispatch({ type: actionTypes.GET_PROFILE })
   return getProfile()
     .then((response) => dispatch({ type: actionTypes.GET_PROFILE_SUCCESS, payload: response }))
-    .catch((error) => dispatch({ type: actionTypes.GET_PROFILE_ERROR, error: error }))
+    .catch((error) => dispatch({ type: actionTypes.GET_PROFILE_ERROR, error }))
 }
