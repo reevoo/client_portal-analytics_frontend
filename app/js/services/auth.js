@@ -1,37 +1,23 @@
-/* global fetch */
+/* global fetch, Request, Headers */
 import Cookies from 'js-cookie'
-import axios from 'axios'
-import { Promise } from 'es6-promise'
 import { CP_ADMIN_API, CP_ANALYTICS_URL, LOGIN_URL } from '../constants/app_constants'
 import { routeUtils } from '../helpers/router'
 
 const LOGIN_URL_WITH_REDIRECT = `${LOGIN_URL}?return_url=${CP_ANALYTICS_URL}`
 const REFRESH_TOKEN_URL = `${CP_ADMIN_API}api_session/refresh`
-const MAXIMUM_RESTARTED_REQUESTS = 5
+const MAXIMUM_RESTARTED_REQUESTS = 4
 
 let restartedRequests = []
 
-const refreshToken = () => {
-  return axios.post(REFRESH_TOKEN_URL, {
-    refresh_token: getRefreshToken(),
-  })
-}
+const refreshToken = () => post(REFRESH_TOKEN_URL, { refresh_token: getRefreshToken() })
 
-const redirectToLoginPage = () => {
-  routeUtils.redirectTo(LOGIN_URL_WITH_REDIRECT)
-}
+const redirectToLoginPage = () => routeUtils.redirectTo(LOGIN_URL_WITH_REDIRECT)
 
-const getAccessToken = () => {
-  return Cookies.get('accessToken')
-}
+const getAccessToken = () => Cookies.get('accessToken')
 
-const setAccessToken = (newToken) => {
-  Cookies.set('accessToken', newToken)
-}
+const setAccessToken = (newToken) => Cookies.set('accessToken', newToken)
 
-const getRefreshToken = () => {
-  return Cookies.get('refreshToken')
-}
+const getRefreshToken = () => Cookies.get('refreshToken')
 
 /* The access token is a JWT token, which is three strings separated by ".":
  *   <jwt_metadata>.<payload>.<signature>
@@ -43,39 +29,23 @@ const getRefreshToken = () => {
  * out in another tab. In this case, we want to go through the same refresh/redirect
  * process as resolveRejectedRequest
  */
-const currentUser = () => JSON.parse(window.atob(getAccessToken().split('.')[1]))
+export const currentUser = () => JSON.parse(window.atob(getAccessToken().split('.')[1]))
 
-const restartRequest = (response) => {
-  restartedRequests.push(response)
-
-  return axios.request({
-    method: response.config.method,
-    url: response.config.url,
-    data: response.data,
-  })
+const restartRequest = (request) => {
+  restartedRequests.push(request)
+  return makeRequest(new Request(request, {headers: {'Authorization': getAccessToken()}}))
 }
 
-const maximumRestartedRequests = () => {
-  return restartedRequests.length >= MAXIMUM_RESTARTED_REQUESTS
-}
+const maximumRestartedRequests = () => restartedRequests.length >= MAXIMUM_RESTARTED_REQUESTS
 
 /*
 * Clean the list of restarted requests except the calls to refresh token API endpoint
 * which is called before the request is restarted.
 */
 const cleanRestartedRequests = (response) => {
-  if (!response || response.config.url !== REFRESH_TOKEN_URL) {
+  if (!response || response.url.url !== REFRESH_TOKEN_URL) {
     restartedRequests = []
   }
-  return response
-}
-
-/*
-* Add authorization header to request.
-*/
-const addXHRHeaders = (request) => {
-  request.headers['Authorization'] = getAccessToken()
-  return request
 }
 
 /*
@@ -85,51 +55,47 @@ const addXHRHeaders = (request) => {
 * There can be a case when API keep returning 401 and this would lead to the infinite loop of ajax calls. For these reasons
 * we allow to repeat ajax calls just MAXIMUM_RESTARTED_REQUESTS times. If this limit exceed, the user is redirected to the login page.
 */
-const resolveRejectedRequest = (response) => {
-  if (response.status === 401) {
-    return refreshToken()
-      .catch(redirectToLoginPage)
-      .then((request) => {
-        if (maximumRestartedRequests()) { return redirectToLoginPage() }
-        setAccessToken(request.data.access_token)
-        return restartRequest(response)
-      })
+const resolveRejectedRequest = (request) => {
+  return refreshToken()
+  .then(parseJSON)
+  .then((refreshTokenResponse) => {
+    if (maximumRestartedRequests()) {
+      cleanRestartedRequests(request) // We need to clean the restarted requests to be able to test this
+      return redirectToLoginPage()
+    }
+    setAccessToken(refreshTokenResponse.access_token)
+    return restartRequest(request)
+  })
+  .catch(redirectToLoginPage)
+}
+
+const handleResponse = (request) => (response) => {
+  if (response.status >= 200 && response.status < 300) {
+    cleanRestartedRequests(response)
+    return response
+  } else if (response.status === 401) {
+    return resolveRejectedRequest(request)
   } else {
-    return Promise.reject(response)
+    var error = new Error(response.statusText)
+    error.response = response
+    throw error
   }
 }
 
-/*
-* Add authorization header to each request
-* Add callback for each unauthorized response.
-*/
-const addXHRInterceptor = () => {
-  cleanRestartedRequests()
+export const parseJSON = (response) => response.json()
 
-  /* WARNING/TODO: This is appending our access token to *ALL* AJAX requests, including
-   * those to third parties (e.g. tableau for the moment, but maybe others in the future...).
-   * We should change this to only handle this for our backend API's
-   */
-  axios.interceptors.request.use(
-    (request) => addXHRHeaders(request),
-    (error) => Promise.reject(error)
-  )
+const makeRequest = (url, opts) => {
+  const newOpts = { ...opts }
+  const accessToken = getAccessToken()
+  if (accessToken) {
+    newOpts.headers = new Headers({'Authorization': accessToken})
+  }
 
-  axios.interceptors.response.use(
-    (response) => cleanRestartedRequests(response),
-    (error) => resolveRejectedRequest(error)
-  )
+  const request = new Request(url, newOpts)
+
+  return fetch(request).then(handleResponse(request))
 }
 
-/*
-* The only interface exposed by the Auth module is init() function which is
-* alias for private addXHRInterceptor() function.
-*/
-const Auth = {
-  init: addXHRInterceptor,
-  currentUser: currentUser,
+export const get = (url) => makeRequest(url, { method: 'GET' })
 
-  get: (url) => fetch(url, {method: 'GET', headers: {'Authorization': getAccessToken()}}),
-}
-
-export default Auth
+export const post = (url, data) => makeRequest(url, { method: 'POST', body: JSON.stringify(data) })

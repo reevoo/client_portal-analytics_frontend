@@ -22,11 +22,6 @@ import LeftHandNavContainer from './containers/left_hand_nav_container'
 import DashboardPanelContainer from './containers/dashboard_panel_container'
 import FeedbackifyContainer from './containers/feedbackify_container'
 
-import Auth from './services/auth'
-
-// Initialize authorization
-Auth.init()
-
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin()
