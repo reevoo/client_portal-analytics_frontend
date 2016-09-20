@@ -1,7 +1,8 @@
 import { connect } from 'react-redux'
 import DashboardPanel from '../components/dashboard_panel/dashboard_panel.jsx'
-import { getDashboardToken } from '../actions/dashboards'
+import { getDashboardToken, initTableauDashboard } from '../actions/dashboards'
 import React, { Component, PropTypes } from 'react'
+import { findDOMNode } from 'react-dom'
 
 class DashboardPanelContainer extends Component {
   componentWillMount () {
@@ -16,20 +17,21 @@ class DashboardPanelContainer extends Component {
       this.props.getDashboardToken()
       return false
     }
+
     return true
   }
 
-  render () {
-    const { leftHandNavVisible, selectedDashboard, token, userId } = this.props
+  componentDidUpdate () {
+    const dashboardNode = findDOMNode(this)
+    const { initTableauDashboard, token, selectedDashboard, userId } = this.props
 
-    return (
-      <DashboardPanel
-        leftHandNavVisible={leftHandNavVisible}
-        dashboard={selectedDashboard}
-        token={token}
-        userId={userId}
-      />
-    )
+    if (dashboardNode) {
+      initTableauDashboard(dashboardNode, token, selectedDashboard.views[0].replace('sheets/', ''), userId)
+    }
+  }
+
+  render () {
+    return <DashboardPanel leftHandNavVisible={this.props.leftHandNavVisible} />
   }
 }
 
@@ -40,11 +42,11 @@ DashboardPanelContainer.propTypes = {
   userId: PropTypes.string,
   // Actions
   getDashboardToken: PropTypes.func.isRequired,
+  initTableauDashboard: PropTypes.func.isRequired,
 }
 
-const getSelectedDashboardById = (dashboards, id) => {
-  return dashboards.filter((dashboard) => dashboard.id === id)[0]
-}
+const getSelectedDashboardById = (dashboards, id) =>
+  dashboards.filter((dashboard) => dashboard.id === id)[0]
 
 const mapStateToProps = ({ analyticsApp, router }) => ({
   leftHandNavVisible: analyticsApp.leftHandNavVisible,
@@ -55,5 +57,5 @@ const mapStateToProps = ({ analyticsApp, router }) => ({
 
 export default connect(
   mapStateToProps,
-  { getDashboardToken }
+  { getDashboardToken, initTableauDashboard }
 )(DashboardPanelContainer)

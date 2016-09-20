@@ -83,6 +83,8 @@ export const analyticsApp = (state = initialState, action) => {
       return { ...state, dashboards, selectedDashboard: dashboards[0] }
     case actionTypes.GET_DASHBOARD_TOKEN_SUCCESS:
       return { ...state, token: action.payload.token }
+    case actionTypes.GET_TABLEAU_API_FOR_DASHBOARD:
+      return { ...state, tableauAPI: action.payload }
     case actionTypes.SELECT_DASHBOARD:
       return { ...state, selectedDashboard: action.dashboard }
     case actionTypes.SHOW_HEADER_MODULES:
