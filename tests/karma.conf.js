@@ -19,6 +19,7 @@ module.exports = function (config, testType) {
     frameworks: ['jasmine-ajax', 'jasmine'],
 
     files: [
+      'node_modules/whatwg-fetch/fetch.js',
       `tests/${testType}/**/*.js`,
     ],
 

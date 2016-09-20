@@ -1,12 +1,12 @@
 import * as actionTypes from '../constants/action_types'
-import Auth from '../services/auth'
+import { currentUser } from '../services/auth'
 
 export function hideHeaderModules () {
   return { type: actionTypes.HIDE_HEADER_MODULES }
 }
 
 export function showHeaderModules () {
-  return { type: actionTypes.SHOW_HEADER_MODULES, payload: Auth.currentUser().accessible_modules }
+  return { type: actionTypes.SHOW_HEADER_MODULES, payload: currentUser().accessible_modules }
 }
 
 export function toggleLeftHandNav () {
