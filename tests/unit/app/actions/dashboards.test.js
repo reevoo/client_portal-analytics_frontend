@@ -1,5 +1,5 @@
 import fetchMock from 'fetch-mock'
-import { getDashboardToken, loadDashboards, selectDashboard, initTableauDashboard, __RewireAPI__ as DashboardRewireAPI } from 'app/js/actions/dashboards'
+import { getDashboardToken, loadDashboards, initTableauDashboard, __RewireAPI__ as DashboardRewireAPI } from 'app/js/actions/dashboards'
 import * as actionTypes from 'app/js/constants/action_types'
 import { createMockStore } from 'tests/helpers/store_helpers'
 import { CP_ANALYTICS_API, TABLEAU_HOST, TABLEAU_GATEWAY_API } from 'app/js/constants/app_constants'
@@ -96,21 +96,6 @@ describe('actions', () => {
           expect(store.getActions()).toEqual(expectedActions)
           done()
         })
-    })
-  })
-
-  describe('selectDashboard', () => {
-    it('dispatches the action with the passed dashboard', () => {
-      const expectedActions = [
-        {
-          type: actionTypes.SELECT_DASHBOARD,
-          dashboard: 'dashboard_1',
-        },
-      ]
-
-      const store = createMockStore({})
-      store.dispatch(selectDashboard('dashboard_1'))
-      expect(store.getActions()).toEqual(expectedActions)
     })
   })
 
