@@ -147,4 +147,22 @@ describe('reducers', () => {
       )
     })
   })
+
+  describe('GET_TABLEAU_API_FOR_DASHBOARD', () => {
+    it('adds a tableauAPI object to the state', () => {
+      expect(
+        analyticsApp(
+          {},
+          {
+            type: actionTypes.GET_TABLEAU_API_FOR_DASHBOARD,
+            payload: {dispose: 'fake method'},
+          }
+        )
+      ).toEqual(
+        {
+          tableauAPI: {dispose: 'fake method'},
+        }
+      )
+    })
+  })
 })

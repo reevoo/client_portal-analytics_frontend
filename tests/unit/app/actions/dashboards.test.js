@@ -1,8 +1,8 @@
 import fetchMock from 'fetch-mock'
-import * as actions from 'app/js/actions/dashboards'
+import { getDashboardToken, loadDashboards, selectDashboard, initTableauDashboard, __RewireAPI__ as DashboardRewireAPI } from 'app/js/actions/dashboards'
 import * as actionTypes from 'app/js/constants/action_types'
 import { createMockStore } from 'tests/helpers/store_helpers'
-import { CP_ANALYTICS_API, TABLEAU_GATEWAY_API } from 'app/js/constants/app_constants'
+import { CP_ANALYTICS_API, TABLEAU_HOST, TABLEAU_GATEWAY_API } from 'app/js/constants/app_constants'
 
 describe('actions', () => {
   beforeEach(fetchMock.restore)
@@ -17,7 +17,7 @@ describe('actions', () => {
       ]
       const store = createMockStore({})
 
-      store.dispatch(actions.getDashboardToken())
+      store.dispatch(getDashboardToken())
         .then(() => {
           expect(store.getActions()).toEqual(expectedActions)
           done()
@@ -33,7 +33,7 @@ describe('actions', () => {
       ]
       const store = createMockStore({})
 
-      store.dispatch(actions.getDashboardToken())
+      store.dispatch(getDashboardToken())
         .then(() => {
           expect(store.getActions()).toEqual(expectedActions)
           done()
@@ -54,7 +54,7 @@ describe('actions', () => {
       ]
       const store = createMockStore({router: {params: {id: '1'}}})
 
-      store.dispatch(actions.loadDashboards(['dashboard_1', 'dashboard_2']))
+      store.dispatch(loadDashboards(['dashboard_1', 'dashboard_2']))
         .then(() => {
           expect(store.getActions()).toEqual(expectedActions)
           done()
@@ -72,7 +72,7 @@ describe('actions', () => {
         {type: actionTypes.GET_DASHBOARDS_NAMES_ERROR, error: 'error string'},
       ]
       const store = createMockStore({})
-      store.dispatch(actions.loadDashboards(['dashboard_1', 'dashboard_2']))
+      store.dispatch(loadDashboards(['dashboard_1', 'dashboard_2']))
         .then(() => {
           expect(store.getActions()).toEqual(expectedActions)
           done()
@@ -90,8 +90,48 @@ describe('actions', () => {
       ]
 
       const store = createMockStore({})
-      store.dispatch(actions.selectDashboard('dashboard_1'))
+      store.dispatch(selectDashboard('dashboard_1'))
       expect(store.getActions()).toEqual(expectedActions)
+    })
+  })
+
+  describe('initTableauDashboard', () => {
+    it('dispatches the action with the passed dashboard when there is not an existing dashboard in the state', () => {
+      const expectedActions = [
+        {
+          type: actionTypes.GET_TABLEAU_API_FOR_DASHBOARD,
+          payload: jasmine.anything(),
+        },
+      ]
+      const tableauSpy = { Viz: jasmine.createSpy('Viz') }
+
+      DashboardRewireAPI.__Rewire__('tableau', tableauSpy)
+
+      const store = createMockStore({ analyticsApp: {} })
+      store.dispatch(initTableauDashboard('node', 'token', 'viewId', 'userId'))
+
+      expect(store.getActions()).toEqual(expectedActions)
+      expect(tableauSpy.Viz).toHaveBeenCalledWith('node', `${TABLEAU_HOST}trusted/token/views/viewId?:embed=yes&:toolbar=no&:showShareOptions=no&:record_performance=yes&UUID=userId`)
+    })
+
+    it('dispatches the action with the passed dashboard when there is an existing dashboard in the state and calls dispose on it', () => {
+      const expectedActions = [
+        {
+          type: actionTypes.GET_TABLEAU_API_FOR_DASHBOARD,
+          payload: jasmine.anything(),
+        },
+      ]
+      const tableauSpy = { Viz: jasmine.createSpy('Viz') }
+
+      DashboardRewireAPI.__Rewire__('tableau', tableauSpy)
+
+      const currentTableauAPISpy = { dispose: jasmine.createSpy('dispose') }
+      const store = createMockStore({ analyticsApp: { tableauAPI: currentTableauAPISpy } })
+      store.dispatch(initTableauDashboard('node', 'token', 'viewId', 'userId'))
+
+      expect(currentTableauAPISpy.dispose).toHaveBeenCalled()
+      expect(store.getActions()).toEqual(expectedActions)
+      expect(tableauSpy.Viz).toHaveBeenCalledWith('node', `${TABLEAU_HOST}trusted/token/views/viewId?:embed=yes&:toolbar=no&:showShareOptions=no&:record_performance=yes&UUID=userId`)
     })
   })
 })
