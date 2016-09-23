@@ -111,7 +111,11 @@ describe('actions', () => {
       store.dispatch(initTableauDashboard('node', 'token', 'viewId', 'userId'))
 
       expect(store.getActions()).toEqual(expectedActions)
-      expect(tableauSpy.Viz).toHaveBeenCalledWith('node', `${TABLEAU_HOST}trusted/token/views/viewId?:embed=yes&:toolbar=no&:showShareOptions=no&:record_performance=yes&UUID=userId`)
+      expect(tableauSpy.Viz).toHaveBeenCalledWith(
+        'node',
+        `${TABLEAU_HOST}trusted/token/views/viewId?:embed=yes&:toolbar=no&:showShareOptions=no&:record_performance=yes&UUID=userId`,
+        jasmine.any(Object)
+      )
     })
 
     it('dispatches the action with the passed dashboard when there is an existing dashboard in the state and calls dispose on it', () => {
@@ -131,7 +135,11 @@ describe('actions', () => {
 
       expect(currentTableauAPISpy.dispose).toHaveBeenCalled()
       expect(store.getActions()).toEqual(expectedActions)
-      expect(tableauSpy.Viz).toHaveBeenCalledWith('node', `${TABLEAU_HOST}trusted/token/views/viewId?:embed=yes&:toolbar=no&:showShareOptions=no&:record_performance=yes&UUID=userId`)
+      expect(tableauSpy.Viz).toHaveBeenCalledWith(
+        'node',
+        `${TABLEAU_HOST}trusted/token/views/viewId?:embed=yes&:toolbar=no&:showShareOptions=no&:record_performance=yes&UUID=userId`,
+        jasmine.any(Object)
+      )
     })
   })
 })
