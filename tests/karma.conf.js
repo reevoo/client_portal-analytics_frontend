@@ -66,6 +66,7 @@ module.exports = function (config, testType) {
         'react/addons': true,
         'react/lib/ExecutionEnvironment': true,
         'react/lib/ReactContext': true,
+        'tableau': 'window',
       },
     },
 

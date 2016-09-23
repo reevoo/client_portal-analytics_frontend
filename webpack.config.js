@@ -54,10 +54,14 @@ const common = {
       filename: 'index.html',
       title: 'Awesome Analytics app',
       template: TEMPLATES_PATH + '/index.html',
+      tableauUrl: `${process.env.TABLEAU_HOST}javascripts/api/tableau-2.js`,
     }),
   ],
   resolve: {
     extensions: ['', '.js', '.jsx'],
+  },
+  externals: {
+    'tableau': 'tableau',
   },
 }
 

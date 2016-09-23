@@ -1,6 +1,8 @@
 import { push } from 'redux-router'
+import tableau from 'tableau'
 import { getTableauToken } from '../services/cp_analytics_api_client'
 import { getWorkbooks } from '../services/tableau_gateway_api_client'
+import { TABLEAU_HOST } from '../constants/app_constants'
 import * as actionTypes from '../constants/action_types'
 
 export const getDashboardToken = () => (dispatch) => {
@@ -25,3 +27,13 @@ export const loadDashboards = (dashboardIds) => (dispatch, getState) => {
 
 export const selectDashboard = (dashboard) => (dispatch) =>
   dispatch({ type: actionTypes.SELECT_DASHBOARD, dashboard })
+
+export const initTableauDashboard = (node, token, viewId, userId) => (dispatch, getState) => {
+  const currentTableauAPI = getState().analyticsApp.tableauAPI
+  // If there is an existing dashboard loaded, we need to call `dispose` to reuse the same DOM node
+  if (currentTableauAPI) {
+    currentTableauAPI.dispose()
+  }
+  const tableauAPI = new tableau.Viz(node, `${TABLEAU_HOST}trusted/${token}/views/${viewId}?:embed=yes&:toolbar=no&:showShareOptions=no&:record_performance=yes&UUID=${userId}`)
+  dispatch({ type: actionTypes.GET_TABLEAU_API_FOR_DASHBOARD, payload: tableauAPI })
+}
