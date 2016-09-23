@@ -34,6 +34,13 @@ export const initTableauDashboard = (node, token, viewId, userId) => (dispatch, 
   if (currentTableauAPI) {
     currentTableauAPI.dispose()
   }
-  const tableauAPI = new tableau.Viz(node, `${TABLEAU_HOST}trusted/${token}/views/${viewId}?:embed=yes&:toolbar=no&:showShareOptions=no&:record_performance=yes&UUID=${userId}`)
+  const tableauAPI = new tableau.Viz(
+    node,
+    `${TABLEAU_HOST}trusted/${token}/views/${viewId}?:embed=yes&:toolbar=no&:showShareOptions=no&:record_performance=yes&UUID=${userId}`,
+    {
+      height: '2500px',
+      width: '1000px',
+    }
+  )
   dispatch({ type: actionTypes.GET_TABLEAU_API_FOR_DASHBOARD, payload: tableauAPI })
 }
