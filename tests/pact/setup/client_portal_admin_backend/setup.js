@@ -24,7 +24,7 @@ const setup = (mockService) => {
         surname: null,
         job_title: null,
         phone: null,
-        client_id: null,
+        client_id: like('11111111-1111-1111-1111-111111111111'),
         login_state: like('enabled'),
         last_login: like('2016-09-14T14:14:30.842+01:00'),
         created_at: like('2016-08-03T14:18:32.213+01:00'),
@@ -39,16 +39,16 @@ const setup = (mockService) => {
         },
         client_modules_override: null,
         client_dashboards_override: null,
-        client: null,
+        client: {},
         permissions: eachLike({
           id: like('11111111-1111-1111-1111-111111111111'),
           name: like('list'),
           namespace: like('clients'),
           application: like('admin'),
         }),
-        trkref_names: [],
-        trkref_review_tags: [],
-        client_users_accessible_modules: null,
+        trkref_names: {},
+        trkref_review_tags: {},
+        client_users_accessible_modules: eachLike('analytics'),
         client_users_accessible_dashboards: eachLike('11111111-1111-1111-1111-111111111111'),
         data_permissions: {
           fastResponse: {
@@ -57,7 +57,7 @@ const setup = (mockService) => {
             category: [],
           },
           analytics: {
-            workbooks: [],
+            workbooks: eachLike('11111111-1111-1111-1111-111111111111'),
           },
         },
         user_preferences: {},
