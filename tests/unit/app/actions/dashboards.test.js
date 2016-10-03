@@ -61,6 +61,25 @@ describe('actions', () => {
         })
     })
 
+    it('executes the async flow with a successful ajax request and null values on the response', (done) => {
+      fetchMock.get(
+        `${TABLEAU_GATEWAY_API}workbooks?ids[]=dashboard_1&ids[]=dashboard_2&ids[]=dashboard_3`,
+        ['dashboard_1', null, 'dashboard_3']
+      )
+
+      const expectedActions = [
+        {type: actionTypes.GET_DASHBOARDS_NAMES},
+        {type: actionTypes.GET_DASHBOARDS_NAMES_SUCCESS, payload: ['dashboard_1', 'dashboard_3']},
+      ]
+      const store = createMockStore({router: {params: {id: '1'}}})
+
+      store.dispatch(loadDashboards(['dashboard_1', 'dashboard_2', 'dashboard_3']))
+        .then(() => {
+          expect(store.getActions()).toEqual(expectedActions)
+          done()
+        })
+    })
+
     it('executes the async flow with a failing ajax request', (done) => {
       fetchMock.get(
         `${TABLEAU_GATEWAY_API}workbooks?ids[]=dashboard_1&ids[]=dashboard_2`,

@@ -15,10 +15,13 @@ export const getDashboardToken = () => (dispatch) => {
 export const loadDashboards = (dashboardIds) => (dispatch, getState) => {
   dispatch({ type: actionTypes.GET_DASHBOARDS_NAMES })
   return getWorkbooks(dashboardIds)
-    .then((dashboards) => {
+    .then((responseDashboards) => {
+      // The API might return null values inside the array, so we need to filter them
+      const dashboards = responseDashboards.filter((dashboard) => !!dashboard)
+
       dispatch({ type: actionTypes.GET_DASHBOARDS_NAMES_SUCCESS, payload: dashboards })
       // We need to change the url in the initial load if there is none in the current url
-      if (!getState().router.params.id) {
+      if (dashboards.length > 0 && !getState().router.params.id) {
         dispatch(push({ pathname: `/dashboards/${dashboards[0].id}` }))
       }
     })
