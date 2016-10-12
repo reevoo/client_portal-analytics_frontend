@@ -1,6 +1,5 @@
 import fetchMock from 'fetch-mock'
 import Cookies from 'js-cookie'
-import { Promise } from 'es6-promise'
 import { get, __RewireAPI__ as AuthRewireAPI } from 'app/js/services/auth'
 import { CP_ADMIN_API, CP_ANALYTICS_URL, LOGIN_URL } from 'app/js/constants/app_constants'
 

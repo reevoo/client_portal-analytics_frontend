@@ -1,5 +1,4 @@
 import { getProfile } from 'app/js/services/cp_admin_api_client'
-import { Promise } from 'es6-promise'  // eslint-disable-line
 
 describe('CPAdminAPIClient', () => {
   it('#getProfile returns an object containing a user profile', (done) => {

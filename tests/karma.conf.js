@@ -20,6 +20,7 @@ module.exports = function (config, testType) {
 
     files: [
       'node_modules/whatwg-fetch/fetch.js',
+      'node_modules/babel-polyfill/dist/polyfill.js',
       `tests/${testType}/**/*.js`,
     ],
 

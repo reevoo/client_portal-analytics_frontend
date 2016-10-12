@@ -75,11 +75,12 @@ export const analyticsApp = (state = initialState, action) => {
     case actionTypes.TOGGLE_LEFT_HAND_NAV:
       return { ...state, leftHandNavVisible: !state.leftHandNavVisible }
 
-    case actionTypes.GET_PROFILE_SUCCESS:
-      return { ...state, profile: { ...action.payload } }
-
-    case actionTypes.GET_DASHBOARDS_NAMES_SUCCESS:
-      return { ...state, dashboards: [...action.payload] }
+    case actionTypes.GET_PROFILE_AND_DASHBOARDS_SUCCESS:
+      return {
+        ...state,
+        profile: { ...action.payload.profile },
+        dashboards: [ ...action.payload.dashboards ],
+      }
 
     case actionTypes.GET_TABLEAU_API_FOR_DASHBOARD:
       return {
