@@ -120,7 +120,11 @@ export const createTableauAPI = ({ userId, token, viewId, onLoad }) => {
   const tableauAPI = new tableau.Viz(
     getDashboardNode(),
     getDashboardUrl({ userId, token, viewId }),
-    { onFirstInteractive: () => getParametersAndFilters(tableauAPI.getWorkbook()).then(onLoad) }
+    {
+      height: '2500px',
+      width: '1000px',
+      onFirstInteractive: () => getParametersAndFilters(tableauAPI.getWorkbook()).then(onLoad),
+    }
   )
 
   return tableauAPI

@@ -71,7 +71,11 @@ describe('createTableauAPI', () => {
     expect(tableauVizSpy).toHaveBeenCalledWith(
       htmlNodeMock,
       jasmine.any(String),
-      jasmine.objectContaining({ onFirstInteractive: jasmine.any(Function) })
+      jasmine.objectContaining({
+        height: '2500px',
+        width: '1000px',
+        onFirstInteractive: jasmine.any(Function),
+      })
     )
   })
 })
