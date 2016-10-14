@@ -63,8 +63,9 @@ const dashboardFiltersStyle = {
   marginBottom: '30px',
 }
 
-const DashboardFilters = ({ filters, changeFilter }) => (
-  <Card style={dashboardFiltersStyle}>
+// TODO: The check for filters length is a temporal solution until we have the final Tableau dashboards setup
+const DashboardFilters = ({ filters, changeFilter }) => filters.length > 0
+  ? <Card style={dashboardFiltersStyle}>
     <CardText>
       {filters.map(({ name, allowedValues, selectedValue }) => {
         const FilterType = Array.isArray(selectedValue) ? MultipleFilter : DropdownFilter
@@ -79,7 +80,7 @@ const DashboardFilters = ({ filters, changeFilter }) => (
       })}
     </CardText>
   </Card>
-)
+  : null
 
 DashboardFilters.propTypes = {
   filters: PropTypes.array.isRequired,

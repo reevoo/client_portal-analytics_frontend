@@ -101,10 +101,15 @@ const getFilters = (workbook) => getWorkbookFilters(workbook).then((tableauFilte
 /**
  * Returns formatted tableau parameters and tableau filters as application filters
  */
-export const getParametersAndFilters = (workbook) => Promise.all([
-  getParameters(workbook),
-  getFilters(workbook),
-]).then(([parameters, filters]) => ([...parameters, ...filters]))
+export const getParametersAndFilters = (workbook) => {
+  // TODO: This is a temporal solution until we have all the dashboards with their proper setup on Tableau
+  return workbook.getName() === 'Customer_Experience_JavaScipt'
+    ? Promise.all([
+      getParameters(workbook),
+      getFilters(workbook),
+    ]).then(([parameters, filters]) => ([...parameters, ...filters]))
+    : Promise.resolve([])
+}
 
 export const setFilterValue = (workbook, filter, filterValue) =>
   filter.tableauType === TableauTypes.PARAMETER

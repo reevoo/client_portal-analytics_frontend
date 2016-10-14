@@ -14,7 +14,9 @@ describe('getParametersAndFilters', () => {
     const getParametersMock = () => Promise.resolve([ { name: 'paramA' }, { name: 'paramB' } ])
     TableauRewireAPI.__Rewire__('getParameters', getParametersMock)
 
-    getParametersAndFilters().then((filters) => {
+    const workbookMock = { getName: () => 'Customer_Experience_JavaScipt' }
+
+    getParametersAndFilters(workbookMock).then((filters) => {
       expect(filters).toEqual([ { name: 'paramA' }, { name: 'paramB' }, { name: 'filterA' } ])
     }).then(done)
   })
