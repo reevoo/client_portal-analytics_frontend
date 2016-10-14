@@ -3,7 +3,7 @@ import { TABLEAU_HOST } from '../constants/app_constants'
 
 const TABLEAU_SUPPORT_WORKSHEET = 'Settings'
 
-const TableauTypes = {
+export const TableauTypes = {
   FILTER: 'FILTER',
   PARAMETER: 'PARAMETER',
 }
