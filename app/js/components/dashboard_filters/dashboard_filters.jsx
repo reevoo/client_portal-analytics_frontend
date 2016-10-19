@@ -4,31 +4,15 @@ import Checkbox from 'material-ui/Checkbox'
 import Chip from 'material-ui/Chip'
 import Dialog from 'material-ui/Dialog'
 import DropDownMenu from 'material-ui/DropDownMenu'
-import FlatButton from 'material-ui/FlatButton'
 import FontIcon from 'material-ui/FontIcon'
 import MenuItem from 'material-ui/MenuItem'
+
+import ClientPortalDialog from '../client_portal_dialog/client_portal_dialog'
 
 import './dashboard_filters.scss'
 import colours from '!!sass-variable-loader!client_portal-assets/dist/sass/colours.scss' // Load Reevoo colour variables
 
 console.log(colours)
-
-const dialogTitleStyle = {
-  backgroundColor: colours.darkSkyBlue,
-  color: '#fff',
-  fontSize: '20px',
-  fontWeight: 'normal',
-  padding: '18px 30px',
-}
-
-const dialogBodyStyle = {
-  padding: '25px 30px',
-}
-
-const dialogActionsContainerStyle = {
-  borderTop: '1px solid #dbdbdb',
-  textAlign: 'left',
-}
 
 class RadioGroup extends Component {
   constructor (props) {
@@ -107,18 +91,11 @@ class DateRangeDialog extends Component {
     ]
 
     return (
-      <Dialog
-        title='Select a date range'
-        titleStyle={dialogTitleStyle}
-        actions={[
-          <FlatButton label='Apply' onTouchTap={this.handleApply} />,
-          <FlatButton label='Cancel' onTouchTap={onCancel} />,
-        ]}
-        actionsContainerStyle={dialogActionsContainerStyle}
-        bodyStyle={dialogBodyStyle}
-        modal={false}
+      <ClientPortalDialog
         open={open}
-        onRequestClose={onCancel}
+        title='Select a date range'
+        onApply={this.handleApply}
+        onCancel={onCancel}
       >
         <h6 className='dialog__section-title'>Select a date range</h6>
 
@@ -128,7 +105,7 @@ class DateRangeDialog extends Component {
           defaultValue={selectedValue}
           onChange={this.handleDateRangeChange}
           />
-      </Dialog>
+      </ClientPortalDialog>
     )
   }
 }
@@ -139,6 +116,12 @@ DateRangeDialog.propTypes = {
   onCancel: PropTypes.func.isRequired,
   selectedValue: PropTypes.string,
 }
+
+// class RetailerTrkrefDialog extends Component {
+//   render () {
+//
+//   }
+// }
 
 const filterChip = {
   borderColor: '#dedede',
