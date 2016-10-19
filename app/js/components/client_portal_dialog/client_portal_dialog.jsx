@@ -23,6 +23,14 @@ const dialogActionsContainerStyle = {
   textAlign: 'left',
 }
 
+const ClientPortalDialogSectionTitle = ({ title }) => (
+  <h6 className='dialog__section-title'>{title}</h6>
+)
+
+ClientPortalDialogSectionTitle.propTypes = {
+  title: PropTypes.string.isRequired,
+}
+
 const ClientPortalDialog = ({ children, open, title, onApply, onCancel }) => (
   <Dialog
     title={title}
@@ -52,4 +60,4 @@ ClientPortalDialog.propTypes = {
   onCancel: PropTypes.func.isRequired,
 }
 
-export default ClientPortalDialog
+export { ClientPortalDialog, ClientPortalDialogSectionTitle }
