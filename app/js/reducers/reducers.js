@@ -96,7 +96,7 @@ export const analyticsApp = (state = initialState, action) => {
           ...state.workbook,
           filters: state.workbook.filters.map((filter) => ({
             ...filter,
-            value: action.payload.name === filter.name ? action.payload.value : filter.value,
+            selectedValue: action.payload.name === filter.name ? action.payload.value : filter.selectedValue,
           })),
         },
       }
