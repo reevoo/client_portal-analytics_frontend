@@ -23,6 +23,9 @@ const rvMuiTheme = getMuiTheme({
   appBar: {
     color: colours.reevooOrange,
   },
+  palette: {
+    primary1Color: colours.darkSkyBlue,
+  },
   fontFamily: 'Open Sans, sans-serif',
   zIndex: {
     appBar: 1350, // Puts us over the left hand nav

@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import Checkbox from 'material-ui/Checkbox'
 
+import './checklist.scss'
+
 class Checklist extends Component {
   constructor (props) {
     super(props)
@@ -26,9 +28,9 @@ class Checklist extends Component {
     const selectedValues = this.state.values
 
     return (
-      <ul>
+      <ul className='checklist'>
         {allowedValues.map((value) =>
-          <li key={value}>
+          <li key={value} className='checklist__item'>
             <Checkbox
               key={value}
               label={value}

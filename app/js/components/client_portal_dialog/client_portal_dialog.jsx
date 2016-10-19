@@ -36,7 +36,7 @@ const ClientPortalDialog = ({ children, open, title, onApply, onCancel }) => (
     title={title}
     titleStyle={dialogTitleStyle}
     actions={[
-      <FlatButton label='Apply' onTouchTap={onApply} />,
+      <FlatButton label='Apply' onTouchTap={onApply} primary={true} />,
       <FlatButton label='Cancel' onTouchTap={onCancel} />,
     ]}
     actionsContainerStyle={dialogActionsContainerStyle}

@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 
+import './square_radio_group.scss'
+
 class SquareRadioGroup extends Component {
   constructor (props) {
     super(props)
