@@ -11,8 +11,6 @@ const initialState = {
   accessibleModules: [],
   profile: null,
   dashboards: [],
-  selectedDashboard: null,
-  token: null,
 }
 
 import adminImagePath from 'client_portal-assets/dist/images/app_icons/large/admin.png'
@@ -76,25 +74,43 @@ export const analyticsApp = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.TOGGLE_LEFT_HAND_NAV:
       return { ...state, leftHandNavVisible: !state.leftHandNavVisible }
-    case actionTypes.GET_PROFILE_SUCCESS:
-      return { ...state, profile: { ...action.payload } }
-    case actionTypes.GET_DASHBOARDS_NAMES_SUCCESS:
-      const dashboards = [...action.payload]
-      return { ...state, dashboards, selectedDashboard: dashboards[0] }
-    case actionTypes.GET_DASHBOARD_TOKEN_SUCCESS:
-      return { ...state, token: action.payload.token }
+
+    case actionTypes.GET_PROFILE_AND_DASHBOARDS_SUCCESS:
+      return {
+        ...state,
+        profile: { ...action.payload.profile },
+        dashboards: [ ...action.payload.dashboards ],
+      }
+
     case actionTypes.GET_TABLEAU_API_FOR_DASHBOARD:
-      return { ...state, tableauAPI: action.payload }
-    case actionTypes.SELECT_DASHBOARD:
-      return { ...state, selectedDashboard: action.dashboard }
+      return {
+        ...state,
+        tableauAPI: action.payload.tableauAPI,
+        workbook: action.payload.workbook,
+      }
+
+    case actionTypes.SET_DASHBOARD_FILTER:
+      return {
+        ...state,
+        workbook: {
+          ...state.workbook,
+          filters: state.workbook.filters.map((filter) => ({
+            ...filter,
+            value: action.payload.name === filter.name ? action.payload.value : filter.value,
+          })),
+        },
+      }
+
     case actionTypes.SHOW_HEADER_MODULES:
       return {
         ...state,
         headerModulesVisible: true,
         accessibleModules: modules(action.payload),
       }
+
     case actionTypes.HIDE_HEADER_MODULES:
       return { ...state, headerModulesVisible: false }
+
     default:
       return state
   }

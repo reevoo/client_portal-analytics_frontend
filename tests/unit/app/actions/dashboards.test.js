@@ -1,164 +1,176 @@
-import fetchMock from 'fetch-mock'
-import { getDashboardToken, loadDashboards, selectDashboard, initTableauDashboard, __RewireAPI__ as DashboardRewireAPI } from 'app/js/actions/dashboards'
+import {
+  changeFilter,
+  getProfileAndDashboards,
+  getSelectedDashboardById,
+  loadTableauDashboard,
+  __RewireAPI__ as DashboardRewireAPI,
+} from 'app/js/actions/dashboards'
 import * as actionTypes from 'app/js/constants/action_types'
 import { createMockStore } from 'tests/helpers/store_helpers'
-import { CP_ANALYTICS_API, TABLEAU_HOST, TABLEAU_GATEWAY_API } from 'app/js/constants/app_constants'
 
 describe('actions', () => {
-  beforeEach(fetchMock.restore)
+  describe('getProfileAndDashboards', () => {
+    const profile = { name: 'User name', client_users_accessible_dashboards: [1, 2] }
+    const dashboards = [ { id: 1 }, { id: 2 } ]
 
-  describe('getDashboardToken', () => {
-    it('executes the async flow with a successful ajax request', (done) => {
-      fetchMock.get(`${CP_ANALYTICS_API}tableau/token`, {data: 'test_data'})
-
-      const expectedActions = [
-        {type: actionTypes.GET_DASHBOARD_TOKEN},
-        {type: actionTypes.GET_DASHBOARD_TOKEN_SUCCESS, payload: {data: 'test_data'}},
-      ]
-      const store = createMockStore({})
-
-      store.dispatch(getDashboardToken())
-        .then(() => {
-          expect(store.getActions()).toEqual(expectedActions)
-          done()
-        })
+    beforeEach(() => {
+      const getProfileMock = () => Promise.resolve(profile)
+      DashboardRewireAPI.__Rewire__('getProfile', getProfileMock)
     })
 
-    it('executes the async flow with a failing ajax request', (done) => {
-      fetchMock.get(`${CP_ANALYTICS_API}tableau/token`, { status: 500, throws: 'error string' })
+    it('successfully retrieves the user profile and the dashboards from the backend', (done) => {
+      const getWorkbooksMock = () => Promise.resolve(dashboards)
+      DashboardRewireAPI.__Rewire__('getWorkbooks', getWorkbooksMock)
+
+      const store = createMockStore({
+        analyticsApp: {},
+        router: { params: { id: '1' } },
+      })
 
       const expectedActions = [
-        {type: actionTypes.GET_DASHBOARD_TOKEN},
-        {type: actionTypes.GET_DASHBOARD_TOKEN_ERROR, error: 'error string'},
+        { type: actionTypes.GET_PROFILE_AND_DASHBOARDS },
+        { type: actionTypes.GET_PROFILE_AND_DASHBOARDS_SUCCESS, payload: { profile, dashboards } },
       ]
-      const store = createMockStore({})
 
-      store.dispatch(getDashboardToken())
-        .then(() => {
-          expect(store.getActions()).toEqual(expectedActions)
-          done()
-        })
-    })
-  })
-
-  describe('loadDashboards', () => {
-    it('executes the async flow with a successful ajax request', (done) => {
-      fetchMock.get(
-        `${TABLEAU_GATEWAY_API}workbooks?ids[]=dashboard_1&ids[]=dashboard_2`,
-        ['dashboard_1', 'dashboard_2']
-      )
-
-      const expectedActions = [
-        {type: actionTypes.GET_DASHBOARDS_NAMES},
-        {type: actionTypes.GET_DASHBOARDS_NAMES_SUCCESS, payload: ['dashboard_1', 'dashboard_2']},
-      ]
-      const store = createMockStore({router: {params: {id: '1'}}})
-
-      store.dispatch(loadDashboards(['dashboard_1', 'dashboard_2']))
-        .then(() => {
-          expect(store.getActions()).toEqual(expectedActions)
-          done()
-        })
+      store.dispatch(getProfileAndDashboards()).then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      }).then(done)
     })
 
-    it('executes the async flow with a successful ajax request and null values on the response', (done) => {
-      fetchMock.get(
-        `${TABLEAU_GATEWAY_API}workbooks?ids[]=dashboard_1&ids[]=dashboard_2&ids[]=dashboard_3`,
-        ['dashboard_1', null, 'dashboard_3']
-      )
+    it('successfully retrieves the user profile and the dashboards from the backend, ignoring null values on the dashboards', (done) => {
+      const getWorkbooksMock = () => Promise.resolve([ dashboards[0], null, dashboards[1] ])
+      DashboardRewireAPI.__Rewire__('getWorkbooks', getWorkbooksMock)
+
+      const store = createMockStore({
+        analyticsApp: {},
+        router: { params: { id: '1' } },
+      })
 
       const expectedActions = [
-        {type: actionTypes.GET_DASHBOARDS_NAMES},
-        {type: actionTypes.GET_DASHBOARDS_NAMES_SUCCESS, payload: ['dashboard_1', 'dashboard_3']},
+        { type: actionTypes.GET_PROFILE_AND_DASHBOARDS },
+        { type: actionTypes.GET_PROFILE_AND_DASHBOARDS_SUCCESS, payload: { profile, dashboards } },
       ]
-      const store = createMockStore({router: {params: {id: '1'}}})
 
-      store.dispatch(loadDashboards(['dashboard_1', 'dashboard_2', 'dashboard_3']))
-        .then(() => {
-          expect(store.getActions()).toEqual(expectedActions)
-          done()
-        })
+      store.dispatch(getProfileAndDashboards()).then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      }).then(done)
     })
 
-    it('executes the async flow with a failing ajax request', (done) => {
-      fetchMock.get(
-        `${TABLEAU_GATEWAY_API}workbooks?ids[]=dashboard_1&ids[]=dashboard_2`,
-        { status: 500, throws: 'error string' }
-      )
+    it('successfully retrieves the user profile and the dashboards from the backend and redirects to the first one', (done) => {
+      const getWorkbooksMock = () => Promise.resolve(dashboards)
+      DashboardRewireAPI.__Rewire__('getWorkbooks', getWorkbooksMock)
+
+      const store = createMockStore({
+        analyticsApp: {},
+        router: { params: {} },
+      })
 
       const expectedActions = [
-        {type: actionTypes.GET_DASHBOARDS_NAMES},
-        {type: actionTypes.GET_DASHBOARDS_NAMES_ERROR, error: 'error string'},
+        { type: actionTypes.GET_PROFILE_AND_DASHBOARDS },
+        { type: actionTypes.GET_PROFILE_AND_DASHBOARDS_SUCCESS, payload: { profile, dashboards } },
+        { type: '@@reduxReactRouter/historyAPI', payload: { method: 'push', args: [ { pathname: '/dashboards/1' } ] } },
       ]
-      const store = createMockStore({})
-      store.dispatch(loadDashboards(['dashboard_1', 'dashboard_2']))
-        .then(() => {
-          expect(store.getActions()).toEqual(expectedActions)
-          done()
-        })
+
+      store.dispatch(getProfileAndDashboards()).then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      }).then(done)
     })
   })
 
-  describe('selectDashboard', () => {
-    it('dispatches the action with the passed dashboard', () => {
-      const expectedActions = [
-        {
-          type: actionTypes.SELECT_DASHBOARD,
-          dashboard: 'dashboard_1',
+  describe('loadTableauDashboard', () => {
+    beforeEach(() => {
+      const getTableauTokenMock = () => Promise.resolve({ token: 'token' })
+      DashboardRewireAPI.__Rewire__('getTableauToken', getTableauTokenMock)
+    })
+
+    it('loads a dashboard from Tableau according to the current url', (done) => {
+      const createTableauAPISpy = jasmine.createSpy('createTableauAPI')
+      DashboardRewireAPI.__Rewire__('createTableauAPI', createTableauAPISpy)
+
+      const store = createMockStore({
+        analyticsApp: {
+          profile: { id: 1 },
+          dashboards: [ { id: 1, views: ['test/sheets/'] } ],
         },
+        router: { params: { id: 1 } },
+      })
+
+      const expectedActions = [
+        { type: actionTypes.GET_DASHBOARD_TOKEN },
       ]
 
-      const store = createMockStore({})
-      store.dispatch(selectDashboard('dashboard_1'))
-      expect(store.getActions()).toEqual(expectedActions)
+      store.dispatch(loadTableauDashboard()).then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+        expect(createTableauAPISpy).toHaveBeenCalledWith({
+          userId: 1,
+          token: 'token',
+          viewId: 'test/',
+          onLoad: jasmine.any(Function),
+        })
+      }).then(done)
+    })
+
+    it('loads a dashboard from Tableau according to the current url and resets the previous one', (done) => {
+      const createTableauAPISpy = jasmine.createSpy('createTableauAPI')
+      DashboardRewireAPI.__Rewire__('createTableauAPI', createTableauAPISpy)
+
+      const tableauAPISpy = jasmine.createSpyObj('tableauAPI', [ 'dispose' ])
+
+      const store = createMockStore({
+        analyticsApp: {
+          profile: { id: 1 },
+          dashboards: [ { id: 1, views: ['test/sheets/'] } ],
+          tableauAPI: tableauAPISpy,
+        },
+        router: { params: { id: 1 } },
+      })
+
+      const expectedActions = [
+        { type: actionTypes.GET_DASHBOARD_TOKEN },
+      ]
+
+      store.dispatch(loadTableauDashboard()).then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+        expect(tableauAPISpy.dispose).toHaveBeenCalled()
+        expect(createTableauAPISpy).toHaveBeenCalledWith({
+          userId: 1,
+          token: 'token',
+          viewId: 'test/',
+          onLoad: jasmine.any(Function),
+        })
+      }).then(done)
     })
   })
 
-  describe('initTableauDashboard', () => {
-    it('dispatches the action with the passed dashboard when there is not an existing dashboard in the state', () => {
-      const expectedActions = [
-        {
-          type: actionTypes.GET_TABLEAU_API_FOR_DASHBOARD,
-          payload: jasmine.anything(),
+  describe('changeFilter', () => {
+    it('sets a filter value on a dashboard', (done) => {
+      const setFilterValueMock = () => Promise.resolve()
+      DashboardRewireAPI.__Rewire__('setFilterValue', setFilterValueMock)
+
+      const store = createMockStore({
+        analyticsApp: {
+          tableauAPI: { getWorkbook: () => {} },
+          workbook: { filters: [ { name: 'filterName' } ] },
         },
+      })
+
+      const expectedActions = [
+        { type: actionTypes.SET_DASHBOARD_FILTER, payload: { name: 'filterName', value: 'filterValue' } },
       ]
-      const tableauSpy = { Viz: jasmine.createSpy('Viz') }
 
-      DashboardRewireAPI.__Rewire__('tableau', tableauSpy)
+      store.dispatch(changeFilter('filterName', 'filterValue')).then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      }).then(done)
+    })
+  })
 
-      const store = createMockStore({ analyticsApp: {} })
-      store.dispatch(initTableauDashboard('node', 'token', 'viewId', 'userId'))
-
-      expect(store.getActions()).toEqual(expectedActions)
-      expect(tableauSpy.Viz).toHaveBeenCalledWith(
-        'node',
-        `${TABLEAU_HOST}trusted/token/views/viewId?:embed=yes&:toolbar=no&:showShareOptions=no&:record_performance=yes&UUID=userId`,
-        jasmine.any(Object)
-      )
+  describe('getSelectedDashboardById', () => {
+    it('finds an existing dashboard in the list', () => {
+      expect(getSelectedDashboardById([{id: 1}, {id: 2}], 2)).toEqual({id: 2})
     })
 
-    it('dispatches the action with the passed dashboard when there is an existing dashboard in the state and calls dispose on it', () => {
-      const expectedActions = [
-        {
-          type: actionTypes.GET_TABLEAU_API_FOR_DASHBOARD,
-          payload: jasmine.anything(),
-        },
-      ]
-      const tableauSpy = { Viz: jasmine.createSpy('Viz') }
-
-      DashboardRewireAPI.__Rewire__('tableau', tableauSpy)
-
-      const currentTableauAPISpy = { dispose: jasmine.createSpy('dispose') }
-      const store = createMockStore({ analyticsApp: { tableauAPI: currentTableauAPISpy } })
-      store.dispatch(initTableauDashboard('node', 'token', 'viewId', 'userId'))
-
-      expect(currentTableauAPISpy.dispose).toHaveBeenCalled()
-      expect(store.getActions()).toEqual(expectedActions)
-      expect(tableauSpy.Viz).toHaveBeenCalledWith(
-        'node',
-        `${TABLEAU_HOST}trusted/token/views/viewId?:embed=yes&:toolbar=no&:showShareOptions=no&:record_performance=yes&UUID=userId`,
-        jasmine.any(Object)
-      )
+    it('returns undefined if it can\'t find the requested dashboard in the list', () => {
+      expect(getSelectedDashboardById([{id: 1}, {id: 2}], 3)).not.toBeDefined()
     })
   })
 })

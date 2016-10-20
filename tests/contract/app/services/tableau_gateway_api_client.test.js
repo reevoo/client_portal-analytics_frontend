@@ -1,5 +1,4 @@
 import { getWorkbooks } from 'app/js/services/tableau_gateway_api_client'
-import { Promise } from 'es6-promise'  // eslint-disable-line
 
 describe('TableauGatewayAPIClient', () => {
   it('#getWorkbooks returns an object containing a workbook data structure', (done) => {

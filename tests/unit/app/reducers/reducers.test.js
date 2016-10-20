@@ -8,8 +8,6 @@ describe('reducers', () => {
     accessibleModules: [],
     profile: null,
     dashboards: [],
-    selectedDashboard: null,
-    token: null,
   }
 
   it('returns the initial state', () => {
@@ -58,42 +56,29 @@ describe('reducers', () => {
     })
   })
 
-  describe('GET_PROFILE_SUCCESS', () => {
+  describe('GET_PROFILE_AND_DASHBOARDS_SUCCESS', () => {
     it('adds the profile to the state', () => {
       expect(
         analyticsApp(
           {},
           {
-            type: actionTypes.GET_PROFILE_SUCCESS,
-            payload: {data: 'test_data'},
+            type: actionTypes.GET_PROFILE_AND_DASHBOARDS_SUCCESS,
+            payload: {
+              profile: {data: 'test_data'},
+              dashboards: [{name: '1'}, {name: '2'}, {name: '3'}],
+            },
           }
         )
       ).toEqual(
         {
           profile: {data: 'test_data'},
+          dashboards: [{name: '1'}, {name: '2'}, {name: '3'}],
         }
       )
     })
   })
 
-  describe('GET_DASHBOARDS_NAMES_SUCCESS', () => {
-    it('adds the dashboards to the state and selects the first dashboard', () => {
-      expect(
-        analyticsApp(
-          {},
-          {
-            type: actionTypes.GET_DASHBOARDS_NAMES_SUCCESS,
-            payload: ['dashboard_1', 'dashboard_2'],
-          }
-        )
-      ).toEqual(
-        {
-          dashboards: ['dashboard_1', 'dashboard_2'],
-          selectedDashboard: 'dashboard_1',
-        }
-      )
-    })
-
+  describe('SHOW_HEADER_MODULES', () => {
     it('orders the items appropriately', () => {
       let unorderedModules = ['reevoo_admin', 'vetting', 'analytics', 'fast_response', 'help', 'admin']
       let orderedModules = analyticsApp(
@@ -112,42 +97,6 @@ describe('reducers', () => {
     })
   })
 
-  describe('GET_DASHBOARD_TOKEN_SUCCESS', () => {
-    it('adds the token to the state', () => {
-      expect(
-        analyticsApp(
-          {},
-          {
-            type: actionTypes.GET_DASHBOARD_TOKEN_SUCCESS,
-            payload: {token: 'token_1'},
-          }
-        )
-      ).toEqual(
-        {
-          token: 'token_1',
-        }
-      )
-    })
-  })
-
-  describe('SELECT_DASHBOARD', () => {
-    it('adds the selected dashboard to the state', () => {
-      expect(
-        analyticsApp(
-          {},
-          {
-            type: actionTypes.SELECT_DASHBOARD,
-            dashboard: {name: 'dashboard_1'},
-          }
-        )
-      ).toEqual(
-        {
-          selectedDashboard: {name: 'dashboard_1'},
-        }
-      )
-    })
-  })
-
   describe('GET_TABLEAU_API_FOR_DASHBOARD', () => {
     it('adds a tableauAPI object to the state', () => {
       expect(
@@ -155,12 +104,16 @@ describe('reducers', () => {
           {},
           {
             type: actionTypes.GET_TABLEAU_API_FOR_DASHBOARD,
-            payload: {dispose: 'fake method'},
+            payload: {
+              tableauAPI: { dispose: 'fake method' },
+              workbook: { filters: [] },
+            },
           }
         )
       ).toEqual(
         {
           tableauAPI: {dispose: 'fake method'},
+          workbook: { filters: [] },
         }
       )
     })
