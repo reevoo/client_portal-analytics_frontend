@@ -72,8 +72,6 @@ describe('createTableauAPI', () => {
       htmlNodeMock,
       jasmine.any(String),
       jasmine.objectContaining({
-        height: '2500px',
-        width: '1000px',
         onFirstInteractive: jasmine.any(Function),
       })
     )

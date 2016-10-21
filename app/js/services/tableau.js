@@ -121,8 +121,6 @@ export const createTableauAPI = ({ userId, token, viewId, onLoad }) => {
     getDashboardNode(),
     getDashboardUrl({ userId, token, viewId }),
     {
-      height: '2500px',
-      width: '1000px',
       onFirstInteractive: () => getParametersAndFilters(tableauAPI.getWorkbook()).then(onLoad),
     }
   )
