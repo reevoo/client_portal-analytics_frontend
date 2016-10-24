@@ -16,8 +16,10 @@ class DashboardPanelContainer extends Component {
 
   render () {
     const { leftHandNavVisible, selectedDashboard } = this.props
-    const title = selectedDashboard ? selectedDashboard.name : 'Loading dashboard...'
-
+    let title = selectedDashboard ? selectedDashboard.name : 'Loading dashboard...'
+    // TODO: This is a temporary solution to hide the dashboard title
+    // until we have all the dashboards with the proper setup on Tableau
+    if (title !== 'Customer_Experience_JavaScipt') { title = null }
     return <DashboardPanel title={title} leftHandNavVisible={leftHandNavVisible} />
   }
 }

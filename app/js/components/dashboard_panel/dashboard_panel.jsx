@@ -15,9 +15,9 @@ const cardHeaderTitleStyles = {
 const DashboardPanel = ({ leftHandNavVisible, title }) => {
   return (
     <div className={`dashboard-panel ${leftHandNavVisible ? 'collapsed' : 'expanded'}`}>
-      <Card style={cardHeaderStyles} className='dashboard-panel__header'>
+      {title ? <Card style={cardHeaderStyles} className='dashboard-panel__header'>
         <CardHeader title={title} titleStyle={cardHeaderTitleStyles} />
-      </Card>
+      </Card> : null}
       <DashboardFiltersContainer />
       <div id="dashboard-container" />
     </div>
