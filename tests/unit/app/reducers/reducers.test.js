@@ -97,6 +97,20 @@ describe('reducers', () => {
     })
   })
 
+  describe('SET_WORKBOOK_VALUES', () => {
+    it('adds the workbook data to the state', () => {
+      expect(
+        analyticsApp(
+          {},
+          {
+            type: actionTypes.SET_WORKBOOK_VALUES,
+            payload: { workbook: { filters: [] } },
+          }
+        )
+      ).toEqual({ workbook: { filters: [] } })
+    })
+  })
+
   describe('GET_TABLEAU_API_FOR_DASHBOARD', () => {
     it('adds a tableauAPI object to the state', () => {
       expect(
@@ -104,18 +118,10 @@ describe('reducers', () => {
           {},
           {
             type: actionTypes.GET_TABLEAU_API_FOR_DASHBOARD,
-            payload: {
-              tableauAPI: { dispose: 'fake method' },
-              workbook: { filters: [] },
-            },
+            payload: { dispose: 'fake method' },
           }
         )
-      ).toEqual(
-        {
-          tableauAPI: {dispose: 'fake method'},
-          workbook: { filters: [] },
-        }
-      )
+      ).toEqual({ tableauAPI: {dispose: 'fake method'} })
     })
   })
 })

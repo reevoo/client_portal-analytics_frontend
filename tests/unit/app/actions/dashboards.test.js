@@ -84,7 +84,7 @@ describe('actions', () => {
     })
 
     it('loads a dashboard from Tableau according to the current url', (done) => {
-      const createTableauAPISpy = jasmine.createSpy('createTableauAPI')
+      const createTableauAPISpy = jasmine.createSpy('createTableauAPI').and.returnValue('tableauAPI')
       DashboardRewireAPI.__Rewire__('createTableauAPI', createTableauAPISpy)
 
       const store = createMockStore({
@@ -97,6 +97,7 @@ describe('actions', () => {
 
       const expectedActions = [
         { type: actionTypes.GET_DASHBOARD_TOKEN },
+        { type: actionTypes.GET_TABLEAU_API_FOR_DASHBOARD, payload: 'tableauAPI' },
       ]
 
       store.dispatch(loadTableauDashboard()).then(() => {
@@ -111,7 +112,7 @@ describe('actions', () => {
     })
 
     it('loads a dashboard from Tableau according to the current url and resets the previous one', (done) => {
-      const createTableauAPISpy = jasmine.createSpy('createTableauAPI')
+      const createTableauAPISpy = jasmine.createSpy('createTableauAPI').and.returnValue('tableauAPI')
       DashboardRewireAPI.__Rewire__('createTableauAPI', createTableauAPISpy)
 
       const tableauAPISpy = jasmine.createSpyObj('tableauAPI', [ 'dispose' ])
@@ -127,6 +128,7 @@ describe('actions', () => {
 
       const expectedActions = [
         { type: actionTypes.GET_DASHBOARD_TOKEN },
+        { type: actionTypes.GET_TABLEAU_API_FOR_DASHBOARD, payload: 'tableauAPI' },
       ]
 
       store.dispatch(loadTableauDashboard()).then(() => {
