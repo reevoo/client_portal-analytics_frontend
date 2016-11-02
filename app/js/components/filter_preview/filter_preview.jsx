@@ -5,6 +5,8 @@ import FontIcon from 'material-ui/FontIcon'
 import DateRangeDialog from '../dialogs/date_range_dialog/date_range_dialog'
 import TrkrefDialog from '../dialogs/trkref_dialog/trkref_dialog'
 
+import './filter_preview.scss'
+
 const filterChip = {
   borderColor: '#dedede',
   borderRadius: '25px',

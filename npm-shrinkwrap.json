@@ -967,9 +967,9 @@
       "resolved": "https://registry.npmjs.org/cli-width/-/cli-width-2.1.0.tgz"
     },
     "client_portal-assets": {
-      "version": "0.4.0",
+      "version": "0.6.0",
       "from": "client_portal-assets@latest",
-      "resolved": "https://registry.npmjs.org/client_portal-assets/-/client_portal-assets-0.4.0.tgz"
+      "resolved": "https://registry.npmjs.org/client_portal-assets/-/client_portal-assets-0.6.0.tgz"
     },
     "cliui": {
       "version": "2.1.0",

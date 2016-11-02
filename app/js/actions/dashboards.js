@@ -1,5 +1,13 @@
 import { push } from 'redux-router'
-import { createTableauAPI, setFilterValue } from '../services/tableau'
+import {
+  createTableauAPI,
+  setFilterValue,
+  saveCustomView,
+  setDefaultCustomView,
+  showCustomView,
+  removeCustomView,
+  getParametersAndFilters,
+} from '../services/tableau'
 import { getProfile } from '../services/cp_admin_api_client'
 import { getTableauToken } from '../services/cp_analytics_api_client'
 import { getWorkbooks } from '../services/tableau_gateway_api_client'
@@ -48,10 +56,17 @@ export const loadTableauDashboard = () => (dispatch, getState) => {
       userId: profile.id,
       token,
       viewId: getSelectedDashboardById(dashboards, router.params.id).views[0].replace('sheets/', ''),
-      onLoad: (appFilters) => dispatch({
-        type: actionTypes.SET_WORKBOOK_VALUES,
-        payload: { workbook: { filters: appFilters } },
-      }),
+      onLoad: ([appFilters, views]) => {
+        const defaultView = views.find((view) => view.isDefault)
+        return dispatch({
+          type: actionTypes.SET_WORKBOOK_VALUES,
+          payload: {
+            filters: appFilters,
+            views: views.map((view) => view.name),
+            defaultView: defaultView && defaultView.name,
+          },
+        })
+      },
     })
 
     return dispatch({ type: actionTypes.GET_TABLEAU_API_FOR_DASHBOARD, payload: tableauAPI })
@@ -70,6 +85,47 @@ export const changeFilter = (filterName, filterValue) => (dispatch, getState) =>
     }))
   }
 }
+
+export const showDashboardView = (name) => (dispatch, getState) => {
+  const workbook = getCurrentWorkbook(getState())
+
+  return showCustomView(workbook, name).then(() =>
+    /**
+     * We should call getParametersAndFilters inside showCustomView,
+     * but we need to wrap the tableauAPI Promises implementation first,
+     * as it doesn't play nice with the official one. Yay Tableau!
+     */
+    getParametersAndFilters(workbook).then((filters) => dispatch({
+      type: actionTypes.SHOW_DASHBOARD_VIEW,
+      payload: { filters, selectedView: name },
+    }))
+  )
+}
+
+export const saveDashboardView = (name) => (dispatch, getState) =>
+  saveCustomView(getCurrentWorkbook(getState()), name).then((view) =>
+    dispatch({ type: actionTypes.ADD_DASHBOARD_VIEW, payload: view })
+  )
+
+export const setDefaultDashboardView = (name) => (dispatch, getState) => {
+  const workbook = getCurrentWorkbook(getState())
+
+  return setDefaultCustomView(workbook, name).then(() =>
+    /**
+     * We should call getParametersAndFilters inside showCustomView,
+     * but we need to wrap the tableauAPI Promises implementation first,
+     * as it doesn't play nice with the official one. Yay Tableau!
+     */
+    getParametersAndFilters(workbook).then((filters) => dispatch({
+      type: actionTypes.SET_DEFAULT_DASHBOARD_VIEW,
+      payload: { filters, selectedView: name, defaultView: name },
+    })))
+}
+
+export const removeDashboardView = (name) => (dispatch, getState) =>
+  removeCustomView(getCurrentWorkbook(getState()), name).then((view) =>
+    dispatch({ type: actionTypes.REMOVE_DASHBOARD_VIEW, payload: view })
+  )
 
 export const getSelectedDashboardById = (dashboards, id) =>
   dashboards.find((dashboard) => dashboard.id === id)
