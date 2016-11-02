@@ -82,11 +82,16 @@ export const analyticsApp = (state = initialState, action) => {
         dashboards: [ ...action.payload.dashboards ],
       }
 
+    case actionTypes.SET_WORKBOOK_VALUES:
+      return {
+        ...state,
+        workbook: action.payload.workbook,
+      }
+
     case actionTypes.GET_TABLEAU_API_FOR_DASHBOARD:
       return {
         ...state,
-        tableauAPI: action.payload.tableauAPI,
-        workbook: action.payload.workbook,
+        tableauAPI: action.payload,
       }
 
     case actionTypes.SET_DASHBOARD_FILTER:
@@ -110,6 +115,9 @@ export const analyticsApp = (state = initialState, action) => {
 
     case actionTypes.HIDE_HEADER_MODULES:
       return { ...state, headerModulesVisible: false }
+
+    case 'TABLEAU_API':
+      return { ...state, tableauAPI: action.payload }
 
     default:
       return state

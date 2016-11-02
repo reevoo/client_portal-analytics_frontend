@@ -49,10 +49,12 @@ export const loadTableauDashboard = () => (dispatch, getState) => {
       token,
       viewId: getSelectedDashboardById(dashboards, router.params.id).views[0].replace('sheets/', ''),
       onLoad: (appFilters) => dispatch({
-        type: actionTypes.GET_TABLEAU_API_FOR_DASHBOARD,
-        payload: { tableauAPI, workbook: { filters: appFilters } },
+        type: actionTypes.SET_WORKBOOK_VALUES,
+        payload: { workbook: { filters: appFilters } },
       }),
     })
+
+    return dispatch({ type: actionTypes.GET_TABLEAU_API_FOR_DASHBOARD, payload: tableauAPI })
   })
   .catch((error) => dispatch({ type: actionTypes.GET_DASHBOARD_TOKEN_ERROR, error }))
 }
