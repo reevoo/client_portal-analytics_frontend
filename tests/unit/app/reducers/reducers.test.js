@@ -107,7 +107,7 @@ describe('reducers', () => {
             payload: { filters: [], views: [], defaultView: 'viewName' },
           }
         )
-      ).toEqual({ workbook: { filters: [], views: [], defaultView: 'viewName' } })
+      ).toEqual({ workbook: { filters: [], views: [], selectedView: 'viewName', defaultView: 'viewName' } })
     })
   })
 

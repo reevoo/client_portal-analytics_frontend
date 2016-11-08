@@ -1,15 +1,14 @@
 .dashboard-panel {
   margin: 136px 72px 48px;
   transition: all 450ms cubic-bezier(.23, 1, .32, 1) 0ms;
+  width: 927px;
 
   &.collapsed {
     padding-left: 256px;
-    width: 1000px;
   }
 
   &.expanded {
     padding-left: 0;
-    width: 1256px;
   }
 
   &__header {

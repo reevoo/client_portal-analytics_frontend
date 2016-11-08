@@ -88,6 +88,11 @@ export const analyticsApp = (state = initialState, action) => {
         workbook: {
           filters: action.payload.filters,
           views: action.payload.views,
+          /**
+           * As this is called just on the initial load of a dashboard,
+           * we set the defaultView as the selectedView
+           */
+          selectedView: action.payload.defaultView,
           defaultView: action.payload.defaultView,
         },
       }

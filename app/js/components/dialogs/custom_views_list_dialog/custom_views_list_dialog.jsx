@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import FontIcon from 'material-ui/FontIcon'
 import IconButton from 'material-ui/IconButton'
+import TextField from 'material-ui/TextField'
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar'
 
 import { ClientPortalDialog, ClientPortalDialogSectionTitle } from '../../client_portal_dialog/client_portal_dialog'
@@ -25,6 +26,12 @@ const customViewListItemStyles = {
     fontWeight: 600,
     lineHeight: 1.3,
   },
+  // editableTitle: {
+  //   color: colours.black,
+  //   fontSize: '14px',
+  //   fontWeight: 600,
+  //   lineHeight: 1.3,
+  // },
   separator: {
     height: 'auto',
     top: 0,
@@ -67,11 +74,16 @@ const wrapperStyle = (isSelected) => ({
   ...(isSelected ? customViewListItemStyles.wrapperSelected : {}),
 })
 
+/**
+ * Sometimes we need an empty action to pass to some MaterialUI components
+ */
+const dummyAction = () => {}
+
 const CustomViewListItem = ({ name, isDefault, selected, onRemove, onSetDefault, onShow }) => (
   <Toolbar style={wrapperStyle(selected)}>
     <ToolbarGroup>
       <IconButton
-        onClick={!isDefault ? onSetDefault : null}
+        onClick={!isDefault ? onSetDefault : dummyAction}
         style={customViewListItemStyles.favouriteIcon.button}
         iconStyle={customViewListItemStyles.favouriteIcon.icon}
         tooltip={isDefault ? 'Default view' : 'Set as default'}
@@ -116,6 +128,68 @@ CustomViewListItem.propTypes = {
   onShow: PropTypes.func.isRequired,
 }
 
+/**
+ * Sets the focus on the given input.
+ * It needs to check if the input exists to avoid problens on re-render.
+ */
+const focusInputField = (input) => input && input.focus()
+
+class EditableCustomViewListItem extends Component {
+  constructor (props) {
+    super(props)
+
+    this.handleNewViewNameChange = this.handleNewViewNameChange.bind(this)
+    this.handleNewViewEnter = this.handleNewViewEnter.bind(this)
+
+    this.state = { newViewName: '' }
+  }
+
+  handleNewViewNameChange (event) {
+    this.setState({ newViewName: event.target.value })
+  }
+
+  handleNewViewEnter (event) {
+    if (event.key.toLowerCase() === 'enter') {
+      const value = event.target.value
+      if (value) {
+        this.props.onSave(value)
+      }
+    }
+  }
+
+  render () {
+    return (
+      <Toolbar style={customViewListItemStyles.wrapper}>
+        <ToolbarGroup>
+          <IconButton
+            onClick={dummyAction}
+            style={customViewListItemStyles.favouriteIcon.button}
+            iconStyle={customViewListItemStyles.favouriteIcon.icon}
+            >
+            <FontIcon className='icon-favourite' color={colours.warmGrey} hoverColor={colours.warmGrey} />
+          </IconButton>
+          <TextField
+            ref={focusInputField}
+            hintText='Type the view name'
+            value={this.state.newViewName}
+            style={{height: 'auto'}}
+            hintStyle={{bottom: null, fontSize: '14px', fontWeight: 600}}
+            inputStyle={{color: colours.black, height: 'auto', fontSize: '14px', fontWeight: 600}}
+            underlineStyle={{borderBottom: 'none'}}
+            underlineFocusStyle={{borderBottom: 'none'}}
+            onChange={this.handleNewViewNameChange}
+            onKeyDown={this.handleNewViewEnter}
+            />
+        </ToolbarGroup>
+      </Toolbar>
+    )
+  }
+}
+
+EditableCustomViewListItem.propTypes = {
+  onSave: PropTypes.func.isRequired,
+}
+
 class CustomViewsListDialog extends Component {
   constructor (props) {
     super(props)
@@ -138,7 +212,7 @@ class CustomViewsListDialog extends Component {
   }
 
   render () {
-    const { open, views, defaultView, selectedView, onCancel } = this.props
+    const { open, views, defaultView, selectedView, onCancel, onSave } = this.props
 
     return (
       <ClientPortalDialog open={open} title='Your views' onCancel={onCancel}>
@@ -154,6 +228,7 @@ class CustomViewsListDialog extends Component {
             onShow={this.handleShow(view)}
             />
         )}
+        <EditableCustomViewListItem onSave={onSave} />
       </ClientPortalDialog>
     )
   }
@@ -168,6 +243,7 @@ CustomViewsListDialog.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
   onSetDefault: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
   onShow: PropTypes.func.isRequired,
 }
 

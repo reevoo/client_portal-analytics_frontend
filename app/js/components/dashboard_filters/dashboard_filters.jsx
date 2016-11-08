@@ -115,8 +115,10 @@ class DashboardFilters extends Component {
   }
 
   saveView (name) {
+    console.log('dashboard_filters', name)
     this.props.saveView(name)
     this.closeEditDialog()
+    this.closeListDialog()
   }
 
   setDefaultView (name) {
@@ -186,6 +188,7 @@ class DashboardFilters extends Component {
         selectedView={selectedView}
         open={this.state.listOpen}
         onCancel={this.closeListDialog}
+        onSave={this.saveView}
         onShow={this.showView}
         onSetDefault={this.setDefaultView}
         onRemove={this.removeView}
