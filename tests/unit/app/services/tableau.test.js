@@ -1,7 +1,11 @@
 import {
   createTableauAPI,
   getParametersAndFilters,
+  removeCustomView,
+  saveCustomView,
+  setDefaultCustomView,
   setFilterValue,
+  showCustomView,
   TableauTypes,
   __RewireAPI__ as TableauRewireAPI,
 } from 'app/js/services/tableau'
@@ -75,5 +79,55 @@ describe('createTableauAPI', () => {
         onFirstInteractive: jasmine.any(Function),
       })
     )
+  })
+})
+
+describe('saveCustomView', () => {
+  it('saves the current view with the given name and returns it', () => {
+    const workbook = {
+      rememberCustomViewAsync: jasmine.createSpy('workbook.rememberCustomViewAsync'),
+    }
+
+    saveCustomView(workbook, 'viewName')
+
+    expect(workbook.rememberCustomViewAsync).toHaveBeenCalledWith('viewName')
+  })
+})
+
+describe('setDefaultCustomView', () => {
+  it('loads the specified view and sets it as the default one', (done) => {
+    const workbook = {
+      showCustomViewAsync: jasmine.createSpy('workbook.showCustomViewAsync')
+        .and.returnValue(Promise.resolve()),
+      setActiveCustomViewAsDefaultAsync: jasmine.createSpy('workbook.setActiveCustomViewAsDefaultAsync'),
+    }
+
+    setDefaultCustomView(workbook, 'viewName').then(() => {
+      expect(workbook.setActiveCustomViewAsDefaultAsync).toHaveBeenCalled()
+    }).then(done)
+
+    expect(workbook.showCustomViewAsync).toHaveBeenCalledWith('viewName')
+  })
+})
+
+describe('showCustomView', () => {
+  it('loads the specified view', () => {
+    const workbook = { showCustomViewAsync: jasmine.createSpy('workbook.showCustomViewAsync') }
+
+    showCustomView(workbook, 'viewName')
+
+    expect(workbook.showCustomViewAsync).toHaveBeenCalledWith('viewName')
+  })
+})
+
+describe('removeCustomView', () => {
+  it('removes the specified view', () => {
+    const workbook = {
+      removeCustomViewAsync: jasmine.createSpy('workbook.removeCustomViewAsync'),
+    }
+
+    removeCustomView(workbook, 'viewName')
+
+    expect(workbook.removeCustomViewAsync).toHaveBeenCalledWith('viewName')
   })
 })

@@ -104,10 +104,106 @@ describe('reducers', () => {
           {},
           {
             type: actionTypes.SET_WORKBOOK_VALUES,
-            payload: { workbook: { filters: [] } },
+            payload: { filters: [], views: [], defaultView: 'viewName' },
           }
         )
-      ).toEqual({ workbook: { filters: [] } })
+      ).toEqual({ workbook: { filters: [], views: [], defaultView: 'viewName' } })
+    })
+  })
+
+  describe('SET_DASHBOARD_FILTER', () => {
+    it('sets a filter value in the state', () => {
+      expect(
+        analyticsApp(
+          { workbook: { filters: [ { name: 'filterName', allowedValues: [ 'foo', 'bar' ], selectedValue: 'foo' } ] } },
+          {
+            type: actionTypes.SET_DASHBOARD_FILTER,
+            payload: { name: 'filterName', value: 'bar' },
+          }
+        )
+      ).toEqual(
+        { workbook: { filters: [ { name: 'filterName', allowedValues: [ 'foo', 'bar' ], selectedValue: 'bar' } ] } }
+      )
+    })
+  })
+
+  describe('ADD_DASHBOARD_VIEW', () => {
+    it('adds a new view to the state', () => {
+      expect(
+        analyticsApp(
+          { workbook: { views: [ 'view1' ] } },
+          {
+            type: actionTypes.ADD_DASHBOARD_VIEW,
+            payload: 'view2',
+          }
+        )
+      ).toEqual({ workbook: { views: [ 'view1', 'view2' ], selectedView: 'view2' } })
+    })
+  })
+
+  describe('REMOVE_DASHBOARD_VIEW', () => {
+    it('removes a view from the state', () => {
+      expect(
+        analyticsApp(
+          { workbook: { views: [ 'view1', 'view2' ], selectedView: 'view2', defaultView: 'view2' } },
+          {
+            type: actionTypes.REMOVE_DASHBOARD_VIEW,
+            payload: 'view1',
+          }
+        )
+      ).toEqual({ workbook: { views: [ 'view2' ], selectedView: 'view2', defaultView: 'view2' } })
+    })
+
+    it('removes the selected view from the state', () => {
+      expect(
+        analyticsApp(
+          { workbook: { views: [ 'view1', 'view2' ], selectedView: 'view1', defaultView: 'view2' } },
+          {
+            type: actionTypes.REMOVE_DASHBOARD_VIEW,
+            payload: 'view1',
+          }
+        )
+      ).toEqual({ workbook: { views: [ 'view2' ], selectedView: null, defaultView: 'view2' } })
+    })
+
+    it('removes the default view from the state', () => {
+      expect(
+        analyticsApp(
+          { workbook: { views: [ 'view1', 'view2' ], selectedView: 'view2', defaultView: 'view1' } },
+          {
+            type: actionTypes.REMOVE_DASHBOARD_VIEW,
+            payload: 'view1',
+          }
+        )
+      ).toEqual({ workbook: { views: [ 'view2' ], selectedView: 'view2', defaultView: null } })
+    })
+  })
+
+  describe('SET_DEFAULT_DASHBOARD_VIEW', () => {
+    it('sets the default view in the state', () => {
+      expect(
+        analyticsApp(
+          { workbook: { views: [ 'view1', 'view2' ], selectedView: 'view2', defaultView: 'view2' } },
+          {
+            type: actionTypes.SET_DEFAULT_DASHBOARD_VIEW,
+            payload: { filters: [], selectedView: 'view1', defaultView: 'view1' },
+          }
+        )
+      ).toEqual({ workbook: { filters: jasmine.any(Array), views: [ 'view1', 'view2' ], selectedView: 'view1', defaultView: 'view1' } })
+    })
+  })
+
+  describe('SHOW_DASHBOARD_VIEW', () => {
+    it('sets the selected view in the state', () => {
+      expect(
+        analyticsApp(
+          { workbook: { views: [ 'view1', 'view2' ], selectedView: 'view2', defaultView: 'view2' } },
+          {
+            type: actionTypes.SHOW_DASHBOARD_VIEW,
+            payload: { filters: [], selectedView: 'view1' },
+          }
+        )
+      ).toEqual({ workbook: { filters: jasmine.any(Array), views: [ 'view1', 'view2' ], selectedView: 'view1', defaultView: 'view2' } })
     })
   })
 

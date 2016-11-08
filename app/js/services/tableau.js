@@ -139,7 +139,7 @@ export const createTableauAPI = ({ userId, token, viewId, onLoad }) => {
 }
 
 export const saveCustomView = (workbook, name) =>
-  workbook.rememberCustomViewAsync(name).then(() => name)
+  workbook.rememberCustomViewAsync(name)
 
 export const setDefaultCustomView = (workbook, name) =>
   workbook.showCustomViewAsync(name).then(() => workbook.setActiveCustomViewAsDefaultAsync())
@@ -148,4 +148,4 @@ export const showCustomView = (workbook, name) =>
   workbook.showCustomViewAsync(name)
 
 export const removeCustomView = (workbook, name) =>
-  workbook.removeCustomViewAsync(name).then(() => name)
+  workbook.removeCustomViewAsync(name)

@@ -103,8 +103,8 @@ export const showDashboardView = (name) => (dispatch, getState) => {
 }
 
 export const saveDashboardView = (name) => (dispatch, getState) =>
-  saveCustomView(getCurrentWorkbook(getState()), name).then((view) =>
-    dispatch({ type: actionTypes.ADD_DASHBOARD_VIEW, payload: view })
+  saveCustomView(getCurrentWorkbook(getState()), name).then(() =>
+    dispatch({ type: actionTypes.ADD_DASHBOARD_VIEW, payload: name })
   )
 
 export const setDefaultDashboardView = (name) => (dispatch, getState) => {
@@ -123,8 +123,8 @@ export const setDefaultDashboardView = (name) => (dispatch, getState) => {
 }
 
 export const removeDashboardView = (name) => (dispatch, getState) =>
-  removeCustomView(getCurrentWorkbook(getState()), name).then((view) =>
-    dispatch({ type: actionTypes.REMOVE_DASHBOARD_VIEW, payload: view })
+  removeCustomView(getCurrentWorkbook(getState()), name).then(() =>
+    dispatch({ type: actionTypes.REMOVE_DASHBOARD_VIEW, payload: name })
   )
 
 export const getSelectedDashboardById = (dashboards, id) =>
