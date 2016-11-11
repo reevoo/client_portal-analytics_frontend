@@ -4431,6 +4431,11 @@
       "from": "react-addons-create-fragment@>=15.2.1 <16.0.0",
       "resolved": "https://registry.npmjs.org/react-addons-create-fragment/-/react-addons-create-fragment-15.3.2.tgz"
     },
+    "react-addons-css-transition-group": {
+      "version": "15.3.2",
+      "from": "react-addons-css-transition-group@latest",
+      "resolved": "https://registry.npmjs.org/react-addons-css-transition-group/-/react-addons-css-transition-group-15.3.2.tgz"
+    },
     "react-addons-test-utils": {
       "version": "15.3.2",
       "from": "react-addons-test-utils@>=15.2.1 <16.0.0",

@@ -31,6 +31,20 @@ ClientPortalDialogSectionTitle.propTypes = {
   title: PropTypes.string.isRequired,
 }
 
+const ClientPortalDialogSection = ({ children, last }) => (
+  <section className={`dialog__section ${last ? 'dialog__section--last' : ''}`}>
+    {children}
+  </section>
+)
+
+ClientPortalDialogSection.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.arrayOf(PropTypes.element),
+  ]).isRequired,
+  last: PropTypes.bool,
+}
+
 const ClientPortalDialog = ({ children, open, title, onApply, onCancel }) => {
   let actionButtons = [
     <FlatButton label='Cancel' onTouchTap={onCancel} />,
@@ -45,6 +59,8 @@ const ClientPortalDialog = ({ children, open, title, onApply, onCancel }) => {
 
   return (
     <Dialog
+      autoScrollBodyContent={true}
+      repositionOnUpdate={false}
       title={title}
       titleStyle={dialogStyles.title}
       actions={actionButtons}
@@ -58,6 +74,7 @@ const ClientPortalDialog = ({ children, open, title, onApply, onCancel }) => {
     </Dialog>
   )
 }
+
 ClientPortalDialog.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.element,
@@ -69,4 +86,4 @@ ClientPortalDialog.propTypes = {
   onCancel: PropTypes.func.isRequired,
 }
 
-export { ClientPortalDialog, ClientPortalDialogSectionTitle }
+export { ClientPortalDialog, ClientPortalDialogSection, ClientPortalDialogSectionTitle }

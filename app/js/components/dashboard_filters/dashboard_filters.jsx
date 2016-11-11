@@ -4,7 +4,7 @@ import FlatButton from 'material-ui/FlatButton'
 import FontIcon from 'material-ui/FontIcon'
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar'
 
-import CustomViewDialog from '../dialogs/custom_view_dialog/custom_view_dialog'
+// import CustomViewDialog from '../dialogs/custom_view_dialog/custom_view_dialog'
 import CustomViewsListDialog from '../dialogs/custom_views_list_dialog/custom_views_list_dialog'
 import FilterPreview from '../filter_preview/filter_preview'
 
@@ -83,31 +83,32 @@ class DashboardFilters extends Component {
     this.setDefaultView = this.setDefaultView.bind(this)
     this.showView = this.showView.bind(this)
 
-    this.closeEditDialog = this.closeEditDialog.bind(this)
-    this.openEditDialog = this.openEditDialog.bind(this)
+    // this.closeEditDialog = this.closeEditDialog.bind(this)
+    // this.openEditDialog = this.openEditDialog.bind(this)
     this.closeListDialog = this.closeListDialog.bind(this)
     this.openListDialog = this.openListDialog.bind(this)
 
     this.state = {
+      addNewItem: false,
       listOpen: false,
-      editOpen: false,
+      // editOpen: false,
     }
   }
 
-  closeEditDialog () {
-    this.setState({ editOpen: false })
-  }
+  // closeEditDialog () {
+  //   this.setState({ editOpen: false })
+  // }
 
-  openEditDialog () {
-    this.setState({ editOpen: true })
-  }
+  // openEditDialog () {
+  //   this.setState({ editOpen: true })
+  // }
 
   closeListDialog () {
     this.setState({ listOpen: false })
   }
 
-  openListDialog () {
-    this.setState({ listOpen: true })
+  openListDialog (addNewItem = false) {
+    return () => this.setState({ listOpen: true, addNewItem })
   }
 
   removeView (name) {
@@ -115,10 +116,9 @@ class DashboardFilters extends Component {
   }
 
   saveView (name) {
-    console.log('dashboard_filters', name)
     this.props.saveView(name)
-    this.closeEditDialog()
-    this.closeListDialog()
+    // this.closeEditDialog()
+    // this.closeListDialog()
   }
 
   setDefaultView (name) {
@@ -147,7 +147,7 @@ class DashboardFilters extends Component {
             <FlatButton
               label='My Views'
               icon={<FontIcon className='icon-bullet_list' style={{fontSize: '18px', top: '3px'}} />}
-              onTouchTap={this.openListDialog}
+              onTouchTap={this.openListDialog()}
               style={buttonStyle}
               />
             <ToolbarSeparator style={headerToolbarSeparatorStyle} />
@@ -174,7 +174,7 @@ class DashboardFilters extends Component {
             <FlatButton
               label='Save as new'
               icon={<FontIcon className='icon-bullet_list_add' style={{fontSize: '23px', top: '6px'}} />}
-              onTouchTap={this.openEditDialog}
+              onTouchTap={this.openListDialog(true)}
               primary={true}
               style={buttonStyle}
               />
@@ -187,17 +187,18 @@ class DashboardFilters extends Component {
         defaultView={defaultView}
         selectedView={selectedView}
         open={this.state.listOpen}
+        addNew={this.state.addNewItem}
         onCancel={this.closeListDialog}
         onSave={this.saveView}
         onShow={this.showView}
         onSetDefault={this.setDefaultView}
         onRemove={this.removeView}
         />
-      <CustomViewDialog
+      {/* <CustomViewDialog
         open={this.state.editOpen}
         onApply={this.saveView}
         onCancel={this.closeEditDialog}
-        />
+        />*/}
     </Card>
   }
 }

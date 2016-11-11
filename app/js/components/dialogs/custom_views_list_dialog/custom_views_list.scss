@@ -1,0 +1,44 @@
+$view-list-enter-time: 300;
+$view-list-leave-time: 300;
+
+$view-list-item-height: 50px;
+$view-list-item-margin-bottom: 15px;
+
+.view_list-enter {
+  border: none;
+  opacity: 0.01;
+  max-height: 0;
+  margin-bottom: 0 !important;
+  overflow: hidden;
+
+  &.view_list-enter-active {
+    opacity: 1;
+    max-height: $view-list-item-height;
+    margin-bottom: $view-list-item-margin-bottom !important;
+    transition: all #{$view-list-enter-time}ms ease-in;
+  }
+}
+
+.view_list-leave {
+  border: none;
+  opacity: 1;
+  max-height: $view-list-item-height;
+  margin-bottom: $view-list-item-margin-bottom !important;
+  overflow: hidden;
+
+  &.view_list-leave-active {
+    opacity: 0.01;
+    max-height: 0;
+    margin-bottom: 0 !important;
+    transition: all #{$view-list-leave-time}ms ease-out;
+  }
+}
+
+$scroll-out-leave-time: 300;
+
+.scroll_out-leave {
+  &.scroll_out-leave-active {
+    margin-top: -148px;
+    transition: all #{$scroll-out-leave-time}ms ease-out;
+  }
+}
