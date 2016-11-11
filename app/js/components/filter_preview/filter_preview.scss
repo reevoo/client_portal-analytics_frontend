@@ -5,6 +5,10 @@ $margin-bottom: 40px;
 .filter-preview {
   &:hover {
     cursor: pointer;
+
+    .filter-preview__title {
+      color: $dark-sky-blue;
+    }
   }
 
   &__title {

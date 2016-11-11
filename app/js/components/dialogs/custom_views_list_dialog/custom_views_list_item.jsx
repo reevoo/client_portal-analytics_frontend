@@ -9,7 +9,7 @@ import styleValues from '!!sass-variable-loader!./custom_views_list.scss'
 
 import colours from '!!sass-variable-loader!client_portal-assets/dist/sass/colours.scss'
 
-const customViewListItemStyles = {
+const listItemStyles = {
   wrapper: {
     backgroundColor: colours.whiteThree,
     border: '1px solid #ebebeb',
@@ -17,8 +17,11 @@ const customViewListItemStyles = {
     marginBottom: styleValues.viewListItemMarginBottom,
     padding: '0 20px 0 16px',
   },
-  wrapperSelected: {
-    border: `1px solid ${colours.warmGrey}`,
+  wrapperSelected: { border: `1px solid ${colours.warmGrey}` },
+  leftWrapper: {
+    flexGrow: 1,
+    justifyContent: 'flex-start',
+    minWidth: 0, // Helps with text overflow on flex elements
   },
   title: {
     alignSelf: 'center',
@@ -26,6 +29,9 @@ const customViewListItemStyles = {
     fontSize: '14px',
     fontWeight: 600,
     lineHeight: 1.3,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
   },
   separator: {
     height: 'auto',
@@ -33,52 +39,29 @@ const customViewListItemStyles = {
     marginTop: '9px',
     top: 0,
   },
+  textField: {
+    root: {alignSelf: 'center', height: 'auto', width: '100%'},
+    hint: {bottom: null, fontSize: '14px', fontWeight: 600},
+    input: {color: colours.black, height: 'auto', fontSize: '14px', fontWeight: 600},
+    underlineStyle: { borderBottom: 'none' },
+  },
   favouriteIcon: {
-    button: {
-      margin: '0 0px 0 -10px',
-      padding: 0,
-    },
-    icon: {
-      fontSize: '20px',
-    },
+    button: { margin: '0 0px 0 -10px', minWidth: '48px', padding: 0 },
+    icon: { fontSize: '20px' },
   },
   deleteIcon: {
-    button: {
-      margin: '0 -20px 0 0',
-      padding: 0,
-    },
-    icon: {
-      fontSize: '18px',
-    },
+    button: { margin: '0 -20px 0 0', padding: 0 },
+    icon: { fontSize: '18px' },
   },
   saveIcon: {
-    button: {
-      margin: '0 -20px 0 0',
-      padding: 0,
-    },
-    icon: {
-      fontSize: '24px',
-    },
+    button: { margin: '0 -20px 0 0', padding: 0 },
+    icon: { fontSize: '24px' },
   },
   viewIcon: {
-    button: {
-      margin: '0 -20px 0 0',
-      padding: 0,
-    },
-    icon: {
-      fontSize: '24px',
-    },
+    button: { margin: '0 -20px 0 0', padding: 0 },
+    icon: { fontSize: '24px' },
   },
 }
-
-/**
- * We need to override the inline styles because MaterialUI uses them
- * and we can't set them from the CSS
- */
-const wrapperStyle = (isSelected) => ({
-  ...customViewListItemStyles.wrapper,
-  ...(isSelected ? customViewListItemStyles.wrapperSelected : {}),
-})
 
 /**
  * Sometimes we need an empty action to pass to some MaterialUI components
@@ -86,12 +69,13 @@ const wrapperStyle = (isSelected) => ({
 const dummyAction = () => {}
 
 const CustomViewListItem = ({ name, isDefault, selected, onRemove, onSetDefault, onShow }) => (
-  <Toolbar style={wrapperStyle(selected)}>
-    <ToolbarGroup>
+  <Toolbar style={{ ...listItemStyles.wrapper, ...(selected ? listItemStyles.wrapperSelected : {}) }}>
+    <ToolbarGroup style={listItemStyles.leftWrapper}>
       <IconButton
+        disabled={isDefault}
         onClick={!isDefault ? onSetDefault : dummyAction}
-        style={customViewListItemStyles.favouriteIcon.button}
-        iconStyle={customViewListItemStyles.favouriteIcon.icon}
+        style={listItemStyles.favouriteIcon.button}
+        iconStyle={listItemStyles.favouriteIcon.icon}
         tooltip={isDefault ? 'Default view' : 'Set as default'}
         >
         <FontIcon
@@ -100,24 +84,24 @@ const CustomViewListItem = ({ name, isDefault, selected, onRemove, onSetDefault,
           hoverColor={colours.reevooGreen}
           />
       </IconButton>
-      <ToolbarTitle text={name} style={customViewListItemStyles.title} />
+      <ToolbarTitle text={name} style={listItemStyles.title} />
     </ToolbarGroup>
     <ToolbarGroup>
       { // If the view is selected we don't want to display the view button
       !selected && <IconButton
         onClick={onShow}
-        style={customViewListItemStyles.viewIcon.button}
-        iconStyle={customViewListItemStyles.viewIcon.icon}
+        style={listItemStyles.viewIcon.button}
+        iconStyle={listItemStyles.viewIcon.icon}
         tooltip='Load view'
         >
         <FontIcon className='icon-eye' color={colours.brownishGrey} hoverColor={colours.reevooBlue} />
       </IconButton>
       }
-      <ToolbarSeparator style={customViewListItemStyles.separator} />
+      <ToolbarSeparator style={listItemStyles.separator} />
       <IconButton
         onClick={onRemove}
-        style={customViewListItemStyles.deleteIcon.button}
-        iconStyle={customViewListItemStyles.deleteIcon.icon}
+        style={listItemStyles.deleteIcon.button}
+        iconStyle={listItemStyles.deleteIcon.icon}
         tooltip='Remove view'
         >
         <FontIcon className='icon-trash_cross' color={colours.brownishGrey} hoverColor={colours.redOrange} />
@@ -171,31 +155,29 @@ class EditableCustomViewListItem extends Component {
   }
 
   render () {
-    const underlineStyle = {borderBottom: 'none'}
-
     return (
-      <Toolbar style={customViewListItemStyles.wrapper}>
-        <ToolbarGroup>
+      <Toolbar style={listItemStyles.wrapper}>
+        <ToolbarGroup style={{flexGrow: 1}}>
           <TextField
             ref={focusInputField}
             hintText='Enter view name'
             value={this.state.newViewName}
-            style={{alignSelf: 'center', height: 'auto'}}
-            hintStyle={{bottom: null, fontSize: '14px', fontWeight: 600}}
-            inputStyle={{color: colours.black, height: 'auto', fontSize: '14px', fontWeight: 600}}
-            underlineStyle={underlineStyle}
-            underlineDisabledStyle={underlineStyle}
-            underlineFocusStyle={underlineStyle}
+            style={listItemStyles.textField.root}
+            hintStyle={listItemStyles.textField.hint}
+            inputStyle={listItemStyles.textField.input}
+            underlineStyle={listItemStyles.textField.underlineStyle}
+            underlineDisabledStyle={listItemStyles.textField.underlineStyle}
+            underlineFocusStyle={listItemStyles.textField.underlineStyle}
             onChange={this.handleNewViewNameChange}
             onKeyDown={this.handleNewViewEnter}
             />
         </ToolbarGroup>
         <ToolbarGroup>
-          <ToolbarSeparator style={customViewListItemStyles.separator} />
+          <ToolbarSeparator style={listItemStyles.separator} />
           <IconButton
             onClick={this.save}
-            style={customViewListItemStyles.saveIcon.button}
-            iconStyle={customViewListItemStyles.saveIcon.icon}
+            style={listItemStyles.saveIcon.button}
+            iconStyle={listItemStyles.saveIcon.icon}
             tooltip='Save view'
             >
             <FontIcon className='icon-plus' color={colours.brownishGrey} hoverColor={colours.reevooBlue} />
@@ -211,9 +193,9 @@ EditableCustomViewListItem.propTypes = {
 }
 
 const PlainCustomViewListItem = ({ text }) => (
-  <Toolbar style={customViewListItemStyles.wrapper}>
+  <Toolbar style={listItemStyles.wrapper}>
     <ToolbarGroup>
-      <ToolbarTitle text={text} style={customViewListItemStyles.title} />
+      <ToolbarTitle text={text} style={listItemStyles.title} />
     </ToolbarGroup>
   </Toolbar>
 )
