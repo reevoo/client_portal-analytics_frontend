@@ -161,6 +161,7 @@ describe('actions', () => {
       })
 
       const expectedActions = [
+        { type: actionTypes.SET_DASHBOARD_FILTER_INIT },
         { type: actionTypes.SET_DASHBOARD_FILTER, payload: { name: 'filterName', value: 'filterValue' } },
       ]
 
@@ -191,6 +192,7 @@ describe('actions', () => {
       const store = createMockStore({ analyticsApp: { tableauAPI: { getWorkbook: () => {} } } })
 
       const expectedActions = [
+        { type: actionTypes.SHOW_DASHBOARD_VIEW_INIT },
         { type: actionTypes.SHOW_DASHBOARD_VIEW, payload: { filters: [ { name: 'filterName' } ], selectedView: 'viewName' } },
       ]
 

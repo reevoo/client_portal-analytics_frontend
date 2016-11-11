@@ -15,6 +15,7 @@ const DashboardFiltersContainer = ({
   dashboardViews,
   defaultDashboardView,
   selectedDashboardView,
+  loading,
   changeFilter,
   removeDashboardView,
   saveDashboardView,
@@ -26,6 +27,7 @@ const DashboardFiltersContainer = ({
     views={dashboardViews}
     defaultView={defaultDashboardView}
     selectedView={selectedDashboardView}
+    loading={loading}
     changeFilter={changeFilter}
     removeView={removeDashboardView}
     saveView={saveDashboardView}
@@ -38,6 +40,7 @@ DashboardFiltersContainer.propTypes = {
   dashboardViews: PropTypes.array.isRequired,
   defaultDashboardView: PropTypes.string,
   selectedDashboardView: PropTypes.string,
+  loading: PropTypes.bool,
   // Actions
   changeFilter: PropTypes.func.isRequired,
   removeDashboardView: PropTypes.func.isRequired,
@@ -46,12 +49,13 @@ DashboardFiltersContainer.propTypes = {
   showDashboardView: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = ({ analyticsApp, router }) => ({
+const mapStateToProps = ({ analyticsApp, ui, router }) => ({
   selectedDashboard: getSelectedDashboardById(analyticsApp.dashboards, router.params.id),
   dashboardFilters: analyticsApp.workbook ? analyticsApp.workbook.filters : [],
   dashboardViews: analyticsApp.workbook ? analyticsApp.workbook.views : [],
   defaultDashboardView: analyticsApp.workbook && analyticsApp.workbook.defaultView,
   selectedDashboardView: analyticsApp.workbook && analyticsApp.workbook.selectedView,
+  loading: ui.loadingDashboardValues,
 })
 
 export default connect(

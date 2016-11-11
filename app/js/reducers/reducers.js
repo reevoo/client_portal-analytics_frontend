@@ -70,6 +70,27 @@ export const modules = (accessibleModules) => {
   return orderedModules
 }
 
+const initialUIState = {
+  loadingDashboardValues: false,
+}
+
+export const ui = (state = initialUIState, action) => {
+  switch (action.type) {
+    case actionTypes.SET_DASHBOARD_FILTER_INIT:
+      return { ...state, loadingDashboardValues: true }
+    case actionTypes.SET_DASHBOARD_FILTER:
+      return { ...state, loadingDashboardValues: false }
+
+    case actionTypes.SHOW_DASHBOARD_VIEW_INIT:
+      return { ...state, loadingDashboardValues: true }
+    case actionTypes.SHOW_DASHBOARD_VIEW:
+      return { ...state, loadingDashboardValues: false }
+
+    default:
+      return state
+  }
+}
+
 export const analyticsApp = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.TOGGLE_LEFT_HAND_NAV:
@@ -178,5 +199,6 @@ export const analyticsApp = (state = initialState, action) => {
 
 export default combineReducers({
   analyticsApp,
+  ui,
   router: routerStateReducer,
 })

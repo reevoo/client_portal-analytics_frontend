@@ -17,17 +17,15 @@ class CustomViewsListDialog extends Component {
     this.handleShow = this.handleShow.bind(this)
     this.handleRemove = this.handleRemove.bind(this)
 
-    /**
-     * showAddNew is a helper to show/remove/animate the add new view text box
-     */
+    // showAddNew is a helper to show/remove/animate the add new view text box
     this.state = { showAddNew: props.addNew }
   }
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.views.length > this.props.views.length) {
       this.setState({ showAddNew: false })
-    } else {
-      this.state = { showAddNew: nextProps.addNew }
+    } else if (nextProps.views.length === this.props.views.length) {
+      this.setState({ showAddNew: nextProps.addNew })
     }
   }
 

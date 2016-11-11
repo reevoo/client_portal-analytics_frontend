@@ -75,6 +75,8 @@ export const loadTableauDashboard = () => (dispatch, getState) => {
 }
 
 export const changeFilter = (filterName, filterValue) => (dispatch, getState) => {
+  dispatch({ type: actionTypes.SET_DASHBOARD_FILTER_INIT })
+
   const state = getState()
   const filter = state.analyticsApp.workbook.filters.find((f) => f.name === filterName)
 
@@ -87,6 +89,8 @@ export const changeFilter = (filterName, filterValue) => (dispatch, getState) =>
 }
 
 export const showDashboardView = (name) => (dispatch, getState) => {
+  dispatch({ type: actionTypes.SHOW_DASHBOARD_VIEW_INIT })
+
   const workbook = getCurrentWorkbook(getState())
 
   return showCustomView(workbook, name).then(() =>
