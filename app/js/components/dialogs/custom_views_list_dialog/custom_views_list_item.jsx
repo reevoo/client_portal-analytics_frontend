@@ -19,6 +19,7 @@ const listItemStyles = {
   },
   wrapperSelected: { border: `1px solid ${colours.warmGrey}` },
   leftWrapper: {
+    alignItems: 'center',
     flexGrow: 1,
     justifyContent: 'flex-start',
     minWidth: 0, // Helps with text overflow on flex elements
@@ -48,6 +49,18 @@ const listItemStyles = {
   favouriteIcon: {
     button: { margin: '0 0px 0 -10px', minWidth: '48px', padding: 0 },
     icon: { fontSize: '20px' },
+    iconDisabled: {
+      alignItems: 'center',
+      cursor: 'default',
+      display: 'flex',
+      fontSize: '20px',
+      height: '48px',
+      justifyContent: 'center',
+      margin: '0 0px 0 -10px',
+      minWidth: '48px',
+      padding: 0,
+      width: '48px',
+    },
   },
   deleteIcon: {
     button: { margin: '0 -20px 0 0', padding: 0 },
@@ -63,52 +76,51 @@ const listItemStyles = {
   },
 }
 
-/**
- * Sometimes we need an empty action to pass to some MaterialUI components
- */
-const dummyAction = () => {}
+const CustomViewListItem = ({ name, isDefault, selected, onRemove, onSetDefault, onShow }) => {
+  const favouriteButton = isDefault
+    ? <FontIcon className='icon-favourite' color={colours.reevooGreen}
+      hoverColor={colours.reevooGreen}
+      style={listItemStyles.favouriteIcon.iconDisabled}
+      />
+    : <IconButton
+      onClick={onSetDefault}
+      style={listItemStyles.favouriteIcon.button}
+      iconStyle={listItemStyles.favouriteIcon.icon}
+      tooltip='Set as default'
+      >
+      <FontIcon className='icon-favourite' color={colours.warmGrey} hoverColor={colours.reevooGreen} />
+    </IconButton>
 
-const CustomViewListItem = ({ name, isDefault, selected, onRemove, onSetDefault, onShow }) => (
-  <Toolbar style={{ ...listItemStyles.wrapper, ...(selected ? listItemStyles.wrapperSelected : {}) }}>
-    <ToolbarGroup style={listItemStyles.leftWrapper}>
-      <IconButton
-        disabled={isDefault}
-        onClick={!isDefault ? onSetDefault : dummyAction}
-        style={listItemStyles.favouriteIcon.button}
-        iconStyle={listItemStyles.favouriteIcon.icon}
-        tooltip={isDefault ? 'Default view' : 'Set as default'}
-        >
-        <FontIcon
-          className='icon-favourite'
-          color={isDefault ? colours.reevooGreen : colours.warmGrey}
-          hoverColor={colours.reevooGreen}
-          />
-      </IconButton>
-      <ToolbarTitle text={name} style={listItemStyles.title} />
-    </ToolbarGroup>
-    <ToolbarGroup>
-      { // If the view is selected we don't want to display the view button
-      !selected && <IconButton
-        onClick={onShow}
-        style={listItemStyles.viewIcon.button}
-        iconStyle={listItemStyles.viewIcon.icon}
-        tooltip='Load view'
-        >
-        <FontIcon className='icon-eye' color={colours.brownishGrey} hoverColor={colours.reevooBlue} />
-      </IconButton>
-      }
-      <ToolbarSeparator style={listItemStyles.separator} />
-      <IconButton
-        onClick={onRemove}
-        style={listItemStyles.deleteIcon.button}
-        iconStyle={listItemStyles.deleteIcon.icon}
-        tooltip='Remove view'
-        >
-        <FontIcon className='icon-trash_cross' color={colours.brownishGrey} hoverColor={colours.redOrange} />
-      </IconButton>
-    </ToolbarGroup>
-  </Toolbar>
-)
+  return (
+    <Toolbar style={{ ...listItemStyles.wrapper, ...(selected ? listItemStyles.wrapperSelected : {}) }}>
+      <ToolbarGroup style={listItemStyles.leftWrapper}>
+        {favouriteButton}
+        <ToolbarTitle text={name} style={listItemStyles.title} />
+      </ToolbarGroup>
+      <ToolbarGroup>
+        { // If the view is selected we don't want to display the view button
+        !selected && <IconButton
+          onClick={onShow}
+          style={listItemStyles.viewIcon.button}
+          iconStyle={listItemStyles.viewIcon.icon}
+          tooltip='Load view'
+          >
+          <FontIcon className='icon-eye' color={colours.brownishGrey} hoverColor={colours.reevooBlue} />
+        </IconButton>
+        }
+        <ToolbarSeparator style={listItemStyles.separator} />
+        <IconButton
+          onClick={onRemove}
+          style={listItemStyles.deleteIcon.button}
+          iconStyle={listItemStyles.deleteIcon.icon}
+          tooltip='Remove view'
+          >
+          <FontIcon className='icon-trash_cross' color={colours.brownishGrey} hoverColor={colours.redOrange} />
+        </IconButton>
+      </ToolbarGroup>
+    </Toolbar>
+  )
+}
 
 CustomViewListItem.propTypes = {
   name: PropTypes.string.isRequired,
