@@ -63,6 +63,10 @@ const common = {
   externals: {
     'tableau': 'tableau',
   },
+  eslint: {
+    failOnWarning: true,
+    failOnError: true,
+  },
 }
 
 let webpackConfig = {}
@@ -73,6 +77,7 @@ if (TARGET === 'start' || !TARGET) {
   })
 } else {
   webpackConfig = merge(common, {
+    bail: true,
     devtool: 'source-map',
     plugins: [
       new webpack.DefinePlugin({
