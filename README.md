@@ -32,6 +32,11 @@ npm install
 npm start
 ```
 
+# Running using staging tableau
+
+To run using tableau staging ensure your local client_portal-admin is running using the staging environment variables 
+and change the value of CP_ANALYTICS_API and TABLEAU_GATEWAY_API from [.env.development](/.env.development) with the corresponding values from [.env.staging](.env.staging)
+
 This will start a local server running on http://localhost:8080/.
 
 # Test
