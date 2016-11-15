@@ -5,4 +5,13 @@ repo = "quay.io/reevoo/client_portal-analytics_frontend"
 [build]
 builder = "frontendJS"
 version = "node6"
-script = ["gem install bundler && bundle install && npm run ci"]
+
+install = [
+  'yarn install',
+  'gem install bundler',
+  'bundle install'
+]
+
+script = [
+  'yarn run ci',
+]

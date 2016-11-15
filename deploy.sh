@@ -10,5 +10,5 @@ fi
 
 bundle install
 rm -rf node_modules
-npm install --force
-npm run deploy:$1
+yarn install
+yarn run deploy:$1
