@@ -12,13 +12,13 @@ This relies on a number of other applications to run correctly:
 
 # Requirements
 
-This relies on having node and npm installed, whose version is managed in `.node-version` as we generally manage node versions with [nodenv](https://github.com/nodenv/nodenv)
+This relies on having `node` and `npm` installed, whose version is managed in `.node-version` as we generally manage `node` versions with [`nodenv`](https://github.com/nodenv/nodenv). It also relies on `yarn` as the package manager. To install it you can just run `npm i -g yarn` once you have `nodenv` properly setup.
 
 If you're going to deploy (to staging or production) you will need to have installed the AWS CLI tools. In Mac you can just run `brew install awscli`. For other systems, check [the official docs](https://aws.amazon.com/cli/).
 
 # Set up
 
-All managed through `npm` and `webpack`, so simply:
+All managed through `npm`, `yarn` and `webpack`, so simply:
 
 ```bash
 # Pre-requisite to run the contract tests with Pact
@@ -28,8 +28,8 @@ bundle install
 nodenv install
 
 # For installing and running the application
-npm install
-npm start
+yarn install
+yarn run start
 ```
 
 # Running using staging tableau
@@ -44,7 +44,7 @@ This will start a local server running on http://localhost:8080/.
 If you need to run all the tests (unit and contract) just run
 
 ```bash
-npm test
+yarn run test
 ```
 
 ## Unit
@@ -52,13 +52,13 @@ npm test
 You can run the unit tests a single time with
 
 ```bash
-npm run test:unit
+yarn run test:unit
 ```
 
 or keep them running if you are modifying them and want to check the results live (TDD FTW!):
 
 ```bash
-npm run test:unit:watch
+yarn run test:unit:watch
 ```
 
 ## Contract
@@ -66,7 +66,7 @@ npm run test:unit:watch
 To generate the Pact contract files and upload them to you local Pact Broker, you have to run
 
 ```bash
-npm run test:contract
+yarn run test:contract
 ```
 
 and be sure to have [Pact Broker](https://github.com/reevoo/pact_broker) running.
