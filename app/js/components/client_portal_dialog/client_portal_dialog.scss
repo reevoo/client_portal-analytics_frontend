@@ -1,9 +1,21 @@
 @import '../../../../node_modules/client_portal-assets/dist/sass/colours';
 
 .dialog {
+  &__section {
+    border-bottom: 1px solid $white-four;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+
+    &--last {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+  }
+
   &__section-title {
     color: $light-text-color;
     font-size: 13px;
+    margin-bottom: 30px;
     text-transform: uppercase;
   }
 }

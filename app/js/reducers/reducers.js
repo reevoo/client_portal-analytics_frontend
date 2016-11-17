@@ -70,6 +70,27 @@ export const modules = (accessibleModules) => {
   return orderedModules
 }
 
+const initialUIState = {
+  loadingDashboardValues: false,
+}
+
+export const ui = (state = initialUIState, action) => {
+  switch (action.type) {
+    case actionTypes.SET_DASHBOARD_FILTER_INIT:
+      return { ...state, loadingDashboardValues: true }
+    case actionTypes.SET_DASHBOARD_FILTER:
+      return { ...state, loadingDashboardValues: false }
+
+    case actionTypes.SHOW_DASHBOARD_VIEW_INIT:
+      return { ...state, loadingDashboardValues: true }
+    case actionTypes.SHOW_DASHBOARD_VIEW:
+      return { ...state, loadingDashboardValues: false }
+
+    default:
+      return state
+  }
+}
+
 export const analyticsApp = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.TOGGLE_LEFT_HAND_NAV:
@@ -85,7 +106,16 @@ export const analyticsApp = (state = initialState, action) => {
     case actionTypes.SET_WORKBOOK_VALUES:
       return {
         ...state,
-        workbook: action.payload.workbook,
+        workbook: {
+          filters: action.payload.filters,
+          views: action.payload.views,
+          /**
+           * As this is called just on the initial load of a dashboard,
+           * we set the defaultView as the selectedView
+           */
+          selectedView: action.payload.defaultView,
+          defaultView: action.payload.defaultView,
+        },
       }
 
     case actionTypes.GET_TABLEAU_API_FOR_DASHBOARD:
@@ -106,6 +136,52 @@ export const analyticsApp = (state = initialState, action) => {
         },
       }
 
+    case actionTypes.ADD_DASHBOARD_VIEW:
+      return {
+        ...state,
+        workbook: {
+          ...state.workbook,
+          views: [ ...state.workbook.views, action.payload ],
+          selectedView: action.payload,
+        },
+      }
+
+    case actionTypes.REMOVE_DASHBOARD_VIEW:
+      return {
+        ...state,
+        workbook: {
+          ...state.workbook,
+          views: state.workbook.views.filter((view) => view !== action.payload),
+          selectedView: state.workbook.selectedView !== action.payload
+            ? state.workbook.selectedView
+            : null,
+          defaultView: state.workbook.defaultView !== action.payload
+            ? state.workbook.defaultView
+            : null,
+        },
+      }
+
+    case actionTypes.SET_DEFAULT_DASHBOARD_VIEW:
+      return {
+        ...state,
+        workbook: {
+          ...state.workbook,
+          filters: action.payload.filters,
+          defaultView: action.payload.defaultView,
+          selectedView: action.payload.selectedView,
+        },
+      }
+
+    case actionTypes.SHOW_DASHBOARD_VIEW:
+      return {
+        ...state,
+        workbook: {
+          ...state.workbook,
+          filters: action.payload.filters,
+          selectedView: action.payload.selectedView,
+        },
+      }
+
     case actionTypes.SHOW_HEADER_MODULES:
       return {
         ...state,
@@ -116,9 +192,6 @@ export const analyticsApp = (state = initialState, action) => {
     case actionTypes.HIDE_HEADER_MODULES:
       return { ...state, headerModulesVisible: false }
 
-    case 'TABLEAU_API':
-      return { ...state, tableauAPI: action.payload }
-
     default:
       return state
   }
@@ -126,5 +199,6 @@ export const analyticsApp = (state = initialState, action) => {
 
 export default combineReducers({
   analyticsApp,
+  ui,
   router: routerStateReducer,
 })

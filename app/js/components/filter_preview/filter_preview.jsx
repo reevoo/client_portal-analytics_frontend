@@ -5,25 +5,25 @@ import FontIcon from 'material-ui/FontIcon'
 import DateRangeDialog from '../dialogs/date_range_dialog/date_range_dialog'
 import TrkrefDialog from '../dialogs/trkref_dialog/trkref_dialog'
 
-const filterChip = {
-  borderColor: '#dedede',
-  borderRadius: '25px',
-  borderStyle: 'solid',
-  borderWidth: '1px',
-  fontSize: '14px',
-  marginRight: '20px',
-}
+import './filter_preview.scss'
 
-const filterChipLabel = {
-  lineHeight: 1.3,
-  padding: '10px 20px',
-}
-
-const filterTitleIcon = {
-  color: 'inherit',
-  fontSize: '15px',
-  marginLeft: '10px',
-  transition: 'none',
+const filterStyles = {
+  chip: {
+    borderColor: '#dedede',
+    borderRadius: '25px',
+    borderStyle: 'solid',
+    borderWidth: '1px',
+    cursor: 'pointer',
+    fontSize: '14px',
+    marginRight: '20px',
+  },
+  chipLabel: { lineHeight: 1.3, padding: '10px 20px' },
+  titleIcon: {
+    color: 'inherit',
+    fontSize: '15px',
+    marginLeft: '10px',
+    transition: 'none',
+  },
 }
 
 class FilterPreview extends Component {
@@ -78,15 +78,15 @@ class FilterPreview extends Component {
       <div className='filter-preview' onClick={this.openEditDialog}>
         <h6 className='filter-preview__title'>
           {name}
-          <FontIcon className='icon-edit_pencil' style={filterTitleIcon} />
+          <FontIcon className='icon-edit_pencil' style={filterStyles.titleIcon} />
         </h6>
         <div className='filter-preview__values'>
           {selectedValues.map((value) => (
             <Chip
               key={value}
               backgroundColor='transparent'
-              style={filterChip}
-              labelStyle={filterChipLabel}
+              style={filterStyles.chip}
+              labelStyle={filterStyles.chipLabel}
               >
                 {value}
             </Chip>

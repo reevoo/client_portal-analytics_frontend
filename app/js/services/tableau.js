@@ -98,6 +98,10 @@ const getFilters = (workbook) => getWorkbookFilters(workbook).then((tableauFilte
     .map(filterFromTableauObject(TableauTypes.FILTER))
 )
 
+const getViews = (workbook) =>
+  workbook.getCustomViewsAsync().then((customViews) =>
+    customViews.map((view) => ({ name: view.getName(), isDefault: view.getDefault() })))
+
 /**
  * Returns formatted tableau parameters and tableau filters as application filters
  */
@@ -121,9 +125,27 @@ export const createTableauAPI = ({ userId, token, viewId, onLoad }) => {
     getDashboardNode(),
     getDashboardUrl({ userId, token, viewId }),
     {
-      onFirstInteractive: () => getParametersAndFilters(tableauAPI.getWorkbook()).then(onLoad),
+      onFirstInteractive: () => {
+        const workbook = tableauAPI.getWorkbook()
+        return Promise.all([
+          getParametersAndFilters(workbook),
+          getViews(workbook),
+        ]).then(onLoad)
+      },
     }
   )
 
   return tableauAPI
 }
+
+export const saveCustomView = (workbook, name) =>
+  workbook.rememberCustomViewAsync(name)
+
+export const setDefaultCustomView = (workbook, name) =>
+  workbook.showCustomViewAsync(name).then(() => workbook.setActiveCustomViewAsDefaultAsync())
+
+export const showCustomView = (workbook, name) =>
+  workbook.showCustomViewAsync(name)
+
+export const removeCustomView = (workbook, name) =>
+  workbook.removeCustomViewAsync(name)

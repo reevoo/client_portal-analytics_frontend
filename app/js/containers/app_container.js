@@ -27,6 +27,10 @@ const rvMuiTheme = getMuiTheme({
     primary1Color: colours.darkSkyBlue,
   },
   fontFamily: 'Open Sans, sans-serif',
+  textField: {
+    floatingLabelColor: colours.reevooOrange,
+    focusColor: colours.reevooOrange,
+  },
   zIndex: {
     appBar: 1350, // Puts us over the left hand nav
   },

@@ -3,6 +3,10 @@ import {
   getProfileAndDashboards,
   getSelectedDashboardById,
   loadTableauDashboard,
+  removeDashboardView,
+  saveDashboardView,
+  setDefaultDashboardView,
+  showDashboardView,
   __RewireAPI__ as DashboardRewireAPI,
 } from 'app/js/actions/dashboards'
 import * as actionTypes from 'app/js/constants/action_types'
@@ -157,6 +161,7 @@ describe('actions', () => {
       })
 
       const expectedActions = [
+        { type: actionTypes.SET_DASHBOARD_FILTER_INIT },
         { type: actionTypes.SET_DASHBOARD_FILTER, payload: { name: 'filterName', value: 'filterValue' } },
       ]
 
@@ -173,6 +178,84 @@ describe('actions', () => {
 
     it('returns undefined if it can\'t find the requested dashboard in the list', () => {
       expect(getSelectedDashboardById([{id: 1}, {id: 2}], 3)).not.toBeDefined()
+    })
+  })
+
+  describe('showDashboardView', () => {
+    it('sets a Tableau view as the currently selected one', (done) => {
+      const showCustomViewMock = () => Promise.resolve()
+      DashboardRewireAPI.__Rewire__('showCustomView', showCustomViewMock)
+
+      const getParametersAndFiltersMock = () => Promise.resolve([ { name: 'filterName' } ])
+      DashboardRewireAPI.__Rewire__('getParametersAndFilters', getParametersAndFiltersMock)
+
+      const store = createMockStore({ analyticsApp: { tableauAPI: { getWorkbook: () => {} } } })
+
+      const expectedActions = [
+        { type: actionTypes.SHOW_DASHBOARD_VIEW_INIT },
+        { type: actionTypes.SHOW_DASHBOARD_VIEW, payload: { filters: [ { name: 'filterName' } ], selectedView: 'viewName' } },
+      ]
+
+      store.dispatch(showDashboardView('viewName')).then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      }).then(done)
+    })
+  })
+
+  describe('saveDashboardView', () => {
+    it('saves the current view in Tableau with the given name', (done) => {
+      const saveCustomViewMock = () => Promise.resolve()
+      DashboardRewireAPI.__Rewire__('saveCustomView', saveCustomViewMock)
+
+      const store = createMockStore({ analyticsApp: { tableauAPI: { getWorkbook: () => {} } } })
+
+      const expectedActions = [
+        { type: actionTypes.ADD_DASHBOARD_VIEW, payload: 'viewName' },
+      ]
+
+      store.dispatch(saveDashboardView('viewName')).then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      }).then(done)
+    })
+  })
+
+  describe('setDefaultDashboardView', () => {
+    it('sets the given Tableau view as the currently selected and the default one', (done) => {
+      const setDefaultCustomViewMock = () => Promise.resolve()
+      DashboardRewireAPI.__Rewire__('setDefaultCustomView', setDefaultCustomViewMock)
+
+      const getParametersAndFiltersMock = () => Promise.resolve([ { name: 'filterName' } ])
+      DashboardRewireAPI.__Rewire__('getParametersAndFilters', getParametersAndFiltersMock)
+
+      const store = createMockStore({ analyticsApp: { tableauAPI: { getWorkbook: () => {} } } })
+
+      const expectedActions = [
+        {
+          type: actionTypes.SET_DEFAULT_DASHBOARD_VIEW,
+          payload: { filters: [ { name: 'filterName' } ], selectedView: 'viewName', defaultView: 'viewName' },
+        },
+      ]
+
+      store.dispatch(setDefaultDashboardView('viewName')).then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      }).then(done)
+    })
+  })
+
+  describe('removeDashboardView', () => {
+    it('removes the provided view from Tableau', (done) => {
+      const removeCustomViewMock = () => Promise.resolve()
+      DashboardRewireAPI.__Rewire__('removeCustomView', removeCustomViewMock)
+
+      const store = createMockStore({ analyticsApp: { tableauAPI: { getWorkbook: () => {} } } })
+
+      const expectedActions = [
+        { type: actionTypes.REMOVE_DASHBOARD_VIEW, payload: 'viewName' },
+      ]
+
+      store.dispatch(removeDashboardView('viewName')).then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      }).then(done)
     })
   })
 })

@@ -6,21 +6,21 @@ import './client_portal_dialog.scss'
 
 import colours from '!!sass-variable-loader!client_portal-assets/dist/sass/colours.scss' // Load Reevoo colour variables
 
-const dialogTitleStyle = {
-  backgroundColor: colours.darkSkyBlue,
-  color: '#fff',
-  fontSize: '20px',
-  fontWeight: 'normal',
-  padding: '18px 30px',
-}
-
-const dialogBodyStyle = {
-  padding: '25px 30px',
-}
-
-const dialogActionsContainerStyle = {
-  borderTop: '1px solid #dbdbdb',
-  textAlign: 'left',
+const dialogStyles = {
+  title: {
+    backgroundColor: colours.darkSkyBlue,
+    color: '#fff',
+    fontSize: '20px',
+    fontWeight: 'normal',
+    padding: '18px 30px',
+  },
+  body: {
+    padding: '25px 30px',
+  },
+  actionsContainer: {
+    borderTop: '1px solid #dbdbdb',
+    textAlign: 'left',
+  },
 }
 
 const ClientPortalDialogSectionTitle = ({ title }) => (
@@ -31,23 +31,49 @@ ClientPortalDialogSectionTitle.propTypes = {
   title: PropTypes.string.isRequired,
 }
 
-const ClientPortalDialog = ({ children, open, title, onApply, onCancel }) => (
-  <Dialog
-    title={title}
-    titleStyle={dialogTitleStyle}
-    actions={[
-      <FlatButton label='Apply' onTouchTap={onApply} primary={true} />,
-      <FlatButton label='Cancel' onTouchTap={onCancel} />,
-    ]}
-    actionsContainerStyle={dialogActionsContainerStyle}
-    bodyStyle={dialogBodyStyle}
-    modal={false}
-    open={open}
-    onRequestClose={onCancel}
-    >
+const ClientPortalDialogSection = ({ children, last }) => (
+  <section className={`dialog__section ${last ? 'dialog__section--last' : ''}`}>
     {children}
-  </Dialog>
+  </section>
 )
+
+ClientPortalDialogSection.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.arrayOf(PropTypes.element),
+  ]).isRequired,
+  last: PropTypes.bool,
+}
+
+const ClientPortalDialog = ({ children, open, title, onApply, onCancel }) => {
+  let actionButtons = [
+    <FlatButton label='Cancel' onTouchTap={onCancel} />,
+  ]
+
+  if (onApply) {
+    actionButtons = [
+      <FlatButton label='Apply' onTouchTap={onApply} primary={true} />,
+      ...actionButtons,
+    ]
+  }
+
+  return (
+    <Dialog
+      autoScrollBodyContent={true}
+      repositionOnUpdate={false}
+      title={title}
+      titleStyle={dialogStyles.title}
+      actions={actionButtons}
+      actionsContainerStyle={dialogStyles.actionsContainer}
+      bodyStyle={dialogStyles.body}
+      modal={false}
+      open={open}
+      onRequestClose={onCancel}
+      >
+      {children}
+    </Dialog>
+  )
+}
 
 ClientPortalDialog.propTypes = {
   children: PropTypes.oneOfType([
@@ -56,8 +82,8 @@ ClientPortalDialog.propTypes = {
   ]).isRequired,
   open: PropTypes.bool,
   title: PropTypes.string,
-  onApply: PropTypes.func.isRequired,
+  onApply: PropTypes.func,
   onCancel: PropTypes.func.isRequired,
 }
 
-export { ClientPortalDialog, ClientPortalDialogSectionTitle }
+export { ClientPortalDialog, ClientPortalDialogSection, ClientPortalDialogSectionTitle }

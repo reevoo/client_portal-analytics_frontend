@@ -1,0 +1,37 @@
+@import '../../../../node_modules/client_portal-assets/dist/sass/colours';
+
+$margin-bottom: 40px;
+
+.filter-preview {
+  &:hover {
+    cursor: pointer;
+
+    .filter-preview__title {
+      color: $dark-sky-blue;
+    }
+  }
+
+  &__title {
+    font-size: 13px;
+    margin: 0 0 30px 0;
+    text-transform: uppercase;
+
+    &:hover, &:active {
+      color: $dark-sky-blue;
+    }
+  }
+
+  &__values {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: $margin-bottom;
+    padding-left: 20px;
+
+
+  }
+
+  // We need to remove the margin-bottom in the last element
+  &:last-child {
+    margin-bottom: -$margin-bottom;
+  }
+}
