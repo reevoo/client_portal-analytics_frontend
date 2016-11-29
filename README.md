@@ -10,6 +10,8 @@ This relies on a number of other applications to run correctly:
 * [client_portal-analytics_backend](https://github.com/reevoo/client_portal-analytics/tree/master/backend) - This provides us with an authentication token which can be sent to Tableau Server (see below)
 * [Tableau Server](http://www.tableau.com/products/server) - Using the token provided by `client_portal-analytics_backend`, we're able to connect to Tableau Server in an iframe and configure it using their javascript library. This is where the fun interactive analytics dashboards are served from.
 
+See [the wiki](https://reevoo.atlassian.net/wiki/display/PLAT/MyReevoo+Analytics+-+Technical+Architecture+Diagram) to see how this fits into the wider client_portal-analytics ecosystem.
+
 # Requirements
 
 This relies on having `node` and `npm` installed, whose version is managed in `.node-version` as we generally manage `node` versions with [`nodenv`](https://github.com/nodenv/nodenv). It also relies on `yarn` as the package manager. To install it you can just run `npm i -g yarn` once you have `nodenv` properly setup.
