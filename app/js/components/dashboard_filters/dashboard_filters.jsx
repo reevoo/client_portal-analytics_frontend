@@ -5,6 +5,7 @@ import FontIcon from 'material-ui/FontIcon'
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar'
 
 import CustomViewsListDialog from '../dialogs/custom_views_list_dialog/custom_views_list_dialog'
+import ExportDialog from '../dialogs/export_dialog/export_dialog'
 import FilterPreview from '../filter_preview/filter_preview'
 import TableauLoader from '../tableau_loader/tableau_loader'
 
@@ -77,9 +78,13 @@ class DashboardFilters extends Component {
     this.closeListDialog = this.closeListDialog.bind(this)
     this.openListDialog = this.openListDialog.bind(this)
 
+    this.closeExportDialog = this.closeExportDialog.bind(this)
+    this.openExportDialog = this.openExportDialog.bind(this)
+
     this.state = {
       addNewItem: false,
       listOpen: false,
+      exportOpen: false,
       expanded: false,
     }
   }
@@ -97,6 +102,15 @@ class DashboardFilters extends Component {
       event.stopPropagation()
       this.setState({ listOpen: true, addNewItem })
     }
+  }
+
+  closeExportDialog () {
+    this.setState({ exportOpen: false })
+  }
+
+  openExportDialog (event) {
+    event.stopPropagation()
+    this.setState({ exportOpen: true })
   }
 
   removeView (name) {
@@ -117,9 +131,13 @@ class DashboardFilters extends Component {
     this.closeListDialog()
   }
 
-  handleExport (event) {
-    event.stopPropagation()
-    this.props.exportImage()
+  handleExport (types) {
+    if (Array.isArray(types)) {
+      if (types.indexOf('Image') > -1) this.props.exportImage()
+      if (types.indexOf('PDF') > -1) this.props.exportPDF()
+    }
+
+    this.closeExportDialog()
   }
 
   handleFilterChange (filterName) {
@@ -151,7 +169,7 @@ class DashboardFilters extends Component {
               <FlatButton
                 label='Export'
                 icon={<FontIcon className='icon-export' style={{color: colours.tangerine, fontSize: '20px'}} />}
-                onTouchTap={this.handleExport}
+                onTouchTap={this.openExportDialog}
                 style={dashboardFiltersStyles.buttonExport}
                 labelStyle={{textTransform: 'none !important'}}
                 />
@@ -203,6 +221,11 @@ class DashboardFilters extends Component {
           onShow={this.showView}
           onSetDefault={this.setDefaultView}
           onRemove={this.removeView}
+          />
+        <ExportDialog
+          open={this.state.exportOpen}
+          onCancel={this.closeExportDialog}
+          onApply={this.handleExport}
           />
       </Card>
     )
