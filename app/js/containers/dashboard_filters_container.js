@@ -7,6 +7,8 @@ import {
   setDefaultDashboardView,
   showDashboardView,
   removeDashboardView,
+  exportImageDashboard,
+  exportPDFDashboard,
 } from '../actions/dashboards'
 import React, { PropTypes } from 'react'
 
@@ -21,6 +23,8 @@ const DashboardFiltersContainer = ({
   saveDashboardView,
   setDefaultDashboardView,
   showDashboardView,
+  exportImageDashboard,
+  exportPDFDashboard,
 }) =>
   <DashboardFilters
     filters={dashboardFilters}
@@ -33,6 +37,8 @@ const DashboardFiltersContainer = ({
     saveView={saveDashboardView}
     setDefaultView={setDefaultDashboardView}
     showView={showDashboardView}
+    exportImage={exportImageDashboard}
+    exportPDF={exportPDFDashboard}
     />
 
 DashboardFiltersContainer.propTypes = {
@@ -47,6 +53,8 @@ DashboardFiltersContainer.propTypes = {
   saveDashboardView: PropTypes.func.isRequired,
   setDefaultDashboardView: PropTypes.func.isRequired,
   showDashboardView: PropTypes.func.isRequired,
+  exportImageDashboard: PropTypes.func.isRequired,
+  exportPDFDashboard: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = ({ analyticsApp, ui, router }) => ({
@@ -60,5 +68,5 @@ const mapStateToProps = ({ analyticsApp, ui, router }) => ({
 
 export default connect(
   mapStateToProps,
-  { changeFilter, removeDashboardView, saveDashboardView, setDefaultDashboardView, showDashboardView }
+  { changeFilter, removeDashboardView, saveDashboardView, setDefaultDashboardView, showDashboardView, exportImageDashboard, exportPDFDashboard }
 )(DashboardFiltersContainer)

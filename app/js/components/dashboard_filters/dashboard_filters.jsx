@@ -47,6 +47,7 @@ const dashboardFiltersStyles = {
     top: 0,
   },
   button: buttonStyle,
+  buttonExport: { ...buttonStyle, color: colours.brownishGrey },
   buttonToggle: { ...buttonStyle, width: '150px' },
   selectedViewTitle: {
     color: colours.reevooOrange,
@@ -65,6 +66,7 @@ class DashboardFilters extends Component {
     super()
 
     this.handleExpandChange = this.handleExpandChange.bind(this)
+    this.handleExport = this.handleExport.bind(this)
     this.handleFilterChange = this.handleFilterChange.bind(this)
 
     this.removeView = this.removeView.bind(this)
@@ -115,6 +117,11 @@ class DashboardFilters extends Component {
     this.closeListDialog()
   }
 
+  handleExport (event) {
+    event.stopPropagation()
+    this.props.exportImage()
+  }
+
   handleFilterChange (filterName) {
     return (filterValue) => this.props.changeFilter(filterName, filterValue)
   }
@@ -133,7 +140,7 @@ class DashboardFilters extends Component {
             <ToolbarGroup style={dashboardFiltersStyles.headerToolbarGroup}>
               <FlatButton
                 label='My Views'
-                icon={<FontIcon className='icon-bullet_list' style={{fontSize: '18px', top: '3px'}} />}
+                icon={<FontIcon className='icon-bullet_list' style={{color: colours.brownishGrey, fontSize: '18px', top: '3px'}} />}
                 onTouchTap={this.openListDialog()}
                 style={dashboardFiltersStyles.button}
                 />
@@ -141,6 +148,13 @@ class DashboardFilters extends Component {
               <ToolbarTitle text={viewName} style={dashboardFiltersStyles.selectedViewTitle} />
             </ToolbarGroup>
             <ToolbarGroup lastChild={true} style={dashboardFiltersStyles.footerToolbarGroup}>
+              <FlatButton
+                label='Export'
+                icon={<FontIcon className='icon-export' style={{color: colours.tangerine, fontSize: '20px'}} />}
+                onTouchTap={this.handleExport}
+                style={dashboardFiltersStyles.buttonExport}
+                labelStyle={{textTransform: 'none !important'}}
+                />
               <ToolbarSeparator style={dashboardFiltersStyles.footerToolbarSeparator} />
               <FlatButton
                 label={expanded ? 'Hide filters' : 'Show filters'}
@@ -207,6 +221,8 @@ DashboardFilters.propTypes = {
   saveView: PropTypes.func.isRequired,
   setDefaultView: PropTypes.func.isRequired,
   showView: PropTypes.func.isRequired,
+  exportImage: PropTypes.func.isRequired,
+  exportPDF: PropTypes.func.isRequired,
 }
 
 export default DashboardFilters
