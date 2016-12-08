@@ -7,6 +7,8 @@ import {
   saveDashboardView,
   setDefaultDashboardView,
   showDashboardView,
+  exportImageDashboard,
+  exportPDFDashboard,
   __RewireAPI__ as DashboardRewireAPI,
 } from 'app/js/actions/dashboards'
 import * as actionTypes from 'app/js/constants/action_types'
@@ -256,6 +258,26 @@ describe('actions', () => {
       store.dispatch(removeDashboardView('viewName')).then(() => {
         expect(store.getActions()).toEqual(expectedActions)
       }).then(done)
+    })
+  })
+
+  describe('exportImageDashboard', () => {
+    it('calls the showExportImageDialog method in the current tableauAPI object', () => {
+      const showExportImageDialogSpy = jasmine.createSpy('showExportImageDialog')
+      const store = createMockStore({ analyticsApp: { tableauAPI: { showExportImageDialog: showExportImageDialogSpy } } })
+
+      store.dispatch(exportImageDashboard())
+      expect(showExportImageDialogSpy).toHaveBeenCalled()
+    })
+  })
+
+  describe('exportPDFDashboard', () => {
+    it('calls the showExportImageDialog method in the current tableauAPI object', () => {
+      const showExportPDFDialogSpy = jasmine.createSpy('showExportPDFDialog')
+      const store = createMockStore({ analyticsApp: { tableauAPI: { showExportPDFDialog: showExportPDFDialogSpy } } })
+
+      store.dispatch(exportPDFDashboard())
+      expect(showExportPDFDialogSpy).toHaveBeenCalled()
     })
   })
 })
