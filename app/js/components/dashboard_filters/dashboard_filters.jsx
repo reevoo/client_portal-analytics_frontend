@@ -4,6 +4,10 @@ import FlatButton from 'material-ui/FlatButton'
 import FontIcon from 'material-ui/FontIcon'
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar'
 
+import Popover, {PopoverAnimationVertical} from 'material-ui/Popover'
+import Menu from 'material-ui/Menu'
+import MenuItem from 'material-ui/MenuItem'
+
 import CustomViewsListDialog from '../dialogs/custom_views_list_dialog/custom_views_list_dialog'
 import ExportDialog from '../dialogs/export_dialog/export_dialog'
 import FilterPreview from '../filter_preview/filter_preview'
@@ -60,11 +64,9 @@ const dashboardFiltersStyles = {
   },
 }
 
-const dummyFunction = () => {}
-
 class DashboardFilters extends Component {
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
 
     this.handleExpandChange = this.handleExpandChange.bind(this)
     this.handleExport = this.handleExport.bind(this)
@@ -81,7 +83,14 @@ class DashboardFilters extends Component {
     this.closeExportDialog = this.closeExportDialog.bind(this)
     this.openExportDialog = this.openExportDialog.bind(this)
 
+    this.openExportPopover = this.openExportPopover.bind(this)
+    this.closeExportPopover = this.closeExportPopover.bind(this)
+
+    this.exportImage = this.exportImage.bind(this)
+    this.exportPDF = this.exportPDF.bind(this)
+
     this.state = {
+      exportPopoverOpen: false,
       addNewItem: false,
       listOpen: false,
       exportOpen: false,
@@ -89,8 +98,34 @@ class DashboardFilters extends Component {
     }
   }
 
-  handleExpandChange (expanded) {
-    this.setState({expanded: expanded})
+  openExportPopover (event) {
+    // This prevents ghost click.
+    event.preventDefault()
+
+    this.setState({
+      exportPopoverOpen: true,
+      anchorEl: event.currentTarget,
+    })
+  }
+
+  closeExportPopover () {
+    this.setState({
+      exportPopoverOpen: false,
+    })
+  }
+
+  exportImage () {
+    this.closeExportPopover()
+    this.props.exportImage()
+  }
+
+  exportPDF () {
+    this.closeExportPopover()
+    this.props.exportPDF()
+  }
+
+  handleExpandChange () {
+    this.setState({expanded: !this.state.expanded})
   }
 
   closeListDialog () {
@@ -151,7 +186,7 @@ class DashboardFilters extends Component {
 
     // TODO: The check for filters length is a temporal solution until we have the final Tableau dashboards setup
     return filters.length > 0 && (
-      <Card expanded={expanded} onExpandChange={this.handleExpandChange} className='dashboard-filters' style={dashboardFiltersStyles.wrapper}>
+      <Card expanded={expanded} className='dashboard-filters' style={dashboardFiltersStyles.wrapper}>
         {loading && <div className='dashboard-filters__overlay'><TableauLoader /></div>}
         <CardHeader actAsExpander={true} style={dashboardFiltersStyles.header}>
           <Toolbar style={dashboardFiltersStyles.headerToolbar}>
@@ -169,15 +204,28 @@ class DashboardFilters extends Component {
               <FlatButton
                 label='Export'
                 icon={<FontIcon className='icon-export' style={{color: colours.tangerine, fontSize: '20px'}} />}
-                onTouchTap={this.openExportDialog}
+                onTouchTap={this.openExportPopover}
                 style={dashboardFiltersStyles.buttonExport}
                 labelStyle={{textTransform: 'none !important'}}
                 />
+              <Popover
+                open={this.state.exportPopoverOpen}
+                anchorEl={this.state.anchorEl}
+                anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+                targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                onRequestClose={this.closeExportPopover}
+                animation={PopoverAnimationVertical}
+              >
+                <Menu>
+                  <MenuItem primaryText="Image" onTouchTap={this.exportImage} />
+                  <MenuItem primaryText="PDF" onTouchTap={this.exportPDF} />
+                </Menu>
+              </Popover>
               <ToolbarSeparator style={dashboardFiltersStyles.footerToolbarSeparator} />
               <FlatButton
                 label={expanded ? 'Hide filters' : 'Show filters'}
                 icon={<FontIcon className={expanded ? 'icon-arrow_up' : 'icon-arrow_down'} style={{fontSize: '16px', top: '2px'}} />}
-                onTouchTap={dummyFunction}
+                onTouchTap={this.handleExpandChange}
                 primary={true}
                 style={dashboardFiltersStyles.buttonToggle}
                 />
