@@ -4,7 +4,12 @@ import FlatButton from 'material-ui/FlatButton'
 import FontIcon from 'material-ui/FontIcon'
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar'
 
+import Popover, {PopoverAnimationVertical} from 'material-ui/Popover'
+import Menu from 'material-ui/Menu'
+import MenuItem from 'material-ui/MenuItem'
+
 import CustomViewsListDialog from '../dialogs/custom_views_list_dialog/custom_views_list_dialog'
+
 import FilterPreview from '../filter_preview/filter_preview'
 import TableauLoader from '../tableau_loader/tableau_loader'
 
@@ -47,6 +52,7 @@ const dashboardFiltersStyles = {
     top: 0,
   },
   button: buttonStyle,
+  buttonExport: { ...buttonStyle, color: colours.brownishGrey },
   buttonToggle: { ...buttonStyle, width: '150px' },
   selectedViewTitle: {
     color: colours.reevooOrange,
@@ -58,13 +64,12 @@ const dashboardFiltersStyles = {
   },
 }
 
-const dummyFunction = () => {}
-
 class DashboardFilters extends Component {
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
 
     this.handleExpandChange = this.handleExpandChange.bind(this)
+    this.handleExport = this.handleExport.bind(this)
     this.handleFilterChange = this.handleFilterChange.bind(this)
 
     this.removeView = this.removeView.bind(this)
@@ -75,15 +80,48 @@ class DashboardFilters extends Component {
     this.closeListDialog = this.closeListDialog.bind(this)
     this.openListDialog = this.openListDialog.bind(this)
 
+    this.openExportPopover = this.openExportPopover.bind(this)
+    this.closeExportPopover = this.closeExportPopover.bind(this)
+
+    this.exportImage = this.exportImage.bind(this)
+    this.exportPDF = this.exportPDF.bind(this)
+
     this.state = {
+      exportPopoverOpen: false,
       addNewItem: false,
       listOpen: false,
       expanded: false,
     }
   }
 
-  handleExpandChange (expanded) {
-    this.setState({expanded: expanded})
+  openExportPopover (event) {
+    // This prevents ghost click.
+    event.preventDefault()
+
+    this.setState({
+      exportPopoverOpen: true,
+      anchorEl: event.currentTarget,
+    })
+  }
+
+  closeExportPopover () {
+    this.setState({
+      exportPopoverOpen: false,
+    })
+  }
+
+  exportImage () {
+    this.closeExportPopover()
+    this.props.exportImage()
+  }
+
+  exportPDF () {
+    this.closeExportPopover()
+    this.props.exportPDF()
+  }
+
+  handleExpandChange () {
+    this.setState({expanded: !this.state.expanded})
   }
 
   closeListDialog () {
@@ -115,6 +153,13 @@ class DashboardFilters extends Component {
     this.closeListDialog()
   }
 
+  handleExport (types) {
+    if (Array.isArray(types)) {
+      if (types.indexOf('Image') > -1) this.props.exportImage()
+      if (types.indexOf('PDF') > -1) this.props.exportPDF()
+    }
+  }
+
   handleFilterChange (filterName) {
     return (filterValue) => this.props.changeFilter(filterName, filterValue)
   }
@@ -126,14 +171,14 @@ class DashboardFilters extends Component {
 
     // TODO: The check for filters length is a temporal solution until we have the final Tableau dashboards setup
     return filters.length > 0 && (
-      <Card expanded={expanded} onExpandChange={this.handleExpandChange} className='dashboard-filters' style={dashboardFiltersStyles.wrapper}>
+      <Card expanded={expanded} className='dashboard-filters' style={dashboardFiltersStyles.wrapper}>
         {loading && <div className='dashboard-filters__overlay'><TableauLoader /></div>}
         <CardHeader actAsExpander={true} style={dashboardFiltersStyles.header}>
           <Toolbar style={dashboardFiltersStyles.headerToolbar}>
             <ToolbarGroup style={dashboardFiltersStyles.headerToolbarGroup}>
               <FlatButton
                 label='My Views'
-                icon={<FontIcon className='icon-bullet_list' style={{fontSize: '18px', top: '3px'}} />}
+                icon={<FontIcon className='icon-bullet_list' style={{color: colours.brownishGrey, fontSize: '18px', top: '3px'}} />}
                 onTouchTap={this.openListDialog()}
                 style={dashboardFiltersStyles.button}
                 />
@@ -141,11 +186,31 @@ class DashboardFilters extends Component {
               <ToolbarTitle text={viewName} style={dashboardFiltersStyles.selectedViewTitle} />
             </ToolbarGroup>
             <ToolbarGroup lastChild={true} style={dashboardFiltersStyles.footerToolbarGroup}>
+              <FlatButton
+                label='Export'
+                icon={<FontIcon className='icon-export' style={{color: colours.tangerine, fontSize: '20px'}} />}
+                onTouchTap={this.openExportPopover}
+                style={dashboardFiltersStyles.buttonExport}
+                labelStyle={{textTransform: 'none !important'}}
+                />
+              <Popover
+                open={this.state.exportPopoverOpen}
+                anchorEl={this.state.anchorEl}
+                anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+                targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                onRequestClose={this.closeExportPopover}
+                animation={PopoverAnimationVertical}
+              >
+                <Menu>
+                  <MenuItem primaryText="Image" onTouchTap={this.exportImage} />
+                  <MenuItem primaryText="PDF" onTouchTap={this.exportPDF} />
+                </Menu>
+              </Popover>
               <ToolbarSeparator style={dashboardFiltersStyles.footerToolbarSeparator} />
               <FlatButton
                 label={expanded ? 'Hide filters' : 'Show filters'}
                 icon={<FontIcon className={expanded ? 'icon-arrow_up' : 'icon-arrow_down'} style={{fontSize: '16px', top: '2px'}} />}
-                onTouchTap={dummyFunction}
+                onTouchTap={this.handleExpandChange}
                 primary={true}
                 style={dashboardFiltersStyles.buttonToggle}
                 />
@@ -207,6 +272,8 @@ DashboardFilters.propTypes = {
   saveView: PropTypes.func.isRequired,
   setDefaultView: PropTypes.func.isRequired,
   showView: PropTypes.func.isRequired,
+  exportImage: PropTypes.func.isRequired,
+  exportPDF: PropTypes.func.isRequired,
 }
 
 export default DashboardFilters

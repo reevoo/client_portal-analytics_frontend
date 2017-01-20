@@ -133,3 +133,9 @@ export const removeDashboardView = (name) => (dispatch, getState) =>
 
 export const getSelectedDashboardById = (dashboards, id) =>
   dashboards.find((dashboard) => dashboard.id === id)
+
+export const exportImageDashboard = () => (dispatch, getState) =>
+  getState().analyticsApp.tableauAPI.showExportImageDialog()
+
+export const exportPDFDashboard = () => (dispatch, getState) =>
+  getState().analyticsApp.tableauAPI.showExportPDFDialog()
