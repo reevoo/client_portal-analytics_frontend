@@ -1,5 +1,6 @@
 import tableau from 'tableau'
 import { TABLEAU_HOST } from '../constants/app_constants'
+import { getFilter } from './cp_analytics_api_client'
 
 const TABLEAU_SUPPORT_WORKSHEET = 'Settings'
 
@@ -91,11 +92,23 @@ const getParameters = (workbook) => getWorkbookParameters(workbook).then((tablea
 
 /**
  * Returns formatted tableau filters as application filters
+ *
+ * This currently just fetches the filters from Tableau. It should also fetch
+ * the filters we need from the client_portal-analytics_backend in order to
+ * correctly select trkrefs/product names/etc.
  */
-const getFilters = (workbook) => getWorkbookFilters(workbook).then((tableauFilters) =>
-  tableauFilters
+const getFilters = (workbook) => getWorkbookFilters(workbook).then((tableauFilters) => {
+  let fromTableau = tableauFilters
     .filter(isAllowedTableauFilter(workbook.getName()))
     .map(filterFromTableauObject(TableauTypes.FILTER))
+
+  getFilter('retailers').then((retailers) => {
+    fromTableau[0].allowedValues = retailers.map((retailer) => {
+      return `${retailer.name} (${retailer.trkref})`
+    })
+  })
+  return fromTableau
+}
 )
 
 const getViews = (workbook) =>
