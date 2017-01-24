@@ -40,7 +40,7 @@ export const getProfileAndDashboards = () => (dispatch, getState) => {
 /**
  * Loads the Tableau Dashboard identified by the @id param in the url
  */
-export const loadTableauDashboard = () => (dispatch, getState) => {
+export const loadTableauDashboard = (availableTrkrefs) => (dispatch, getState) => {
   dispatch({ type: actionTypes.GET_DASHBOARD_TOKEN })
 
   return getTableauToken().then(({ token }) => {
@@ -54,6 +54,7 @@ export const loadTableauDashboard = () => (dispatch, getState) => {
 
     const tableauAPI = createTableauAPI({
       userId: profile.id,
+      availableTrkrefs,
       token,
       viewId: getSelectedDashboardById(dashboards, router.params.id).views[0].replace('sheets/', ''),
       onLoad: ([appFilters, views]) => {

@@ -1,6 +1,5 @@
 import tableau from 'tableau'
 import { TABLEAU_HOST } from '../constants/app_constants'
-import { getFilter } from './cp_analytics_api_client'
 
 const TABLEAU_SUPPORT_WORKSHEET = 'Settings'
 
@@ -93,20 +92,18 @@ const getParameters = (workbook) => getWorkbookParameters(workbook).then((tablea
 /**
  * Returns formatted tableau filters as application filters
  *
- * This currently just fetches the filters from Tableau. It should also fetch
- * the filters we need from the client_portal-analytics_backend in order to
- * correctly select trkrefs/product names/etc.
+ * This currently just fetches the filters from Tableau and trkrefs from current_user's profile
+ * It should also fetch the filters we need from the client_portal-analytics_backend in order to
+ * correctly select product names/etc.
  */
-const getFilters = (workbook) => getWorkbookFilters(workbook).then((tableauFilters) => {
+const getFilters = (workbook, availableTrkrefs) => getWorkbookFilters(workbook).then((tableauFilters) => {
   let fromTableau = tableauFilters
     .filter(isAllowedTableauFilter(workbook.getName()))
     .map(filterFromTableauObject(TableauTypes.FILTER))
 
-  getFilter('retailers').then((retailers) => {
-    fromTableau[0].allowedValues = retailers.map((retailer) => {
-      return `${retailer.name} (${retailer.trkref})`
-    })
-  })
+  let keys = Object.keys(availableTrkrefs)
+  fromTableau[0].allowedValues = keys.map(function (key) { return `${availableTrkrefs[key]} (${key})` })
+
   return fromTableau
 }
 )
@@ -118,12 +115,12 @@ const getViews = (workbook) =>
 /**
  * Returns formatted tableau parameters and tableau filters as application filters
  */
-export const getParametersAndFilters = (workbook) => {
+export const getParametersAndFilters = (workbook, availableTrkrefs) => {
   // TODO: This is a temporal solution until we have all the dashboards with their proper setup on Tableau
   return workbook.getName() === 'Customer_Experience_JavaScipt'
     ? Promise.all([
       getParameters(workbook),
-      getFilters(workbook),
+      getFilters(workbook, availableTrkrefs),
     ]).then(([parameters, filters]) => ([...parameters, ...filters]))
     : Promise.resolve([])
 }
@@ -133,7 +130,7 @@ export const setFilterValue = (workbook, filter, filterValue) =>
     ? workbook.changeParameterValueAsync(filter.name, filterValue)
     : getSupportWorksheet(workbook).applyFilterAsync(filter.name, filterValue, tableau.FilterUpdateType.REPLACE)
 
-export const createTableauAPI = ({ userId, token, viewId, onLoad }) => {
+export const createTableauAPI = ({ userId, availableTrkrefs, token, viewId, onLoad }) => {
   const tableauAPI = new tableau.Viz(
     getDashboardNode(),
     getDashboardUrl({ userId, token, viewId }),
@@ -141,7 +138,7 @@ export const createTableauAPI = ({ userId, token, viewId, onLoad }) => {
       onFirstInteractive: () => {
         const workbook = tableauAPI.getWorkbook()
         return Promise.all([
-          getParametersAndFilters(workbook),
+          getParametersAndFilters(workbook, availableTrkrefs),
           getViews(workbook),
         ]).then(onLoad)
       },
