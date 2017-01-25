@@ -91,10 +91,7 @@ const getParameters = (workbook) => getWorkbookParameters(workbook).then((tablea
 
 /**
  * Returns formatted tableau filters as application filters
- *
- * This currently just fetches the filters from Tableau and trkrefs from current_user's profile
- * It should also fetch the filters we need from the client_portal-analytics_backend in order to
- * correctly select product names/etc.
+ * It fetches the filters from Tableau and trkrefs from current_user's profile
  */
 const getFilters = (workbook, availableTrkrefs) => getWorkbookFilters(workbook).then((tableauFilters) => {
   let fromTableau = tableauFilters
