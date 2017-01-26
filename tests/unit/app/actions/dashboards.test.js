@@ -151,8 +151,16 @@ describe('actions', () => {
   })
 
   describe('changeFilter', () => {
-    it('sets a filter value on a dashboard', (done) => {
+    fit('sets a filter value on a dashboard', (done) => {
       const setFilterValueMock = () => Promise.resolve()
+      // The above line doesn't work, because the setFilterValueMock is a *tableau* Promise, not a Promise promise,
+      // see 'Promise Class' here:
+      // https://onlinehelp.tableau.com/current/api/js_api/en-us/JavaScriptAPI/js_api_ref.htm?Highlight=getAppliedValues#ref_head_49
+      // ... not sure how to fix this but the below *doesn't* work:
+      //
+      // const setFilterValueMock = () => {
+      //   return { always: (fun) => fun() }
+      // }
       DashboardRewireAPI.__Rewire__('setFilterValue', setFilterValueMock)
 
       const store = createMockStore({
