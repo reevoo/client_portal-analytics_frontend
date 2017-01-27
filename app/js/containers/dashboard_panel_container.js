@@ -10,7 +10,7 @@ class DashboardPanelContainer extends Component {
 
   componentWillUpdate (nextProps) {
     if (nextProps.selectedDashboard !== this.props.selectedDashboard) {
-      this.props.loadTableauDashboard()
+      this.props.loadTableauDashboard(nextProps.availableTrkrefs)
     }
   }
 
@@ -31,10 +31,14 @@ DashboardPanelContainer.propTypes = {
   loadTableauDashboard: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = ({ analyticsApp, router }) => ({
-  leftHandNavVisible: analyticsApp.leftHandNavVisible,
-  selectedDashboard: getSelectedDashboardById(analyticsApp.dashboards, router.params.id),
-})
+const mapStateToProps = ({ analyticsApp, router }) => {
+  let trkrefNames = analyticsApp.profile ? analyticsApp.profile.trkref_names : {}
+  return {
+    leftHandNavVisible: analyticsApp.leftHandNavVisible,
+    selectedDashboard: getSelectedDashboardById(analyticsApp.dashboards, router.params.id),
+    availableTrkrefs: trkrefNames,
+  }
+}
 
 export default connect(
   mapStateToProps,

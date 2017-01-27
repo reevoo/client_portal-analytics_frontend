@@ -28,7 +28,7 @@ class Checklist extends Component {
     const selectedValues = this.state.values
 
     return (
-      <ul className='checklist'>
+      <ul className={this.props.className || 'checklist'}>
         {allowedValues.map((value) =>
           <li key={value} className='checklist__item'>
             <Checkbox
@@ -48,6 +48,7 @@ Checklist.propTypes = {
   allowedValues: PropTypes.array.isRequired,
   selectedValues: PropTypes.array,
   onChange: PropTypes.func.isRequired,
+  className: React.PropTypes.string,
 }
 
 export default Checklist

@@ -110,6 +110,7 @@ describe('actions', () => {
         expect(store.getActions()).toEqual(expectedActions)
         expect(createTableauAPISpy).toHaveBeenCalledWith({
           userId: 1,
+          availableTrkrefs: undefined,
           token: 'token',
           viewId: 'test/',
           onLoad: jasmine.any(Function),
@@ -142,6 +143,7 @@ describe('actions', () => {
         expect(tableauAPISpy.dispose).toHaveBeenCalled()
         expect(createTableauAPISpy).toHaveBeenCalledWith({
           userId: 1,
+          availableTrkrefs: undefined,
           token: 'token',
           viewId: 'test/',
           onLoad: jasmine.any(Function),

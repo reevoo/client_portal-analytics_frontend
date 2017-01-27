@@ -3,6 +3,8 @@ import React, { Component, PropTypes } from 'react'
 import Checklist from '../../checklist/checklist'
 import { ClientPortalDialog, ClientPortalDialogSectionTitle } from '../../client_portal_dialog/client_portal_dialog'
 
+import './trkref_dialog.scss'
+
 class TrkrefDialog extends Component {
   constructor (props) {
     super(props)
@@ -33,6 +35,7 @@ class TrkrefDialog extends Component {
       >
         <ClientPortalDialogSectionTitle title='Customise Websites' />
         <Checklist
+          className="trkref-checklist"
           allowedValues={allowedValues}
           selectedValues={selectedValues}
           onChange={this.handleTrkrefsChange}
