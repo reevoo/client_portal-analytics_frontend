@@ -82,10 +82,11 @@ export const changeFilter = (filterName, filterValue) => (dispatch, getState) =>
   const filter = state.analyticsApp.workbook.filters.find((f) => f.name === filterName)
 
   if (filter) {
-    return setFilterValue(getCurrentWorkbook(state), filter, filterValue).always(() => dispatch({
+    const dispatchFilters = () => dispatch({
       type: actionTypes.SET_DASHBOARD_FILTER,
       payload: { name: filterName, value: filterValue },
-    }))
+    })
+    return setFilterValue(getCurrentWorkbook(state), filter, filterValue).then(dispatchFilters, dispatchFilters)
   }
 }
 
