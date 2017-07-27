@@ -96,7 +96,7 @@ describe('actions', () => {
       const store = createMockStore({
         analyticsApp: {
           profile: { id: 1 },
-          dashboards: [ { id: 1, views: ['test/sheets/'] } ],
+          dashboards: [ { id: 1, views: ['test/sheets/'], name: 'Test dashboard' } ],
         },
         router: { params: { id: 1 } },
       })
@@ -127,7 +127,7 @@ describe('actions', () => {
       const store = createMockStore({
         analyticsApp: {
           profile: { id: 1 },
-          dashboards: [ { id: 1, views: ['test/sheets/'] } ],
+          dashboards: [ { id: 1, views: ['test/sheets/'], name: 'Test dashboard' } ],
           tableauAPI: tableauAPISpy,
         },
         router: { params: { id: 1 } },

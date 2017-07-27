@@ -9,11 +9,12 @@ import {
   getParametersAndFilters,
 } from '../services/tableau'
 import { getProfile } from '../services/cp_admin_api_client'
-import { getTableauToken } from '../services/cp_analytics_api_client'
+import { getTableauToken, postStats } from '../services/cp_analytics_api_client'
 import { getWorkbooks } from '../services/tableau_gateway_api_client'
 import * as actionTypes from '../constants/action_types'
 
 const getCurrentWorkbook = (state) => state.analyticsApp.tableauAPI.getWorkbook()
+const timeNow = () => (new Date()).getTime()
 
 export const getProfileAndDashboards = () => (dispatch, getState) => {
   dispatch({ type: actionTypes.GET_PROFILE_AND_DASHBOARDS })
@@ -52,12 +53,17 @@ export const loadTableauDashboard = (availableTrkrefs) => (dispatch, getState) =
       analyticsApp.tableauAPI.dispose()
     }
 
+    const selectedDashboard = getSelectedDashboardById(dashboards, router.params.id)
+    const trackingKey = `dashboards.${selectedDashboard.name.replace(/\s+/g, '_')}.loadtime`
+    const loadStartTime = timeNow()
+
     const tableauAPI = createTableauAPI({
       userId: profile.id,
       availableTrkrefs,
       token,
-      viewId: getSelectedDashboardById(dashboards, router.params.id).views[0].replace('sheets/', ''),
+      viewId: selectedDashboard.views[0].replace('sheets/', ''),
       onLoad: ([appFilters, views]) => {
+        postStats('timing', trackingKey, timeNow() - loadStartTime)
         const defaultView = views.find((view) => view.isDefault)
         return dispatch({
           type: actionTypes.SET_WORKBOOK_VALUES,
