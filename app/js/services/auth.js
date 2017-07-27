@@ -86,11 +86,13 @@ export const parseJSON = (response) => response.json()
 
 const makeRequest = (url, opts) => {
   const newOpts = { ...opts }
+  const headers = { 'Content-Type': 'application/json' }
   const accessToken = getAccessToken()
   if (accessToken) {
-    newOpts.headers = new Headers({'Authorization': accessToken})
+    headers['Authorization'] = accessToken
   }
 
+  newOpts.headers = new Headers(headers)
   const request = new Request(url, newOpts)
 
   return fetch(request).then(handleResponse(request))
