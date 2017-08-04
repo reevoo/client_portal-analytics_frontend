@@ -1217,9 +1217,9 @@ cli-width@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/cli-width/-/cli-width-2.1.0.tgz#b234ca209b29ef66fc518d9b98d5847b00edf00a"
 
-client_portal-assets@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/client_portal-assets/-/client_portal-assets-0.6.0.tgz#9d17e57ef20368bb9fdd5c06897186de35bb863d"
+client_portal-assets@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/client_portal-assets/-/client_portal-assets-0.6.1.tgz#a4b042cdfc82f8d069a7e30571fb549bc0d2de12"
 
 cliui@^2.1.0:
   version "2.1.0"
@@ -3141,9 +3141,9 @@ karma-jasmine@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/karma-jasmine/-/karma-jasmine-1.0.2.tgz#c0b3ab327bf207db60e17fa27db37cfdef5d8e6c"
 
-karma-phantomjs-launcher@^1.0.1:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/karma-phantomjs-launcher/-/karma-phantomjs-launcher-1.0.2.tgz#19e1041498fd75563ed86730a22c1fe579fa8fb1"
+karma-phantomjs-launcher@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/karma-phantomjs-launcher/-/karma-phantomjs-launcher-1.0.4.tgz#d23ca34801bda9863ad318e3bb4bd4062b13acd2"
   dependencies:
     lodash "^4.0.1"
     phantomjs-prebuilt "^2.1.7"
