@@ -3,6 +3,7 @@ import { routerStateReducer } from 'redux-router'
 import * as actionTypes from '../constants/action_types'
 import {
   CP_ADMIN_URL, CP_ANALYTICS_URL, FAST_RESPONSE_URL, REEVOO_ADMIN_URL, VETTING_URL, HELP_URL,
+  ERROR_HANDLING_SERVICE_URL,
 } from '../constants/app_constants'
 
 const initialState = {
@@ -19,6 +20,7 @@ import fastResponseImagePath from 'client_portal-assets/dist/images/app_icons/la
 import reevooAdminImagePath from 'client_portal-assets/dist/images/app_icons/large/reevoo_admin.png'
 import vettingImagePath from 'client_portal-assets/dist/images/app_icons/large/vetting.png'
 import helpImagePath from 'client_portal-assets/dist/images/app_icons/large/help.png'
+import errorHandlingServiceImagePath from 'client_portal-assets/dist/images/app_icons/large/error_handling_service.png'
 
 export const modules = (accessibleModules) => {
   const availableModules = {
@@ -26,48 +28,55 @@ export const modules = (accessibleModules) => {
       url: CP_ADMIN_URL,
       name: 'Admin',
       imageUrl: adminImagePath,
+      position: 1,
     },
     analytics: {
       url: CP_ANALYTICS_URL,
       name: 'Analytics',
       imageUrl: analyticsImagePath,
+      position: 2,
     },
     fast_response: {
       url: FAST_RESPONSE_URL,
       name: 'Fast Response',
       imageUrl: fastResponseImagePath,
+      position: 3,
     },
     reevoo_admin: {
       url: REEVOO_ADMIN_URL,
       name: 'Reevoo Admin',
       imageUrl: reevooAdminImagePath,
+      position: 4,
     },
     vetting: {
       url: VETTING_URL,
       name: 'Vetting',
       imageUrl: vettingImagePath,
+      position: 5,
     },
     help: {
       url: HELP_URL,
       name: 'Help & FAQ',
       imageUrl: helpImagePath,
+      position: 6,
+    },
+    error_handling_service: {
+      url: ERROR_HANDLING_SERVICE_URL,
+      name: 'Error Service',
+      imageUrl: errorHandlingServiceImagePath,
+      position: 7,
     },
   }
 
-  let orderedModules = accessibleModules
-    .filter((name) => name !== 'help' && !!availableModules[name]) // Filter out modules which aren't available
-    .sort()
+  let filteredModules = accessibleModules
+    .filter((name) => !!availableModules[name]) // Filter out modules which aren't available
     .map((name) => availableModules[name])
 
-  /* Everyone has access to the 'help' module, but we want to display it at the end of lists,
-   * so filter it out above and then just push it on here... Yes, it is a bit crap so please
-   * do improve if you have better brains than us
-   */
-  if (accessibleModules.indexOf('help') > -1) {
-    orderedModules.push(availableModules.help)
-  }
+  let sortedModules = filteredModules.sort((moduleA, moduleB) => {
+    return moduleA.position > moduleB.position ? 1 : -1
+  })
 
-  return orderedModules
+  return sortedModules
 }
 
 const initialUIState = {

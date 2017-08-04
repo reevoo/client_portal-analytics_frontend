@@ -42,7 +42,7 @@
   "author": "Alexandru Anca and Ed Saunders",
   "license": "ISC",
   "dependencies": {
-    "client_portal-assets": "^0.6.0",
+    "client_portal-assets": "^0.6.1",
     "js-cookie": "^2.1.2",
     "material-ui": "^0.15.3",
     "react": "^15.2.0",
@@ -87,7 +87,7 @@
     "karma-babel-preprocessor": "^6.0.1",
     "karma-jasmine": "^1.0.2",
     "karma-jasmine-ajax": "^0.1.13",
-    "karma-phantomjs-launcher": "^1.0.1",
+    "karma-phantomjs-launcher": "^1.0.4",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.7.0",
     "node-sass": "^3.8.0",
