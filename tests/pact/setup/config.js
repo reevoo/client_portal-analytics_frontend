@@ -3,7 +3,7 @@
 const constants = {
   CONSUMER: 'frontend_client_portal-analytics',
   PACT_BROKER_URL: process.env.NODE_ENV === 'production' || process.env.TEST_ENV === 'ci'
-    ? 'http://pact-broker/'
+    ? 'https://pact-broker.reevoocloud.com/'
     : 'http://localhost:7228/',
 }
 
