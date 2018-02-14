@@ -3,7 +3,7 @@ import { routerStateReducer } from 'redux-router'
 import * as actionTypes from '../constants/action_types'
 import {
   CP_ADMIN_URL, CP_ANALYTICS_URL, FAST_RESPONSE_URL, REEVOO_ADMIN_URL, VETTING_URL, HELP_URL,
-  ERROR_HANDLING_SERVICE_URL,
+  ERROR_HANDLING_SERVICE_URL, EXPERIENCES_ADMIN_URL,
 } from '../constants/app_constants'
 
 const initialState = {
@@ -21,6 +21,7 @@ import reevooAdminImagePath from 'client_portal-assets/dist/images/app_icons/lar
 import vettingImagePath from 'client_portal-assets/dist/images/app_icons/large/vetting.png'
 import helpImagePath from 'client_portal-assets/dist/images/app_icons/large/help.png'
 import errorHandlingServiceImagePath from 'client_portal-assets/dist/images/app_icons/large/error_handling_service.png'
+import experiencesAdminImagePath from 'client_portal-assets/dist/images/app_icons/large/experiences_admin.png'
 
 export const modules = (accessibleModules) => {
   const availableModules = {
@@ -60,11 +61,17 @@ export const modules = (accessibleModules) => {
       imageUrl: helpImagePath,
       position: 6,
     },
+    experiences_admin: {
+      url: EXPERIENCES_ADMIN_URL,
+      name: 'Content Hub',
+      imageUrl: experiencesAdminImagePath,
+      position: 7,
+    },
     error_handling_service: {
       url: ERROR_HANDLING_SERVICE_URL,
       name: 'Error Service',
       imageUrl: errorHandlingServiceImagePath,
-      position: 7,
+      position: 8,
     },
   }
 

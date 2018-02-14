@@ -15,10 +15,10 @@ const iconStyle = {
 
 const HeaderActions = ({showHeaderModules, hideHeaderModules, headerModulesVisible}) => (
   <div className='header-actions'>
-    <a href={HELP_URL}><FontIcon className='icon-faq' color='#fff' hoverColor={colours.reevooBlue} style={iconStyle} /></a>
-    <a href={PROFILE_URL}><FontIcon className='icon-user' color='#fff' hoverColor={colours.reevooBlue} style={iconStyle} /></a>
+    <a href={HELP_URL}><FontIcon className='icon-faq' color='#fff' hoverColor='#98BCFC' style={iconStyle} /></a>
+    <a href={PROFILE_URL}><FontIcon className='icon-user' color='#fff' hoverColor='#98BCFC' style={iconStyle} /></a>
     <a href='#' onTouchTap={showHeaderModules}>
-      <FontIcon className='icon-modules_icon' color='#fff' hoverColor={colours.reevooBlue} style={iconStyle} />
+      <FontIcon className='icon-modules_icon' color='#fff' hoverColor='#98BCFC' style={iconStyle} />
     </a>
     <a href={LOGOUT_URL} className='header-actions__text' id='sign-out'>Sign out</a>
     <Popover

@@ -1217,9 +1217,9 @@ cli-width@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/cli-width/-/cli-width-2.1.0.tgz#b234ca209b29ef66fc518d9b98d5847b00edf00a"
 
-client_portal-assets@^0.6.1:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/client_portal-assets/-/client_portal-assets-0.6.1.tgz#a4b042cdfc82f8d069a7e30571fb549bc0d2de12"
+"client_portal-assets@https://github.com/reevoo/client_portal-assets.git":
+  version "0.6.2"
+  resolved "https://github.com/reevoo/client_portal-assets.git#30d83e17308d4b9153595c8ca944df301738aef9"
 
 cliui@^2.1.0:
   version "2.1.0"

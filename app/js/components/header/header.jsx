@@ -40,6 +40,7 @@ const iconLeftContainerStyles = {
 const headerStyles = {
   paddingLeft: '0px',
   position: 'fixed',
+  backgroundColor: '#1E6FFB',
 }
 
 const Header = ({ leftIconClick }) => (

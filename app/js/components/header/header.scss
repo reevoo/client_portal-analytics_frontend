@@ -1,11 +1,12 @@
 @import '../../../../node_modules/client_portal-assets/dist/sass/colours';
 
 .header {
+
   &__burger {
-    background-color: $reevoo-orange;
+    background-color: #1E6FFB;
 
     &:hover {
-      background-color: $reevoo-light-orange;
+      background-color: #2F78F7;
     }
   }
 
@@ -18,7 +19,7 @@
     width: 175px;
 
     &:hover {
-      background-color: $reevoo-light-orange;
+      background-color: #2F78F7;
     }
 
     span {

@@ -19,6 +19,7 @@ export const FAST_RESPONSE_URL          = `${CP_ADMIN_HOST}fast_response/`
 export const REEVOO_ADMIN_URL           = `${CP_ADMIN_HOST}reevoo_admin/`
 export const VETTING_URL                = `${CP_ADMIN_HOST}vetting/`
 export const ERROR_HANDLING_SERVICE_URL = `${CP_ADMIN_HOST}error_handling_service/`
+export const EXPERIENCES_ADMIN_URL      = `${CP_ADMIN_HOST}experiences_admin/`
 export const HELP_URL                   = `${CP_ADMIN_HOST}help/`
 export const LOGIN_URL                  = `${CP_ADMIN_URL}#/auth/sign_in`
 export const LOGOUT_URL                 = `${CP_ADMIN_URL}#/auth/sign_out`
