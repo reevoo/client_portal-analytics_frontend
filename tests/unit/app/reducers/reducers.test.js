@@ -81,7 +81,7 @@ describe('reducers', () => {
 
     describe('SHOW_HEADER_MODULES', () => {
       it('orders the items appropriately', () => {
-        let unorderedModules = ['reevoo_admin', 'vetting', 'analytics', 'fast_response', 'help', 'admin', 'error_handling_service']
+        let unorderedModules = ['temptation_email_admin', 'vetting', 'analytics', 'fast_response', 'help', 'admin', 'error_handling_service']
         let orderedModules = analyticsApp(
           undefined,
           {
@@ -93,7 +93,7 @@ describe('reducers', () => {
         expect(
           orderedModules.map(m => m.name)
         ).toEqual(
-          ['Admin', 'Analytics', 'Fast Response', 'Reevoo Admin', 'Vetting', 'Help & FAQ', 'Error Service']
+          ['Admin', 'Analytics', 'Fast Response', 'Email Admin', 'Vetting', 'Help & FAQ', 'Error Service']
         )
       })
     })

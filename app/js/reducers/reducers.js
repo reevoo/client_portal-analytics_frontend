@@ -2,7 +2,7 @@ import { combineReducers } from 'redux'
 import { routerStateReducer } from 'redux-router'
 import * as actionTypes from '../constants/action_types'
 import {
-  CP_ADMIN_URL, CP_ANALYTICS_URL, FAST_RESPONSE_URL, REEVOO_ADMIN_URL, VETTING_URL, HELP_URL,
+  CP_ADMIN_URL, CP_ANALYTICS_URL, FAST_RESPONSE_URL, TEMPTATION_EMAIL_ADMIN_URL, VETTING_URL, HELP_URL,
   ERROR_HANDLING_SERVICE_URL, EXPERIENCES_ADMIN_URL,
 } from '../constants/app_constants'
 
@@ -17,7 +17,7 @@ const initialState = {
 import adminImagePath from 'client_portal-assets/dist/images/app_icons/large/admin.png'
 import analyticsImagePath from 'client_portal-assets/dist/images/app_icons/large/analytics.png'
 import fastResponseImagePath from 'client_portal-assets/dist/images/app_icons/large/fast_response.png'
-import reevooAdminImagePath from 'client_portal-assets/dist/images/app_icons/large/reevoo_admin.png'
+import temptationEmailAdminImagePath from 'client_portal-assets/dist/images/app_icons/large/temptation_email_admin.png'
 import vettingImagePath from 'client_portal-assets/dist/images/app_icons/large/vetting.png'
 import helpImagePath from 'client_portal-assets/dist/images/app_icons/large/help.png'
 import errorHandlingServiceImagePath from 'client_portal-assets/dist/images/app_icons/large/error_handling_service.png'
@@ -43,10 +43,10 @@ export const modules = (accessibleModules) => {
       imageUrl: fastResponseImagePath,
       position: 3,
     },
-    reevoo_admin: {
-      url: REEVOO_ADMIN_URL,
-      name: 'Reevoo Admin',
-      imageUrl: reevooAdminImagePath,
+    temptation_email_admin: {
+      url: TEMPTATION_EMAIL_ADMIN_URL,
+      name: 'Email Admin',
+      imageUrl: temptationEmailAdminImagePath,
       position: 4,
     },
     vetting: {
