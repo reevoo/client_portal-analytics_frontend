@@ -91,17 +91,21 @@ yarn run test:contract
 
 and be sure to have [Pact Broker](https://github.com/reevoo/pact_broker) running.
 
-# Deploy
+## Deploy
 
-To deploy the app run:
+The deployment takes place from within a docker container with the correct dependencies.
 
-```bash
-# Staging
-./deploy.sh staging
+The `docker-deploy.sh` script takes an argument of `<environment>` for which to deploy into.
 
-# Production
-./deploy.sh production
-```
+You need the following AWS privilges:
+- Read and write access to the client-portal-`<environment>`/analytics S3 bucket
+- Purge access to the client-portal CloudFront distribution
+
+| Env | Test page |
+|-----|-----------|
+| `./docker-deploy.sh staging` | [https://my-staging.reevoocloud.com/analytics/](https://my-staging.reevoocloud.com/analytics/) |
+| `./docker-deploy.sh production` | [https://my.reevoo.com/analytics/](https://my.reevoo.com/analytics/) |
+
 
 # License
 
