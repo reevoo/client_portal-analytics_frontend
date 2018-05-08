@@ -8,6 +8,8 @@ import './left_hand_nav.scss'
 import LeftHandNavHeader from '../left_hand_nav_header/left_hand_nav_header.jsx'
 import colours from '!!sass-variable-loader!client_portal-assets/dist/sass/colours.scss' // Load Reevoo colour variables
 import analyticsPath from 'client_portal-assets/dist/images/app_icons/large/analytics.png'
+import { currentUser } from '../../services/auth'
+import { loginToSentisum } from '../../services/cp_analytics_api_client'
 
 const listStyle = {
   paddingTop: 0,
@@ -34,7 +36,15 @@ const onChange = () => {}
 const LeftHandNav = ({ leftHandNavVisible, dashboards, selectedDashboardId }) => (
   <Drawer open={leftHandNavVisible} className='left-hand-nav'>
     <LeftHandNavHeader imgPath={analyticsPath} text='Analytics' />
-    <Divider />
+    {
+      currentUser().sentisum_login
+        ? <div>
+          <Divider />
+          <a href="#" className='left-hand-nav-link' onClick={loginToSentisum}>Analytics Beta</a>
+          <Divider />
+        </div>
+        : null
+    }
     <SelectableList
       onChange={onChange}
       selectedItemStyle={selectedItemStyle}
