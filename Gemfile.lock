@@ -4,7 +4,7 @@ GEM
     awesome_print (1.7.0)
     diff-lcs (1.2.5)
     find_a_port (1.0.1)
-    json (2.0.2)
+    json (2.1.0)
     pact-mock_service (0.10.1)
       find_a_port (~> 1.0.1)
       json
