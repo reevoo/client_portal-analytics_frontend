@@ -1,0 +1,42 @@
+steps:
+  - label: ":docker: Build & Publish to quay.io"
+    command: |
+      make publish
+
+  - wait
+
+  - label: ":bomb: Tests"
+    command: |
+      make test
+
+  - block: ":rocket: Deploy to staging! :chicken:"
+    fields:
+      - select: "I'm deploying to STAGING!"
+        key: "unleash-the-chicken"
+        default: "yes"
+        options:
+          - label: ":chicken: yes, release the chicken! :rooster:"
+            value: "yes"
+
+
+  - label: ":helm: :arrow_right: :k8s: staging"
+    command: |
+      make deploy
+    env:
+      ENV: staging
+
+  - block: ":rocket: Deploy to production!"
+    fields:
+      - select: "I'm sure, I'm deploying to PRODUCTION!"
+        key: "unleash-the-dragon"
+        options:
+          - label: ":dragon_face: yes, unleash the dragon! :dragon:"
+            value: "yes"
+    branches: 'master'
+
+  - label: ":helm: :arrow_right: :k8s: production"
+    command: |
+      make deploy
+    env:
+      ENV: production
+    branches: 'master'

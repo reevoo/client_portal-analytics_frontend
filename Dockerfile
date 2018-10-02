@@ -1,34 +1,40 @@
-FROM ubuntu:16.04
-
-ENV NODE_MAJOR_VER=6
+FROM node:6-alpine as dev
 
 WORKDIR /app/
 
-COPY .ruby-version .
+RUN apk update \
+        && apk add --no-cache ca-certificates \
+        build-base \
+        git \
+        curl \
+        openssh-client \
+        fontconfig \
+        chromium \ 
+        ruby \
+        ruby-dev \
+        ruby-irb \
+        ruby-rake \
+        ruby-io-console \
+        ruby-bigdecimal \
+        ruby-json \
+        ruby-bundler \
+        python \
+        py-pip \
+        autoconf \
+        bash
 
-RUN apt-get -q update && \
-    apt-get -qy upgrade && \
-    apt-get -qy install apt-transport-https git curl bzip2 build-essential unzip libssl-dev libreadline-dev zlib1g-dev \
-    python-pip zlib1g-dev chromium-chromedriver
+RUN mkdir -p /usr/share && \
+  cd /usr/share \
+  && curl -Ls https://github.com/fgrehm/docker-phantomjs2/releases/download/v2.0.0-20150722/dockerized-phantomjs.tar.gz | tar xz -C /
 
-RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
-    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
-    apt-get -q update && \
-    apt-get -qy install yarn
+ENV PHANTOMJS_BIN=/usr/local/bin/phantomjs
+ENV CHROME_BIN=/usr/bin/chromium-browser
 
-RUN curl -sL https://deb.nodesource.com/setup_${NODE_MAJOR_VER}.x | bash - && \
-    apt-get -q update && \
-    apt-get -qy install nodejs
+COPY package.json yarn.lock deploy.sh Gemfile Gemfile.lock ./
 
-RUN git clone https://github.com/rbenv/rbenv.git ~/.rbenv && \
-    git clone https://github.com/sstephenson/ruby-build.git /root/.rbenv/plugins/ruby-build && \
-    /root/.rbenv/plugins/ruby-build/install.sh
-
-ENV PATH=/root/.rbenv/bin:/root/.rbenv/shims:$PATH
-RUN echo 'eval "$(rbenv init -)"' >> /etc/profile.d/rbenv.sh
-
-RUN rbenv install $(cat .ruby-version) && \
-    rbenv global $(cat .ruby-version) && \
-    gem install bundler
+RUN npm install bower -g && \
+    npm install grunt -g
 
 RUN pip install awscli --upgrade
+
+RUN echo '{ "allow_root": true }' > /root/.bowerrc
