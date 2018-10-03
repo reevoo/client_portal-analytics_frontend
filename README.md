@@ -93,18 +93,12 @@ and be sure to have [Pact Broker](https://github.com/reevoo/pact_broker) running
 
 ## Deploy
 
-The deployment takes place from within a docker container with the correct dependencies.
-
-The `docker-deploy.sh` script takes an argument of `<environment>` for which to deploy into.
-
-You need the following AWS privilges:
-- Read and write access to the client-portal-`<environment>`/analytics S3 bucket
-- Purge access to the client-portal CloudFront distribution
+Deploy to both staging and production is done through buildkite: https://buildkite.com/reevoo/client-portal-analytics-frontend
 
 | Env | Test page |
 |-----|-----------|
-| `./docker-deploy.sh staging` | [https://my-staging.reevoocloud.com/analytics/](https://my-staging.reevoocloud.com/analytics/) |
-| `./docker-deploy.sh production` | [https://my.reevoo.com/analytics/](https://my.reevoo.com/analytics/) |
+| `staging` | [https://my-staging.reevoocloud.com/analytics/](https://my-staging.reevoocloud.com/analytics/) |
+| `production` | [https://my.reevoo.com/analytics/](https://my.reevoo.com/analytics/) |
 
 
 # License
