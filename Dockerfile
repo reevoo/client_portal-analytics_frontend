@@ -1,4 +1,4 @@
-FROM node:6-alpine as dev
+FROM node:6.14.4-alpine as dev
 
 WORKDIR /app/
 
@@ -9,7 +9,7 @@ RUN apk update \
         curl \
         openssh-client \
         fontconfig \
-        chromium \ 
+        chromium \
         ruby \
         ruby-dev \
         ruby-irb \
