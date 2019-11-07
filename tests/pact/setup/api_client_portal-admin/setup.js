@@ -28,7 +28,7 @@ const setup = (mockService) => {
         login_state: like('enabled'),
         last_login: like('2016-09-14T14:14:30.842+01:00'),
         created_at: like('2016-08-03T14:18:32.213+01:00'),
-        updated_at: null,
+        updated_at: like('2016-08-03T14:18:32.213+01:00'),
         registered_at: null,
         user_type_id: like('11111111-1111-1111-1111-111111111111'),
         user_type: {
