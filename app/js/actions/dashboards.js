@@ -147,3 +147,6 @@ export const exportImageDashboard = () => (dispatch, getState) =>
 
 export const exportPDFDashboard = () => (dispatch, getState) =>
   getState().analyticsApp.tableauAPI.showExportPDFDialog()
+
+export const exportCrosstabDashboard = () => (dispatch, getState) =>
+  getState().analyticsApp.tableauAPI.showExportCrossTabDialog()
