@@ -12,26 +12,12 @@ This relies on a number of other applications to run correctly:
 
 See [the wiki](https://reevoo.atlassian.net/wiki/display/PLAT/MyReevoo+Analytics+-+Technical+Architecture+Diagram) to see how this fits into the wider client_portal-analytics ecosystem.
 
-# Requirements
-
-This relies on having `node` and `npm` installed, whose version is managed in `.node-version` as we generally manage `node` versions with [`nodenv`](https://github.com/nodenv/nodenv). It also relies on `yarn` as the package manager. To install it you can just run `npm i -g yarn` once you have `nodenv` properly setup.
-
-If you're going to deploy (to staging or production) you will need to have installed the AWS CLI tools. In Mac you can just run `brew install awscli`. For other systems, check [the official docs](https://aws.amazon.com/cli/).
-
-# Set up
-
-All managed through `npm`, `yarn` and `webpack`, so simply:
+# Start server
 
 ```bash
-# Pre-requisite to run the contract tests with Pact
-bundle install
+make up
 
-# Pre-requisite on installing node
-nodenv install
-
-# For installing and running the application
-yarn install
-yarn run start
+# open localhost:8080 in browser
 ```
 
 # Running using staging tableau

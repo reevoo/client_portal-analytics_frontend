@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import { Card, CardHeader } from 'material-ui/Card'
-import DashboardFiltersContainer from '../../containers/dashboard_filters_container'
+import DashboardExportsContainer from '../../containers/dashboard_exports_container'
 
 import './dashboard_panel.scss'
 
@@ -18,7 +18,7 @@ const DashboardPanel = ({ leftHandNavVisible, title }) => {
       {title && <Card style={cardHeaderStyles} className='dashboard-panel__header'>
         <CardHeader title={title} titleStyle={cardHeaderTitleStyles} />
       </Card>}
-      <DashboardFiltersContainer />
+      <DashboardExportsContainer />
       <div id="dashboard-container" />
     </div>
   )

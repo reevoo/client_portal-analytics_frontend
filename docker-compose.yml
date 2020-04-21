@@ -1,0 +1,13 @@
+version: '3.4'
+services:
+
+  app:
+    tty: true
+    build:
+      context: .
+    ports:
+      - 8080:8080
+    volumes:
+      - .:/app
+      - ${HOME}/.ssh:/root/.ssh
+    command: cat

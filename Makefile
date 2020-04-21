@@ -30,3 +30,13 @@ deploy:
 .PHONY: clean
 clean:
 	echo "There is no clean action"
+
+.PHONY: up
+up:
+	docker-compose up --force-recreate --build -d
+	docker-compose exec app yarn install
+	docker-compose exec app yarn run start
+
+.PHONY: down
+down:
+	docker-compose down --remove-orphans
