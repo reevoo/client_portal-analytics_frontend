@@ -67,6 +67,9 @@ const common = {
     failOnWarning: true,
     failOnError: true,
   },
+  devServer: {
+    host: '0.0.0.0',
+  },
 }
 
 let webpackConfig = {}
