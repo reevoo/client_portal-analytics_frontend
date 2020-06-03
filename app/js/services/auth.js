@@ -20,7 +20,7 @@ const setAccessToken = (newToken) => Cookies.set('accessToken', newToken)
 const getRefreshToken = () => Cookies.get('refreshToken')
 
 // Until we have configuration options implemented, we enable export button only to test users
-export const exportEnabled = () => Cookies.get('exportEnabled') === 'true'
+export const exportEnabled = () => currentUser().data_permissions.analytics.export_enabled
 
 /* The access token is a JWT token, which is three strings separated by ".":
  *   <jwt_metadata>.<payload>.<signature>
