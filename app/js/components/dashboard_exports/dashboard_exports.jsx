@@ -11,6 +11,7 @@ import TableauLoader from '../tableau_loader/tableau_loader'
 import colours from '!!sass-variable-loader!client_portal-assets/dist/sass/colours.scss'
 
 import './dashboard_exports.scss'
+import { exportEnabled } from '../../services/auth'
 
 const buttonStyle = { fontSize: '13px', margin: '10px 0', border: '1px solid #ccc', borderRadius: '5px' }
 
@@ -81,7 +82,7 @@ class DashboardExports extends Component {
   render () {
     const { loading } = this.props
 
-    return this.state.profile.data_permissions.analytics.export_enabled && (
+    return exportEnabled() && (
       <div>
         {loading && <div className='dashboard-filters__overlay'><TableauLoader /></div>}
         <FlatButton
