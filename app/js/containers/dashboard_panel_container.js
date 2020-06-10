@@ -15,16 +15,17 @@ class DashboardPanelContainer extends Component {
   }
 
   render () {
-    const { leftHandNavVisible, selectedDashboard } = this.props
+    const { leftHandNavVisible, selectedDashboard, exportEnabled } = this.props
     let title = selectedDashboard ? selectedDashboard.name : 'Loading dashboard...'
     // TODO: This is a temporary solution to hide the dashboard title
     // until we have all the dashboards with the proper setup on Tableau
     if (title !== 'Customer_Experience_JavaScipt') { title = null }
-    return <DashboardPanel title={title} leftHandNavVisible={leftHandNavVisible} />
+    return <DashboardPanel title={title} leftHandNavVisible={leftHandNavVisible} exportEnabled={exportEnabled} />
   }
 }
 
 DashboardPanelContainer.propTypes = {
+  exportEnabled: PropTypes.bool,
   leftHandNavVisible: PropTypes.bool.isRequired,
   selectedDashboard: PropTypes.object,
   // Actions
@@ -35,6 +36,7 @@ const mapStateToProps = ({ analyticsApp, router }) => {
   let trkrefNames = analyticsApp.profile ? analyticsApp.profile.trkref_names : {}
   return {
     leftHandNavVisible: analyticsApp.leftHandNavVisible,
+    exportEnabled: !!(analyticsApp.profile && analyticsApp.profile.data_permissions.analytics.export_enabled),
     selectedDashboard: getSelectedDashboardById(analyticsApp.dashboards, router.params.id),
     availableTrkrefs: trkrefNames,
   }

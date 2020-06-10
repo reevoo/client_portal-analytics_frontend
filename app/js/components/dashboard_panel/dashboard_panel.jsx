@@ -12,13 +12,13 @@ const cardHeaderTitleStyles = {
   fontSize: '24px',
 }
 
-const DashboardPanel = ({ leftHandNavVisible, title }) => {
+const DashboardPanel = ({ leftHandNavVisible, title, exportEnabled }) => {
   return (
     <div className={`dashboard-panel ${leftHandNavVisible ? 'collapsed' : 'expanded'}`}>
       {title && <Card style={cardHeaderStyles} className='dashboard-panel__header'>
         <CardHeader title={title} titleStyle={cardHeaderTitleStyles} />
       </Card>}
-      <DashboardExportsContainer />
+      {exportEnabled && <DashboardExportsContainer />}
       <div id="dashboard-container" />
     </div>
   )
@@ -27,6 +27,7 @@ const DashboardPanel = ({ leftHandNavVisible, title }) => {
 DashboardPanel.propTypes = {
   title: PropTypes.string,
   leftHandNavVisible: PropTypes.bool.isRequired,
+  exportEnabled: PropTypes.bool,
 }
 
 export default DashboardPanel
