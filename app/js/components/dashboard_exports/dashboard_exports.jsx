@@ -81,7 +81,7 @@ class DashboardExports extends Component {
   render () {
     const { loading } = this.props
 
-    return this.state.profile.data_permissions.analytics.export_enabled && (
+    return (
       <div>
         {loading && <div className='dashboard-filters__overlay'><TableauLoader /></div>}
         <FlatButton
