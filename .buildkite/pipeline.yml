@@ -1,11 +1,23 @@
+_templates: 
+  - &ecr-auth
+    ecr#v2.1.0:
+      login: true
+      account_ids: "896069866492"
+      no-include-email: true
+      region: "eu-west-1"
+
 steps:
-  - label: ":docker: Build & Publish to quay.io"
+  - label: ":docker: Build & Publish"
+    plugins:
+      - *ecr-auth
     command: |
       make publish
 
   - wait
 
   - label: ":bomb: Tests"
+    plugins:
+      - *ecr-auth
     command: |
       make test
 
@@ -20,6 +32,8 @@ steps:
 
 
   - label: ":helm: :arrow_right: :k8s: staging"
+    plugins:
+      - *ecr-auth
     command: |
       make deploy
     env:
@@ -34,7 +48,18 @@ steps:
             value: "yes"
     branches: 'master'
 
+  - label: ":docker: Tag Image"
+    plugins:
+      - *ecr-auth
+    command: |
+      make tag-prod-image
+    branches: 'master'
+    
+  - wait
+
   - label: ":helm: :arrow_right: :k8s: production"
+    plugins:
+      - *ecr-auth
     command: |
       make deploy
     env:

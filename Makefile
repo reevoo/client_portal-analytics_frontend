@@ -5,7 +5,8 @@ GIT_HASH			:= $(shell git rev-parse HEAD)
 GIT_REPO			:= $(shell git config --get remote.origin.url)
 BUILDKITE_COMMIT	?= $(GIT_HASH)
 APP_NAME 			?= client_portal-help
-IMAGE_REPOSITORY	?= quay.io/reevoo/client_portal-analytics-frontend
+IMAGE_REPOSITORY	?= 896069866492.dkr.ecr.eu-west-1.amazonaws.com/client_portal-analytics-frontend
+IMAGE_REPO_NAME		?= client_portal-analytics-frontend
 
 export APP_NAME
 export IMAGE_REPOSITORY
@@ -40,3 +41,12 @@ up:
 .PHONY: down
 down:
 	docker-compose down --remove-orphans
+
+.PHONY: tag-prod-image
+tag-prod-image:
+	.buildkite/put_ecr_tag.sh ${IMAGE_REPO_NAME} ${BUILDKITE_COMMIT}
+
+.PHONY: image-scan
+image-scan:
+	.buildkite/ecr_scan_findings.sh ${IMAGE_REPO_NAME} ${BUILDKITE_COMMIT}
+	
