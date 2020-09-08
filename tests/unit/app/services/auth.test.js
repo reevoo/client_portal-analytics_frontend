@@ -9,7 +9,7 @@ describe('Auth', () => {
   describe('basic ajax call setup', () => {
     describe('#get', () => {
       it('adds authorization cookie to request headers', (done) => {
-        Cookies.set('accessToken', 'secretToken')
+        localStorage.setItem('accessToken', 'secretToken')
         fetchMock.get('/foo', 'value')
 
         get('/foo').then((response) => {
@@ -17,7 +17,7 @@ describe('Auth', () => {
           done()
         })
 
-        Cookies.remove('accessToken', 'secretToken')
+        localStorage.removeItem('accessToken')
       })
     })
   })
@@ -28,7 +28,7 @@ describe('Auth', () => {
       const routeUtils = { redirectTo: () => { Promise.resolve() } }
       AuthRewireAPI.__Rewire__('routeUtils', routeUtils)
 
-      Cookies.set('refreshToken', 'secretRefreshToken')
+      localStorage.setItem('refreshToken', 'secretRefreshToken')
 
       fetchMockCalls = []
       const registerCalls = (response) => (url) => {
@@ -39,6 +39,7 @@ describe('Auth', () => {
       fetchMock.get('/unauthorized', registerCalls({status: 401}))
       fetchMock.post(`${CP_ADMIN_API}api_session/refresh`, registerCalls({
         access_token: 'NewAccessToken',
+        refresh_token: 'secretRefreshToken'
       }))
     })
 
@@ -57,7 +58,7 @@ describe('Auth', () => {
 
     it('set new access token to cookie', (done) => {
       get('/unauthorized').then(() => {
-        expect(Cookies.get('accessToken')).toEqual('NewAccessToken')
+        expect(localStorage.getItem('accessToken')).toEqual('NewAccessToken')
         done()
       })
     })

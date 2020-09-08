@@ -13,11 +13,15 @@ const refreshToken = () => post(REFRESH_TOKEN_URL, { refresh_token: getRefreshTo
 
 const redirectToLoginPage = () => routeUtils.redirectTo(LOGIN_URL_WITH_REDIRECT)
 
-const getAccessToken = () => Cookies.get('accessToken')
+const getAccessToken = () => window.localStorage.getItem('accessToken')
 
-const setAccessToken = (newToken) => Cookies.set('accessToken', newToken)
+const setAccessToken = (newToken) => window.localStorage.setItem('accessToken', newToken)
 
-const getRefreshToken = () => Cookies.get('refreshToken')
+const getRefreshToken = () => window.localStorage.getItem('refreshToken')
+const setRefreshToken = (newToken) => {
+  window.localStorage.setItem('refreshToken', newToken)
+  Cookies.set('refreshToken', newToken) // rails applications fallback
+}
 
 /* The access token is a JWT token, which is three strings separated by ".":
  *   <jwt_metadata>.<payload>.<signature>
@@ -64,6 +68,7 @@ const resolveRejectedRequest = (request) => {
       return redirectToLoginPage()
     }
     setAccessToken(refreshTokenResponse.access_token)
+    setRefreshToken(refreshTokenResponse.refresh_token)
     return restartRequest(request)
   })
   .catch(redirectToLoginPage)
