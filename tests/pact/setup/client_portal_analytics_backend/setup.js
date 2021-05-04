@@ -20,20 +20,6 @@ const setup = (mockService) => {
         token: like('token1'),
       },
     })
-
-  mockService
-    .given('sentisum user')
-    .uponReceiving('a request to get login url')
-    .withRequest({
-      method: 'get',
-      path: `${API_URL}/sentisum/login`,
-    })
-    .willRespondWith({
-      status: 200,
-      body: {
-        url: like('http://sentisum.com/login'),
-      },
-    })
 }
 
 module.exports = setup
