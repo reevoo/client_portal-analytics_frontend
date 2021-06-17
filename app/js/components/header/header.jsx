@@ -3,6 +3,7 @@ import AppBar from 'material-ui/AppBar'
 import HeaderActions from '../../containers/header_actions_container'
 import IconButton from 'material-ui/IconButton'
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu'
+import isHeaderHidden from '../../services/isHeaderHidden'
 
 import './header.scss'
 import 'client_portal-assets/dist/sass/_reevooclientportaldings.scss' // Load icons
@@ -43,20 +44,24 @@ const headerStyles = {
   backgroundColor: '#1E6FFB',
 }
 
-const Header = ({ leftIconClick }) => (
-  <AppBar
-    className='header'
-    iconElementRight={<HeaderActions />}
-    iconElementLeft={
-      <IconButton className='header__burger' style={iconElementClearDefaults} onClick={leftIconClick}>
-        <NavigationMenu />
-      </IconButton>
-    }
-    iconStyleLeft={iconLeftContainerStyles}
-    style={headerStyles}
-    title={<a className='header__logo' href='/'><span className='icon-reevoo_logo'></span></a>}
-  />
-)
+const Header = ({ leftIconClick }) => {
+  if (isHeaderHidden()) return null
+
+  return (
+    <AppBar
+      className='header'
+      iconElementRight={<HeaderActions />}
+      iconElementLeft={
+        <IconButton className='header__burger' style={iconElementClearDefaults} onClick={leftIconClick}>
+          <NavigationMenu />
+        </IconButton>
+      }
+      iconStyleLeft={iconLeftContainerStyles}
+      style={headerStyles}
+      title={<a className='header__logo' href='/'><span className='icon-reevoo_logo'></span></a>}
+    />
+  )
+}
 
 Header.propTypes = {
   leftIconClick: PropTypes.func.isRequired,
