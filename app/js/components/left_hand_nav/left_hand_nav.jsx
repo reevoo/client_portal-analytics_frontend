@@ -8,6 +8,7 @@ import './left_hand_nav.scss'
 import LeftHandNavHeader from '../left_hand_nav_header/left_hand_nav_header.jsx'
 import colours from '!!sass-variable-loader!client_portal-assets/dist/sass/colours.scss' // Load Reevoo colour variables
 import analyticsPath from 'client_portal-assets/dist/images/app_icons/large/analytics.png'
+import isHeaderHidden from '../../services/isHeaderHidden'
 
 const listStyle = {
   paddingTop: 0,
@@ -32,7 +33,7 @@ const SelectableList = MakeSelectable(List)
 const onChange = () => {}
 
 const LeftHandNav = ({ leftHandNavVisible, dashboards, selectedDashboardId }) => (
-  <Drawer open={leftHandNavVisible} className='left-hand-nav'>
+  <Drawer open={leftHandNavVisible} className={`left-hand-nav${isHeaderHidden() ? ' padding0' : ''}`}>
     <LeftHandNavHeader imgPath={analyticsPath} text='Analytics' />
     <Divider />
     <SelectableList
