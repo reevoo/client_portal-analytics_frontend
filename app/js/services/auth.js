@@ -17,10 +17,18 @@ const getAccessToken = () => window.localStorage.getItem('accessToken')
 
 const setAccessToken = (newToken) => window.localStorage.setItem('accessToken', newToken)
 
-const getRefreshToken = () => window.localStorage.getItem('refreshToken')
-const setRefreshToken = (newToken) => {
-  window.localStorage.setItem('refreshToken', newToken)
-  Cookies.set('refreshToken', newToken) // rails applications fallback
+const getRefreshToken = () => Cookies.get('refreshToken')
+
+const setRefreshToken = (refreshToken) => {
+  Cookies.set('refreshToken', refreshToken, {
+    path: '/', domain: getCurrentDomain(), expires: 1, sameSite: 'lax',
+  })
+}
+
+const getCurrentDomain = () => {
+  const domainParts = window.location.hostname.split('.')
+  domainParts.shift()
+  return domainParts.join('.')
 }
 
 /* The access token is a JWT token, which is three strings separated by ".":
