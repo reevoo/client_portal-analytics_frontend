@@ -28,7 +28,7 @@ describe('Auth', () => {
       const routeUtils = { redirectTo: () => { Promise.resolve() } }
       AuthRewireAPI.__Rewire__('routeUtils', routeUtils)
 
-      localStorage.setItem('refreshToken', 'secretRefreshToken')
+      Cookies.set('refreshToken', 'secretRefreshToken')
 
       fetchMockCalls = []
       const registerCalls = (response) => (url) => {
