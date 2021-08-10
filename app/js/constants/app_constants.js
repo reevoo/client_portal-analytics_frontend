@@ -9,6 +9,9 @@ export const CP_ADMIN_API         = CONFIG.CP_ADMIN_API
 export const CP_ANALYTICS_API     = CONFIG.CP_ANALYTICS_API
 export const TABLEAU_HOST         = CONFIG.TABLEAU_HOST
 export const TABLEAU_GATEWAY_API  = CONFIG.TABLEAU_GATEWAY_API
+export const GTM_ENV  = CONFIG.GTM_ENV
+export const GTM_AUTH_KEY  = CONFIG.GTM_AUTH_KEY
+export const GTM_ID  = CONFIG.GTM_ID
 
 /**
  * URL paths
