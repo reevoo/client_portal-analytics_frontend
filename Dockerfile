@@ -35,6 +35,6 @@ COPY package.json yarn.lock deploy.sh Gemfile Gemfile.lock ./
 RUN npm install bower -g && \
     npm install grunt -g
 
-RUN pip install awscli --upgrade
+RUN pip install awscli==1.19.112
 
 RUN echo '{ "allow_root": true }' > /root/.bowerrc
